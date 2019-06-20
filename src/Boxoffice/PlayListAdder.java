@@ -1,0 +1,84 @@
+package Boxoffice;
+
+import Tools.ProButton;
+import org.omg.CORBA.CODESET_INCOMPATIBLE;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class PlayListAdder extends JFrame {
+    private ProButton cancel;
+    private ProButton ok;
+    private JTextField name;
+    private JLabel help;
+    private JPanel buttons;
+    private Boxoffice boxoffice;
+    public PlayListAdder(Boxoffice b){
+        super();
+        boxoffice =b;
+        this.setBackground(Color.BLACK);
+        buttons = new JPanel();
+        cancel = new ProButton("Cancel");
+
+        cancel.addActionListener(new CancelButton());
+        ok = new ProButton("Ok");
+
+        ok.addActionListener(new OkButton());
+        ok.addMouseListener(new Bolder());
+        cancel.addMouseListener(new Bolder());
+        help = new JLabel("                              Enter playlist name:");
+        name = new JTextField();
+        name.setBorder(BorderFactory.createEmptyBorder());
+        ok.setFont(new Font("serif " , Font.PLAIN , 13));
+        cancel.setFont(new Font("serif " , Font.PLAIN , 13));
+
+        name.setToolTipText("enter name");
+        this.setLayout(new BorderLayout());
+
+        buttons.setLayout(new FlowLayout());
+        buttons.add(cancel , FlowLayout.LEFT);
+        buttons.add(ok , FlowLayout.CENTER);
+        this.add(buttons,BorderLayout.SOUTH);
+        this.add(name , BorderLayout.CENTER);
+        this.add(help , BorderLayout.NORTH);
+        setMinimumSize(new Dimension(300 , 120));
+        setMaximumSize(new Dimension(300 , 120));
+        setVisible(true);
+    }
+    private class OkButton implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            boxoffice.addPlaylist(name.getText());
+            setVisible(false);
+        }
+    }
+    private class CancelButton implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            setVisible(false);
+        }
+    }
+    private class Bolder extends MouseAdapter {
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            e.getComponent().setFont(new Font( "serif",Font.BOLD , 13));
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            e.getComponent().setFont(new Font("serif " , Font.PLAIN , 13));
+        }
+    }
+
+    public JTextField getStr(){
+        return name;
+    }
+
+}
