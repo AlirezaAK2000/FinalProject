@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicOptionPaneUI;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -80,7 +81,7 @@ public class MusicBox extends JPanel  {
 
 
     }
-    private class Mousehandler implements MouseListener {
+    private class Mousehandler extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
             if(e.getSource()==unliked) {
@@ -114,19 +115,5 @@ public class MusicBox extends JPanel  {
             }
         }
 
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-        }
     }
 }
