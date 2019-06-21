@@ -18,6 +18,7 @@ public class ProSlider extends JSlider {
                 double newVal = range * percent;
                 int result = (int)(getMinimum() + newVal);
                 setValue(result);
+
             }
         });
         this.setOpaque(false);

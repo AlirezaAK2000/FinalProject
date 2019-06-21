@@ -2,18 +2,12 @@ package Musicbox;
 
 import Tools.ProButton;
 import Tools.ProSlider;
-import Tools.SliderDemoSkin2;
-import org.omg.CORBA.CODESET_INCOMPATIBLE;
-import sun.awt.image.PNGImageDecoder;
+import Tools.SliderDemoSkin;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicOptionPaneUI;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
 import java.io.IOException;
 
 public class MusicBox extends JPanel  {
@@ -26,7 +20,8 @@ public class MusicBox extends JPanel  {
     private ImageIcon ulikedI;
     private ProButton shuffle;
     private ImageIcon liked;
-    private JPanel volumeSet;
+    private SliderDemoSkin volumeSet;
+    private SliderDemoSkin songSetter;
     private ProButton muter;
     private ProSlider volume;
     private Icon mute;
@@ -58,9 +53,13 @@ public class MusicBox extends JPanel  {
 
 
 
-        volumeSet = new SliderDemoSkin2().makeUI();
+        volumeSet = new SliderDemoSkin();
+         volumeSet.getSlider().setPreferredSize(new Dimension(100 , 15));
+         volumeSet.getSlider().setValue(50);
 
-
+        songSetter = new SliderDemoSkin();
+        songSetter.getSlider().setPreferredSize(new Dimension(200 , 15));
+        songSetter.getSlider().setValue(0);
 
         this.setLayout(new BorderLayout());
         center.add(unliked , FlowLayout.LEFT );
@@ -69,7 +68,10 @@ public class MusicBox extends JPanel  {
         center.add( playb, FlowLayout.CENTER, 1);
         center.add(backb , FlowLayout.CENTER , 1);
         this.add(center ,BorderLayout.CENTER);
-        this.add( volumeSet , BorderLayout.EAST);
+        this.add(volumeSet, BorderLayout.EAST);
+        this.add(songSetter.getSlider() , BorderLayout.NORTH);
+
+
 
         playb.addMouseListener(new Mousehandler());
         unliked.addMouseListener(new Mousehandler());

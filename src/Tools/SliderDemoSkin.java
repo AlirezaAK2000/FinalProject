@@ -2,12 +2,17 @@ package Tools;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class SliderDemoSkin2 {
-    public JPanel makeUI() {
-        UIDefaults d = new UIDefaults();
-        d.put("Slider:SliderTrack[Enabled].backgroundPainter", new Painter<JSlider>() {
-            @Override public void paint(Graphics2D g, JSlider c, int w, int h) {
+public class SliderDemoSkin extends JPanel {
+
+    private ProSlider slider;
+    private   UIDefaults d;
+    public SliderDemoSkin(){
+        d = new UIDefaults();
+        d.put("Slider:SliderTrack[Enabled].backgroundPainter", new Painter<ProSlider>() {
+            @Override public void paint(Graphics2D g, ProSlider c, int w, int h) {
                 int arc         = 10;
                 int trackHeight = 8;
                 int trackWidth  = w - 2;
@@ -25,15 +30,14 @@ public class SliderDemoSkin2 {
                         c.getValue(), c,
                         new Rectangle(fillLeft, fillTop, trackWidth, fillBottom - fillTop));
 
-                g.setColor(Color.ORANGE);
+                g.setColor(Color.RED);
                 g.fillRect(fillLeft + 1, fillTop + 1, fillRight - fillLeft, fillBottom - fillTop);
 
-                g.setColor(Color.WHITE);
+                g.setColor(Color.GRAY);
                 g.drawRoundRect(fillLeft, fillTop, trackWidth, trackHeight, arc, arc);
             }
             //@see javax/swing/plaf/basic/BasicSliderUI#xPositionForValue(int value)
-            protected int xPositionForValue(int value, JSlider slider, Rectangle trackRect) {
-                slider.setPreferredSize(new Dimension(100 , 15));
+            protected int xPositionForValue(int value, ProSlider slider, Rectangle trackRect) {
                 int min = slider.getMinimum();
                 int max = slider.getMaximum();
                 int trackLength = trackRect.width;
@@ -53,14 +57,15 @@ public class SliderDemoSkin2 {
             }
         });
 
-        JSlider slider = new JSlider();
+        slider = new ProSlider();
         slider.putClientProperty("Nimbus.Overrides", d);
+        this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        this.setBackground(new Color(245 , 245 , 245));
+        this.add(Box.createRigidArea(new Dimension(10, 20)));
+        this.add(slider);
+    }
 
-        JPanel p = new JPanel();
-        p.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        p.setBackground(new Color(245 , 245 , 245));
-        p.add(Box.createRigidArea(new Dimension(10, 20)));
-        p.add(slider);
-        return p;
+    public ProSlider getSlider() {
+        return slider;
     }
 }
