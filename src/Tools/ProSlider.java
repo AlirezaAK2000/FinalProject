@@ -22,4 +22,5 @@ public class ProSlider extends JSlider {
         });
         this.setOpaque(false);
     }
+
 }

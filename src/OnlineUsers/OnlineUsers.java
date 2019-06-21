@@ -26,7 +26,7 @@ public class OnlineUsers extends JPanel {
         this.setBackground(Color.darkGray);
         users = new ArrayList<>();
         frinedsActivity = new JLabel("Friend Activity");
-        originalImage = ImageIO.read(new File("backgrounds\\right3.jpg"));
+        originalImage = ImageIO.read(new File("backgrounds\\left1.jpg"));
         headFont = new Font("serif" , Font.BOLD , 20);
         pubFont = new Font("serif " , Font.PLAIN , 15);
         frinedsActivity.setForeground(Color.white);
@@ -41,9 +41,7 @@ public class OnlineUsers extends JPanel {
         OnlineUserAdder u3 = new OnlineUserAdder();
         addOnlineUser(u3);
         OnlineUserAdder u4 = new OnlineUserAdder();
-        addOnlineUser(u4);
-        OnlineUserAdder u5 = new OnlineUserAdder();
-        addOnlineUser(u5);
+
     }
     public void paintComponent(Graphics g) {
         double widthScaleFactor = getWidth() / (double)originalImage.getWidth();

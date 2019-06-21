@@ -8,8 +8,9 @@ import java.awt.*;
 public class OnlineUserAdder extends JPanel {
 
     public OnlineUserAdder(){
+        super();
         this.setBackground(Color.BLACK);
-        this.setPreferredSize(new Dimension(10 , 10));
+        this.setMaximumSize(new Dimension(300 ,100 ));
     }
 
     @Override

@@ -37,29 +37,32 @@ public class Boxoffice extends JPanel {
     private BufferedImage scaledImage;
     private ArrayList<ProButton> playlists;
     private Boxoffice b;
+    private JList<ProButton> playList;
+    private DefaultListModel<ProButton> playListModel;
     private int count;
+
     public Boxoffice() throws IOException {
         super();
-        b= this;
+        b = this;
         playlists = new ArrayList<>();
         this.setBackground(Color.darkGray);
-        this.setLayout(new BoxLayout(this , BoxLayout.Y_AXIS));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         tools = new ProButton("...");
         tools.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                e.getComponent().setFont( new Font("serif" , Font.BOLD , 30));
+                e.getComponent().setFont(new Font("serif", Font.BOLD, 30));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                e.getComponent().setFont(new Font("serif" , Font.PLAIN , 30));
+                e.getComponent().setFont(new Font("serif", Font.PLAIN, 30));
             }
         });
-        tools.setFont(new Font("serif" , Font.PLAIN , 30));
+        tools.setFont(new Font("serif", Font.PLAIN, 30));
         tools.setForeground(Color.white);
-        headFont = new Font("serif" , Font.BOLD , 30);
-        pubFont = new Font("serif " , Font.PLAIN , 15);
+        headFont = new Font("serif", Font.BOLD, 30);
+        pubFont = new Font("serif ", Font.PLAIN, 15);
 
         MenuItem file = new MenuItem("File");
         MenuItem edit = new MenuItem("Edit");
@@ -75,12 +78,10 @@ public class Boxoffice extends JPanel {
         tools.add(popupMenu);
 
 
-        this.add(tools , BorderLayout.NORTH);
-
+        this.add(tools, BorderLayout.NORTH);
 
 
         home = new ProButton("Home");
-
         home.setFont(pubFont);
         home.setForeground(Color.white);
         home.setBackground(Color.darkGray);
@@ -157,45 +158,46 @@ public class Boxoffice extends JPanel {
         addPlaylist.addActionListener(new AddingPlaylist());
         this.add(addPlaylist);
 
-        this.setLayout(new BoxLayout(this , BoxLayout.Y_AXIS));
-        this.setLayout(new BoxLayout(this ,BoxLayout.Y_AXIS));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 
         originalImage = ImageIO.read(new File("backgrounds\\left2.jpg"));
         tools.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                popupMenu.show( tools,tools.getX(),tools.getY());
+                popupMenu.show(tools, tools.getParent().getX(), tools.getParent().getY());
             }
         });
 
 
     }
-    private class Bolder extends MouseAdapter{
+
+    private class Bolder extends MouseAdapter {
         @Override
         public void mouseEntered(MouseEvent e) {
-            e.getComponent().setFont(new Font( "serif",Font.BOLD , 15));
+            e.getComponent().setFont(new Font("serif", Font.BOLD, 15));
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            e.getComponent().setFont(new Font("serif " , Font.PLAIN , 15));
+            e.getComponent().setFont(new Font("serif ", Font.PLAIN, 15));
         }
     }
 
 
     public void paintComponent(Graphics g) {
-        double widthScaleFactor = getWidth() / (double)originalImage.getWidth();
-        double heightScaleFactor = getHeight() / (double)originalImage.getHeight();
+        double widthScaleFactor = getWidth() / (double) originalImage.getWidth();
+        double heightScaleFactor = getHeight() / (double) originalImage.getHeight();
 
         AffineTransform at = new AffineTransform();
-        at.scale(widthScaleFactor, heightScaleFactor );
+        at.scale(widthScaleFactor, heightScaleFactor);
 
         AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         scaledImage = scaleOp.filter(originalImage, null);
 
 
-        g.drawImage(scaledImage, 0, 0,null);
+        g.drawImage(scaledImage, 0, 0, null);
         addComponentListener(new ResizerListener());
     }
 
@@ -203,11 +205,11 @@ public class Boxoffice extends JPanel {
     private class ResizerListener extends ComponentAdapter {
         @Override
         public void componentResized(ComponentEvent e) {
-            double widthScaleFactor = getWidth() / (double)originalImage.getWidth();
-            double heightScaleFactor = getHeight() / (double)originalImage.getHeight();
+            double widthScaleFactor = getWidth() / (double) originalImage.getWidth();
+            double heightScaleFactor = getHeight() / (double) originalImage.getHeight();
 
             AffineTransform at = new AffineTransform();
-            at.scale(widthScaleFactor, heightScaleFactor );
+            at.scale(widthScaleFactor, heightScaleFactor);
 
             AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
             scaledImage = scaleOp.filter(originalImage, null);
@@ -218,7 +220,7 @@ public class Boxoffice extends JPanel {
 
     }
 
-     class AddingPlaylist implements ActionListener{
+    private class AddingPlaylist implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -227,14 +229,14 @@ public class Boxoffice extends JPanel {
         }
     }
 
-    public void addPlaylist(String name){
+    public void addPlaylist(String name) {
         ProButton playlist = new ProButton(name);
         playlist.setFont(pubFont);
         playlist.setBackground(Color.darkGray);
         playlist.setForeground(Color.white);
         playlist.addMouseListener(new Bolder());
+        playlist.addMouseListener(new RemoveListener(playlists , playlist));
         playlists.add(playlist);
-        playlist.addMouseListener( new RemoveListener(playlists,playlist));
         this.add(playlist);
         this.revalidate();
         this.repaint();
@@ -247,10 +249,7 @@ public class Boxoffice extends JPanel {
     public ProButton getTools() {
         return tools;
     }
-
-
-
-    class RemoveListener extends MouseAdapter{
+    private class RemoveListener extends MouseAdapter{
         private ProButton button;
         private ArrayList<ProButton> buttons;
         public RemoveListener(ArrayList<ProButton> playlists, ProButton button) {
@@ -262,15 +261,14 @@ public class Boxoffice extends JPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             super.mouseClicked(e);
-            if(e.getButton()==MouseEvent.BUTTON3){
+            if(e.isMetaDown()){
                 PopupMenu popupMenu=new PopupMenu();
                 MenuItem remove=new MenuItem("Remove");
                 MenuItem edit=new MenuItem("EditName");
                 popupMenu.add(remove);
                 button.add(popupMenu);
 
-                popupMenu.show(button,button.getX(),button.getY());
-
+                popupMenu.show(button,button.getParent().getX(),button.getParent().getY());
                 remove.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -279,12 +277,17 @@ public class Boxoffice extends JPanel {
                         Boxoffice.this.repaint();
 
                     }
+
                 });
-
-
             }
         }
-
-
     }
 }
+
+
+
+
+
+
+
+
