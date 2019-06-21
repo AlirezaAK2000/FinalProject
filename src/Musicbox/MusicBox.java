@@ -2,6 +2,7 @@ package Musicbox;
 
 import Tools.ProButton;
 import Tools.ProSlider;
+import Tools.SliderDemoSkin2;
 import org.omg.CORBA.CODESET_INCOMPATIBLE;
 import sun.awt.image.PNGImageDecoder;
 
@@ -56,16 +57,10 @@ public class MusicBox extends JPanel  {
 //        muter.setPreferredSize(new Dimension(33,34));
 
 
-        volume = new ProSlider();
-        volumeSet = new JPanel();
-        volume.setPreferredSize(new Dimension(30,30));
-        volume.setPreferredSize(new Dimension(100 , 30));
-        volumeSet.setLayout(new BorderLayout());
-        muter = new ProButton();
-        volume.setValue(60);
 
-        volumeSet.add(muter , BorderLayout.WEST);
-        volumeSet.add(volume,BorderLayout.CENTER);
+        volumeSet = new SliderDemoSkin2().makeUI();
+
+
 
         this.setLayout(new BorderLayout());
         center.add(unliked , FlowLayout.LEFT );
