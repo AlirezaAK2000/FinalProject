@@ -266,6 +266,7 @@ public class Boxoffice extends JPanel {
                 MenuItem remove=new MenuItem("Remove");
                 MenuItem edit=new MenuItem("EditName");
                 popupMenu.add(remove);
+                popupMenu.add(edit);
                 button.add(popupMenu);
 
                 popupMenu.show(button,button.getParent().getX(),button.getParent().getY());
@@ -275,10 +276,10 @@ public class Boxoffice extends JPanel {
                         buttons.remove(buttons.indexOf(button));
                         Boxoffice.this.remove(button);
                         Boxoffice.this.repaint();
-
                     }
-
                 });
+
+
             }
         }
     }

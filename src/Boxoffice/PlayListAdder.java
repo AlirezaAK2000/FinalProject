@@ -105,4 +105,11 @@ public class PlayListAdder extends JFrame {
         return name;
     }
 
+    public ProButton getOk() {
+        return ok;
+    }
+
+    public ProButton getCancel() {
+        return cancel;
+    }
 }
