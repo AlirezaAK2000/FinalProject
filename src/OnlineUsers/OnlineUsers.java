@@ -12,6 +12,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class OnlineUsers extends JPanel {
     private JLabel frinedsActivity;
@@ -19,16 +20,30 @@ public class OnlineUsers extends JPanel {
     private Font pubFont;
     private BufferedImage originalImage;
     private BufferedImage scaledImage;
-    public OnlineUsers() throws IOException {
+    private ArrayList<JPanel> users;
+    public OnlineUsers() throws IOException, InterruptedException {
         super();
         this.setBackground(Color.darkGray);
+        users = new ArrayList<>();
         frinedsActivity = new JLabel("Friend Activity");
         originalImage = ImageIO.read(new File("backgrounds\\left1.jpg"));
-        headFont = new Font("serif" , Font.BOLD , 30);
+        headFont = new Font("serif" , Font.BOLD , 20);
         pubFont = new Font("serif " , Font.PLAIN , 15);
         frinedsActivity.setForeground(Color.white);
         frinedsActivity.setFont(headFont);
+        this.setLayout(new BoxLayout(this , BoxLayout.Y_AXIS ));
         this.add(frinedsActivity);
+
+        OnlineUserAdder u1 = new OnlineUserAdder();
+        addOnlineUser(u1);
+        OnlineUserAdder u2 = new OnlineUserAdder();
+        addOnlineUser(u2);
+        OnlineUserAdder u3 = new OnlineUserAdder();
+        addOnlineUser(u3);
+        OnlineUserAdder u4 = new OnlineUserAdder();
+        addOnlineUser(u4);
+        OnlineUserAdder u5 = new OnlineUserAdder();
+        addOnlineUser(u5);
     }
     public void paintComponent(Graphics g) {
         double widthScaleFactor = getWidth() / (double)originalImage.getWidth();
@@ -61,6 +76,14 @@ public class OnlineUsers extends JPanel {
             repaint();
         }
 
+
+    }
+    public void addOnlineUser(JPanel user){
+        add(user);
+        revalidate();
+        repaint();
+    }
+    public void removeUser(JPanel user){
 
     }
 

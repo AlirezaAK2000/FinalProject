@@ -23,11 +23,16 @@ public class PlayListAdder extends JFrame {
         boxoffice =b;
         this.setBackground(Color.BLACK);
         buttons = new JPanel();
+        buttons.setBackground(Color.BLACK);
+
         cancel = new ProButton("Cancel");
-
+        cancel.setForeground(Color.white);
+        cancel.setBackground(Color.BLACK);
         cancel.addActionListener(new CancelButton());
-        ok = new ProButton("Ok");
 
+        ok = new ProButton("Ok");
+        ok.setBackground(Color.BLACK);
+        ok.setForeground(Color.white);
         ok.addActionListener(new OkButton());
         ok.addMouseListener(new Bolder());
         cancel.addMouseListener(new Bolder());

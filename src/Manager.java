@@ -14,7 +14,7 @@ public class Manager extends JFrame {
     private Center center;
     private MusicBox musicBox;
     private Image img;
-    public Manager() throws IOException {
+    public Manager() throws IOException, InterruptedException {
         super();
         boxoffice = new Boxoffice();
         onlineUsers = new OnlineUsers();
@@ -35,6 +35,5 @@ public class Manager extends JFrame {
         this.setSize(800 , 800);
         this.setVisible(true);
     }
-
 
 }

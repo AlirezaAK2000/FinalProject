@@ -56,8 +56,6 @@ public class Center extends JPanel {
 
             repaint();
         }
-
-
     }
 }
 
