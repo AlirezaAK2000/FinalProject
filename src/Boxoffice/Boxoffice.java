@@ -268,6 +268,7 @@ public class Boxoffice extends JPanel {
                 MenuItem edit=new MenuItem("EditName");
                 popupMenu.add(remove);
                 button.add(popupMenu);
+
                 popupMenu.show(button,button.getX(),button.getY());
 
                 remove.addActionListener(new ActionListener() {
