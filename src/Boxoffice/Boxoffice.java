@@ -53,11 +53,13 @@ public class Boxoffice extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 e.getComponent().setFont(new Font("serif", Font.BOLD, 30));
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 e.getComponent().setFont(new Font("serif", Font.PLAIN, 30));
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         });
         tools.setFont(new Font("serif", Font.PLAIN, 30));
@@ -177,11 +179,13 @@ public class Boxoffice extends JPanel {
         @Override
         public void mouseEntered(MouseEvent e) {
             e.getComponent().setFont(new Font("serif", Font.BOLD, 15));
+            setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
             e.getComponent().setFont(new Font("serif ", Font.PLAIN, 15));
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
     }
 
@@ -293,6 +297,14 @@ public class Boxoffice extends JPanel {
                     }
                 });
             }
+        }
+        @Override
+        public void mouseEntered(MouseEvent e){
+            setCursor(new Cursor(Cursor.HAND_CURSOR));
+        }
+        @Override
+        public void mouseExited(MouseEvent e){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
     }
 }
