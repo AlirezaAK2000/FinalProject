@@ -6,9 +6,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Insets;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.Border;
 
 public class OvalBorder implements Border {
@@ -62,8 +60,7 @@ public class OvalBorder implements Border {
                 - ovalHeight);
         g.drawArc(x + width - 2 * ovalWidth, y + height - 2 * ovalHeight,
                 2 * ovalWidth, 2 * ovalHeight, 0, -90);
-        g
-                .drawLine(x + ovalWidth, y + height, x + width - ovalWidth, y
+        g.drawLine(x + ovalWidth, y + height, x + width - ovalWidth, y
                         + height);
         g.drawArc(x, y + height - 2 * ovalHeight, 2 * ovalWidth,
                 2 * ovalHeight, -90, -90);
@@ -74,9 +71,9 @@ public class OvalBorder implements Border {
         f.setSize(100, 100);
 
         JPanel p = new JPanel(new GridLayout(0, 1, 5, 5));
-        JLabel l = new JLabel("Oval Border");
+        JButton l = new JButton("Oval Border");
 
-        l.setBorder(new OvalBorder());
+        l.setBorder(new OvalBorder(20,20,new Color(5555),new Color(0xD1DE2A)));
 
         p.add(l);
         p.setBorder(new OvalBorder());

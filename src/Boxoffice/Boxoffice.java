@@ -37,8 +37,6 @@ public class Boxoffice extends JPanel {
     private BufferedImage scaledImage;
     private ArrayList<ProButton> playlists;
     private Boxoffice b;
-    private JList<ProButton> playList;
-    private DefaultListModel<ProButton> playListModel;
     private int count;
     public Boxoffice() throws IOException {
         super();
@@ -82,6 +80,7 @@ public class Boxoffice extends JPanel {
 
 
         home = new ProButton("Home");
+
         home.setFont(pubFont);
         home.setForeground(Color.white);
         home.setBackground(Color.darkGray);
@@ -219,7 +218,7 @@ public class Boxoffice extends JPanel {
 
     }
 
-    private class AddingPlaylist implements ActionListener{
+     class AddingPlaylist implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -227,6 +226,7 @@ public class Boxoffice extends JPanel {
 
         }
     }
+
     public void addPlaylist(String name){
         ProButton playlist = new ProButton(name);
         playlist.setFont(pubFont);
@@ -234,10 +234,56 @@ public class Boxoffice extends JPanel {
         playlist.setForeground(Color.white);
         playlist.addMouseListener(new Bolder());
         playlists.add(playlist);
+        playlist.addMouseListener( new RemoveListener(playlists,playlist));
         this.add(playlist);
         this.revalidate();
         this.repaint();
     }
 
+    public ArrayList<ProButton> getPlaylists() {
+        return playlists;
+    }
 
+    public ProButton getTools() {
+        return tools;
+    }
+
+
+
+    class RemoveListener extends MouseAdapter{
+        private ProButton button;
+        private ArrayList<ProButton> buttons;
+        public RemoveListener(ArrayList<ProButton> playlists, ProButton button) {
+            super();
+            this.button=button;
+            buttons= playlists;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            super.mouseClicked(e);
+            if(e.getButton()==MouseEvent.BUTTON3){
+                PopupMenu popupMenu=new PopupMenu();
+                MenuItem remove=new MenuItem("Remove");
+                MenuItem edit=new MenuItem("EditName");
+                popupMenu.add(remove);
+                button.add(popupMenu);
+                popupMenu.show(button,button.getX(),button.getY());
+
+                remove.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        buttons.remove(buttons.indexOf(button));
+                        Boxoffice.this.remove(button);
+                        Boxoffice.this.repaint();
+
+                    }
+                });
+
+
+            }
+        }
+
+
+    }
 }

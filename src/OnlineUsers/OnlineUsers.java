@@ -26,7 +26,7 @@ public class OnlineUsers extends JPanel {
         this.setBackground(Color.darkGray);
         users = new ArrayList<>();
         frinedsActivity = new JLabel("Friend Activity");
-        originalImage = ImageIO.read(new File("backgrounds\\left1.jpg"));
+        originalImage = ImageIO.read(new File("backgrounds\\right3.jpg"));
         headFont = new Font("serif" , Font.BOLD , 20);
         pubFont = new Font("serif " , Font.PLAIN , 15);
         frinedsActivity.setForeground(Color.white);

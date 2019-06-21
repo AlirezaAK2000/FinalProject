@@ -21,7 +21,7 @@ public class Center extends JPanel {
     private SearchBox searchBox;
     public Center() throws IOException {
         super();
-        originalImage = ImageIO.read(new File("backgrounds\\center4.jpg"));
+        originalImage = ImageIO.read(new File("backgrounds\\tataloo.jpg"));
         this.setLayout(new BorderLayout());
         searchBox = new SearchBox();
         this.add(searchBox , BorderLayout.NORTH);
