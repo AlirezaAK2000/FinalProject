@@ -2,6 +2,7 @@ package Boxoffice;
 
 import Center.Center;
 import Tools.ProButton;
+import Tools.ProSlider;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -159,7 +160,6 @@ public class Boxoffice extends JPanel {
         this.add(addPlaylist);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 
         originalImage = ImageIO.read(new File("backgrounds\\left2.jpg"));
@@ -220,12 +220,12 @@ public class Boxoffice extends JPanel {
 
     }
 
+
     private class AddingPlaylist implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            PlayListAdder playListAdder = new PlayListAdder(b);
-
+            PlayListAdder playListAdder = new PlayListAdder(b , "add" , null);
         }
     }
 
@@ -238,6 +238,11 @@ public class Boxoffice extends JPanel {
         playlist.addMouseListener(new RemoveListener(playlists , playlist));
         playlists.add(playlist);
         this.add(playlist);
+        this.revalidate();
+        this.repaint();
+    }
+    public void editPlayList(String name , ProButton button){
+        button.setText(name);
         this.revalidate();
         this.repaint();
     }
@@ -276,10 +281,17 @@ public class Boxoffice extends JPanel {
                         buttons.remove(buttons.indexOf(button));
                         Boxoffice.this.remove(button);
                         Boxoffice.this.repaint();
+
                     }
+
                 });
 
-
+                edit.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        PlayListAdder playListAdder = new PlayListAdder(b , "edit" , button);
+                    }
+                });
             }
         }
     }

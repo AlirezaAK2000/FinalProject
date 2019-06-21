@@ -18,9 +18,13 @@ public class PlayListAdder extends JFrame {
     private JLabel help;
     private JPanel buttons;
     private Boxoffice boxoffice;
-    public PlayListAdder(Boxoffice b){
+    private String prompt;
+    private ProButton button;
+    public PlayListAdder(Boxoffice b , String prompt , ProButton button){
         super();
+        this.prompt = prompt;
         boxoffice =b;
+        this.button = button;
         this.setBackground(Color.BLACK);
         buttons = new JPanel();
         buttons.setBackground(Color.BLACK);
@@ -77,7 +81,10 @@ public class PlayListAdder extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            if(prompt.equals("add"))
             boxoffice.addPlaylist(name.getText());
+            else
+                boxoffice.editPlayList(name.getText() ,button );
             setVisible(false);
         }
     }
