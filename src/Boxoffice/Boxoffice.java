@@ -1,8 +1,6 @@
 package Boxoffice;
 
-import Center.Center;
 import Tools.ProButton;
-import Tools.ProSlider;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -28,7 +26,7 @@ public class Boxoffice extends JPanel {
     private ProButton favorites;
     private ProButton albums;
     private ProButton artist;
-    private ProButton stations;
+    private ProButton songs;
     private ProButton videos;
     private ProButton podcast;
     private ProButton addPlaylist;
@@ -129,12 +127,12 @@ public class Boxoffice extends JPanel {
         artist.setBackground(Color.darkGray);
         artist.addMouseListener(new Bolder());
         this.add(artist);
-        stations = new ProButton("Stations");
-        stations.setFont(pubFont);
-        stations.setForeground(Color.white);
-        stations.setBackground(Color.darkGray);
-        stations.addMouseListener(new Bolder());
-        this.add(stations);
+        songs = new ProButton("Songs");
+        songs.setFont(pubFont);
+        songs.setForeground(Color.white);
+        songs.setBackground(Color.darkGray);
+        songs.addMouseListener(new Bolder());
+        this.add(songs);
         videos = new ProButton("Videos");
         videos.setFont(pubFont);
         videos.setForeground(Color.white);

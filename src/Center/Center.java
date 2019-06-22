@@ -19,12 +19,14 @@ public class Center extends JPanel {
     private BufferedImage originalImage;
     private BufferedImage scaledImage;
     private SearchBox searchBox;
+    private JPanel main;
     public Center() throws IOException {
         super();
         originalImage = ImageIO.read(new File("backgrounds\\center4.jpg"));
         this.setLayout(new BorderLayout());
         searchBox = new SearchBox();
         this.add(searchBox , BorderLayout.NORTH);
+
     }
     public void paintComponent(Graphics g) {
         double widthScaleFactor = getWidth() / (double)originalImage.getWidth();
@@ -57,6 +59,10 @@ public class Center extends JPanel {
             repaint();
         }
     }
+
+
+
+
 }
 
 
