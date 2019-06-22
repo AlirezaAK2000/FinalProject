@@ -71,8 +71,6 @@ public class MusicBox extends JPanel  {
         this.add(volumeSet, BorderLayout.EAST);
         this.add(songSetter.getSlider() , BorderLayout.NORTH);
 
-
-
         playb.addMouseListener(new Mousehandler());
         unliked.addMouseListener(new Mousehandler());
 

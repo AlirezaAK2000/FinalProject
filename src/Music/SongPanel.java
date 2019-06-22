@@ -1,11 +1,14 @@
-package Tools;
+package Music;
 
+import Boxoffice.Boxoffice;
 import Logic.Song;
+import Tools.ProButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
-public class SongPanel extends JPanel {
+public class SongPanel extends JPanel implements Serializable {
     private JLabel title;
     private JLabel artist;
     private JLabel album;
@@ -13,10 +16,11 @@ public class SongPanel extends JPanel {
     private ImageIcon liked;
     private ImageIcon unliked;
     private Song song;
-
+    private Boxoffice boxoffice;
 
     public SongPanel(){
         super();
+        this.boxoffice = boxoffice;
         this.setBackground(Color.BLACK);
         title = new JLabel();
         title.setBackground(Color.BLACK);
@@ -90,5 +94,9 @@ public class SongPanel extends JPanel {
 
     public Song getSong() {
         return song;
+    }
+
+    public Boxoffice getBoxoffice() {
+        return boxoffice;
     }
 }

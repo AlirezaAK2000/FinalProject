@@ -1,3 +1,5 @@
+package Runners;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -12,7 +14,7 @@ public class Main {
             }
         });
         try {
-            Manager manager = new Manager();
+            GeneralManager manager = new GeneralManager();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
