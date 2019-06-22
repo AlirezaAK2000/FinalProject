@@ -186,6 +186,7 @@ public class Boxoffice extends JPanel {
         public void mouseExited(MouseEvent e) {
             e.getComponent().setFont(new Font("serif ", Font.PLAIN, 15));
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
         }
     }
 
