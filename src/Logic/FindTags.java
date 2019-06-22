@@ -9,7 +9,7 @@ public class FindTags {
     private byte[] allBytes;
     public FindTags(String nameOfFile) throws IOException {
         myFile=new FileInputStream(nameOfFile);
-        allBytes=myFile.readAllBytes();
+        myFile.read(allBytes);
     }
     public String getTitle(){
         byte[] my=new byte[30];

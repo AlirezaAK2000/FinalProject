@@ -1,18 +1,27 @@
 package Boxoffice;
 
+import Center.Center;
+import Logic.Song;
+import Music.SongPanel;
+import Music.SongPanels;
 import Runners.GeneralManager;
+import Tools.Background;
 import Tools.ProButton;
+import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.decoder.Manager;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.PrivateKey;
 import java.util.ArrayList;
 
 public class Boxoffice extends JPanel {
@@ -41,10 +50,14 @@ public class Boxoffice extends JPanel {
     private JList<ProButton> playList;
     private DefaultListModel<ProButton> playListModel;
     private int count;
-
-    public Boxoffice() throws IOException {
+    private JFileChooser JfileChooser;
+    private SongPanels songRepository;
+    private Center center;
+    public Boxoffice(Center center) throws IOException {
         super();
         b = this;
+        this.center = center;
+        songRepository = new SongPanels("backgrounds\\center5.jpg");
         playlists = new ArrayList<>();
         this.setBackground(Color.darkGray);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -71,11 +84,26 @@ public class Boxoffice extends JPanel {
         file.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+              JfileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+                File selectedFile;
+                int returnValue = JfileChooser.showOpenDialog(null);
+                // int returnValue = jfc.showSaveDialog(null);
+
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    selectedFile = JfileChooser.getSelectedFile();
+                    try {
+                        songRepository.addSong(new SongPanel(new Song(selectedFile)));
+                    } catch (FileNotFoundException e1) {
+                        e1.printStackTrace();
+                    } catch (JavaLayerException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+
 
             }
         });
         MenuItem edit = new MenuItem("Edit");
-
         MenuItem view = new MenuItem("View");
         MenuItem playBack = new MenuItem("Playback");
         MenuItem help = new MenuItem("Help");
@@ -96,6 +124,16 @@ public class Boxoffice extends JPanel {
         home.setForeground(Color.white);
         home.setBackground(Color.darkGray);
         home.addMouseListener(new Bolder());
+        home.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    center.setMain(new Background( ImageIO.read(new File("backgrounds\\center4.jpg"))));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
         this.add(home);
         browse = new ProButton("Browse");
         browse.setForeground(Color.white);
@@ -143,6 +181,12 @@ public class Boxoffice extends JPanel {
         songs.setForeground(Color.white);
         songs.setBackground(Color.darkGray);
         songs.addMouseListener(new Bolder());
+        songs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                center.setMain(songRepository);
+            }
+        });
         this.add(songs);
         videos = new ProButton("Videos");
         videos.setFont(pubFont);

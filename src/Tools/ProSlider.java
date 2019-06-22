@@ -12,7 +12,7 @@ public class ProSlider extends JSlider {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                Point p = e.getPoint();
+                Point n,p = e.getPoint();
                 double percent = p.x / ((double) getWidth());
                 int range = getMaximum() - getMinimum();
                 double newVal = range * percent;

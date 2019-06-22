@@ -18,38 +18,45 @@ public class SongPanel extends JPanel implements Serializable {
     private Song song;
     private Boxoffice boxoffice;
 
-    public SongPanel(){
+    public SongPanel(Song song){
         super();
         this.boxoffice = boxoffice;
+        this.song = song;
         this.setBackground(Color.BLACK);
-        title = new JLabel();
+        title = new JLabel("title");
         title.setBackground(Color.BLACK);
         title.setForeground(Color.white);
         title.setFont(new Font("serif" , Font.BOLD ,15));
         title.setBorder(BorderFactory.createEmptyBorder());
 
-        artist = new JLabel();
+        artist = new JLabel("artist");
         artist.setBackground(Color.BLACK);
         artist.setForeground(Color.white);
         artist.setFont(new Font("serif" , Font.BOLD ,15));
         artist.setBorder(BorderFactory.createEmptyBorder());
 
-        album = new JLabel();
+        album = new JLabel("album");
         album.setBackground(Color.BLACK);
         album.setForeground(Color.white);
         album.setFont(new Font("serif" , Font.BOLD ,15));
         album.setBorder(BorderFactory.createEmptyBorder());
 
-        liked = new ImageIcon("Icons\\unliked.png");
-        unliked = new ImageIcon("Icons\\liked.png");
+        liked = new ImageIcon("Icons\\unlike2.png");
+        unliked = new ImageIcon("Icons\\like1.png");
         liker = new ProButton(unliked);
         liker.setPreferredSize(new Dimension(26,28));
 
-        this.setLayout(new FlowLayout());
-        this.add(liker , FlowLayout.LEFT);
-        this.add(title , FlowLayout.CENTER);
-        this.add(artist, FlowLayout.RIGHT);
-        this.add(album , FlowLayout.LEFT , 1);
+        JPanel auxPanel = new JPanel();
+        auxPanel.setBackground(Color.BLACK);
+        auxPanel.setLayout(new FlowLayout());
+        auxPanel.add(liker , FlowLayout.LEFT);
+
+        this.setMaximumSize(new Dimension(Integer.MAX_VALUE , 30));
+        this.setLayout(new GridLayout(1 , 4 , 10 ,10));
+        this.add(auxPanel);
+        this.add(title);
+        this.add(album);
+        this.add(artist);
 
     }
     public SongPanel(String titleText , String artistText , String albumText)

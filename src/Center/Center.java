@@ -1,6 +1,8 @@
 package Center;
 
 
+import Tools.Background;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -21,49 +23,25 @@ public class Center extends JPanel {
     private BufferedImage scaledImage;
     private SearchBox searchBox;
     private JPanel main;
+    private JPanel background;
 
     public Center() throws IOException {
         super();
         originalImage = ImageIO.read(new File("backgrounds\\center4.jpg"));
+        background = new Background(originalImage);
         this.setLayout(new BorderLayout());
         searchBox = new SearchBox();
         this.add(searchBox , BorderLayout.NORTH);
+        this.add(new JScrollPane(background) , BorderLayout.CENTER);
 
     }
-    public void paintComponent(Graphics g) {
-        double widthScaleFactor = getWidth() / (double)originalImage.getWidth();
-        double heightScaleFactor = getHeight() / (double)originalImage.getHeight();
 
-        AffineTransform at = new AffineTransform();
-        at.scale(widthScaleFactor, heightScaleFactor );
-
-        AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-        scaledImage = scaleOp.filter(originalImage, null);
-
-
-        g.drawImage(scaledImage, 0, 0,null);
-        addComponentListener(new ResizerListener());
-    }
-
-
-    private class ResizerListener extends ComponentAdapter {
-        @Override
-        public void componentResized(ComponentEvent e) {
-            double widthScaleFactor = getWidth() / (double)originalImage.getWidth();
-            double heightScaleFactor = getHeight() / (double)originalImage.getHeight();
-
-            AffineTransform at = new AffineTransform();
-            at.scale(widthScaleFactor, heightScaleFactor );
-
-            AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-            scaledImage = scaleOp.filter(originalImage, null);
-
-            repaint();
-        }
-    }
 
     public void setMain(JPanel main) {
-        this.main = main;
+        removeAll();
+        this.add(searchBox , BorderLayout.NORTH);
+        background = main;
+        this.add(new JScrollPane(background) , BorderLayout.CENTER);
         revalidate();
         repaint();
     }

@@ -18,9 +18,9 @@ public class GeneralManager extends JFrame {
     private Image img;
     public GeneralManager() throws IOException, InterruptedException {
         super();
-        boxoffice = new Boxoffice();
         onlineUsers = new OnlineUsers();
         center = new Center();
+        boxoffice = new Boxoffice(center);
         musicBox = new MusicBox();
         JScrollPane j=new JScrollPane(boxoffice);
         j.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
