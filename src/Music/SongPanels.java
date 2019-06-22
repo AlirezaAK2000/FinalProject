@@ -1,34 +1,27 @@
-package Center;
-
+package Music;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
-import java.sql.BatchUpdateException;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-public class Center extends JPanel {
+public class SongPanels extends JPanel implements Serializable {
     private BufferedImage originalImage;
     private BufferedImage scaledImage;
-    private SearchBox searchBox;
-    private JPanel main;
-
-    public Center() throws IOException {
+    private ArrayList<SongPanel> songPanels;
+    public SongPanels(String address) throws IOException {
         super();
-        originalImage = ImageIO.read(new File("backgrounds\\center4.jpg"));
-        this.setLayout(new BorderLayout());
-        searchBox = new SearchBox();
-        this.add(searchBox , BorderLayout.NORTH);
-
+        songPanels = new ArrayList<>();
+        originalImage = ImageIO.read(new File(address));
+        this.setLayout(new BoxLayout(this , BoxLayout.Y_AXIS));
     }
     public void paintComponent(Graphics g) {
         double widthScaleFactor = getWidth() / (double)originalImage.getWidth();
@@ -43,6 +36,11 @@ public class Center extends JPanel {
 
         g.drawImage(scaledImage, 0, 0,null);
         addComponentListener(new ResizerListener());
+    }
+    public void addSong(SongPanel songPanel){
+        songPanels.add(songPanel);
+        this.add(songPanel);
+        SwingUtilities.updateComponentTreeUI(this);
     }
 
 
@@ -62,12 +60,5 @@ public class Center extends JPanel {
         }
     }
 
-    public void setMain(JPanel main) {
-        this.main = main;
-        revalidate();
-        repaint();
-    }
+
 }
-
-
-

@@ -1,3 +1,5 @@
+package Runners;
+
 import Boxoffice.Boxoffice;
 import Center.Center;
 import Musicbox.MusicBox;
@@ -8,13 +10,13 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.io.IOException;
 
-public class Manager extends JFrame {
+public class GeneralManager extends JFrame {
     private Boxoffice boxoffice;
     private OnlineUsers onlineUsers;
     private Center center;
     private MusicBox musicBox;
     private Image img;
-    public Manager() throws IOException, InterruptedException {
+    public GeneralManager() throws IOException, InterruptedException {
         super();
         boxoffice = new Boxoffice();
         onlineUsers = new OnlineUsers();

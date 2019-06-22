@@ -5,6 +5,7 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
 import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,6 +20,7 @@ public class Song {
     private String album;
     private String  title;
     private  String track;
+    private File file;
 
     public Song(String fileName) throws IOException, JavaLayerException {
         playTheread=new Thread();
@@ -37,6 +39,20 @@ public class Song {
         title=findTags.getTitle();
         track=findTags.getTrack();
 
+
+    }
+    public Song(File file) throws FileNotFoundException, JavaLayerException {
+        playTheread=new Thread();
+        this.file = file;
+        advancedPlayer=new AdvancedPlayer(new FileInputStream(file));
+        advancedPlayer.setPlayBackListener(new PlaybackListener() {
+            @Override
+            public void playbackFinished(PlaybackEvent playbackEvent) {
+                super.playbackFinished(playbackEvent);
+                pause =playbackEvent.getFrame();
+            }
+        });
+        this.fileName = file.getName();
 
     }
     public void continuee() throws FileNotFoundException, JavaLayerException {

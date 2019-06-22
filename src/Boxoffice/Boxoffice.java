@@ -1,8 +1,8 @@
 package Boxoffice;
 
-import Center.Center;
+import Runners.GeneralManager;
 import Tools.ProButton;
-import Tools.ProSlider;
+import javazoom.jl.decoder.Manager;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -28,7 +28,7 @@ public class Boxoffice extends JPanel {
     private ProButton favorites;
     private ProButton albums;
     private ProButton artist;
-    private ProButton stations;
+    private ProButton songs;
     private ProButton videos;
     private ProButton podcast;
     private ProButton addPlaylist;
@@ -68,7 +68,14 @@ public class Boxoffice extends JPanel {
         pubFont = new Font("serif ", Font.PLAIN, 15);
 
         MenuItem file = new MenuItem("File");
+        file.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         MenuItem edit = new MenuItem("Edit");
+
         MenuItem view = new MenuItem("View");
         MenuItem playBack = new MenuItem("Playback");
         MenuItem help = new MenuItem("Help");
@@ -131,12 +138,12 @@ public class Boxoffice extends JPanel {
         artist.setBackground(Color.darkGray);
         artist.addMouseListener(new Bolder());
         this.add(artist);
-        stations = new ProButton("Stations");
-        stations.setFont(pubFont);
-        stations.setForeground(Color.white);
-        stations.setBackground(Color.darkGray);
-        stations.addMouseListener(new Bolder());
-        this.add(stations);
+        songs = new ProButton("Songs");
+        songs.setFont(pubFont);
+        songs.setForeground(Color.white);
+        songs.setBackground(Color.darkGray);
+        songs.addMouseListener(new Bolder());
+        this.add(songs);
         videos = new ProButton("Videos");
         videos.setFont(pubFont);
         videos.setForeground(Color.white);
@@ -175,6 +182,8 @@ public class Boxoffice extends JPanel {
 
     }
 
+
+
     private class Bolder extends MouseAdapter {
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -206,6 +215,9 @@ public class Boxoffice extends JPanel {
         addComponentListener(new ResizerListener());
     }
 
+    public BufferedImage getOriginalImage() {
+        return originalImage;
+    }
 
     private class ResizerListener extends ComponentAdapter {
         @Override
@@ -308,6 +320,7 @@ public class Boxoffice extends JPanel {
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
     }
+
 }
 
 
