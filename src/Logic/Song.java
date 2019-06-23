@@ -1,9 +1,14 @@
 package Logic;
 
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
+import org.farng.mp3.MP3File;
+import org.farng.mp3.TagException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,6 +26,7 @@ public class Song {
     private String  title;
     private  String track;
     private File file;
+
 
     public Song(String fileName) throws IOException, JavaLayerException {
         playTheread=new Thread();
@@ -44,6 +50,7 @@ public class Song {
     public Song(File file) throws IOException, JavaLayerException {
         playTheread=new Thread();
         this.file = file;
+        fileName=file.getPath();
         advancedPlayer=new AdvancedPlayer(new FileInputStream(file));
         advancedPlayer.setPlayBackListener(new PlaybackListener() {
             @Override
@@ -153,5 +160,8 @@ public class Song {
 
     public FindTags getFindTags() {
         return findTags;
+    }
+    public int getSize() throws IOException, TagException, InvalidDataException, UnsupportedTagException {
+        return (int)new Mp3File(fileName).getLengthInMilliseconds();
     }
 }

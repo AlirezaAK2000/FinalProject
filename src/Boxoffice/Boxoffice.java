@@ -372,6 +372,7 @@ public class Boxoffice extends JPanel {
     public Center getCenter() {
         return center;
     }
+
 }
 
 

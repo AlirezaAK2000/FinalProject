@@ -38,4 +38,15 @@ public class GeneralManager extends JFrame {
         this.setVisible(true);
     }
 
+    public Boxoffice getBoxoffice() {
+        return boxoffice;
+    }
+
+    public MusicBox getMusicBox() {
+        return musicBox;
+    }
+
+    public OnlineUsers getOnlineUsers() {
+        return onlineUsers;
+    }
 }

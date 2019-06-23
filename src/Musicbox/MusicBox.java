@@ -1,9 +1,14 @@
 package Musicbox;
 
 import Center.Center;
+import Logic.Song;
+import Music.SongPanel;
+import Music.SongPanels;
+import Tools.Integer;
 import Tools.ProButton;
 import Tools.ProSlider;
 import Tools.SliderDemoSkin;
+import javazoom.jl.decoder.JavaLayerException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -38,8 +43,15 @@ public class MusicBox extends JPanel  {
     private ImageIcon backbIc;
     private ImageIcon shuffleIc;
     private ImageIcon unShuffle;
+    private SongPanels songPanels;
+    private SongPanel songPanel;
+    private Thread playThread;
+    private Thread moveSliderThread;
+    private boolean move;
     public MusicBox() throws IOException {
         super();
+        playThread=new Thread();
+        move=false;
         center = new JPanel();
         auxPanel = new JPanel();
         center.setLayout(new FlowLayout(1,50,20));
@@ -107,6 +119,7 @@ public class MusicBox extends JPanel  {
         center.add( nextb , FlowLayout.LEFT,1);
         center.add( playb, FlowLayout.CENTER, 1);
         center.add(backb , FlowLayout.CENTER , 1);
+        this.add(new JLabel(""),BorderLayout.WEST);
         this.add(center ,BorderLayout.CENTER);
         this.add(volumeSet, BorderLayout.EAST);
         this.add(auxPanel , BorderLayout.NORTH);
@@ -115,6 +128,8 @@ public class MusicBox extends JPanel  {
 
         playb.addActionListener(new Mousehandler());
         unrepeat.addActionListener(new Mousehandler());
+        moveSliderThread=new Thread(new MoveSlider(getSlider().getPosition(),getSlider()));
+        moveSliderThread.start();
 
 
     }
@@ -152,5 +167,75 @@ public class MusicBox extends JPanel  {
 
     public JPanel getSongInformation() {
         return songInformation;
+    }
+
+    public void setSongPanels(SongPanels songPanels){
+        this.songPanels=songPanels;
+    }
+
+    public void setSongPanel(SongPanel songPanel) {
+        this.songPanel = songPanel;
+        playThread=songPanel.getSong().getPlayTheread();
+    }
+
+    public SongPanel getSongPanel() {
+        return songPanel;
+    }
+
+    public SongPanels getSongPanels() {
+        return songPanels;
+    }
+
+    public Thread getPlayThread() {
+        return playThread;
+    }
+
+    public  ProSlider getSlider(){
+        return songSetter.getSlider();
+    }
+    public ProButton getPlayb(){
+        return playb;
+    }
+
+    public ProButton getBackb() {
+        return backb;
+    }
+
+    public ProButton getNextb() {
+        return nextb;
+    }
+    class MoveSlider implements Runnable{
+        private Integer position;
+        private ProSlider slider;
+
+        public MoveSlider(Integer position, ProSlider slider) {
+            this.position = position;
+            this.slider = slider;
+        }
+
+        @Override
+        public void run() {
+            Robot r= null;
+            try {
+                r = new Robot();
+                for (position.setValue(0); position.getValue() <slider.getMaximum() ; ) {
+                    r.delay(1);
+                    if(move){
+                        slider.setValue(position.getValue());
+
+
+                    }
+                    position.setValue(position.getValue()+1);
+                    SwingUtilities.updateComponentTreeUI(slider);
+                }
+            } catch (AWTException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public void setMove(boolean move) {
+        this.move = move;
     }
 }
