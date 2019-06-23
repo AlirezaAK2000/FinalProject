@@ -45,6 +45,11 @@ public class Center extends JPanel {
         revalidate();
         repaint();
     }
+
+
+    public JPanel getBack(){
+        return background;
+    }
 }
 
 

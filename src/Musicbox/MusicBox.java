@@ -109,7 +109,7 @@ public class MusicBox extends JPanel  {
         center.add(backb , FlowLayout.CENTER , 1);
         this.add(center ,BorderLayout.CENTER);
         this.add(volumeSet, BorderLayout.EAST);
-        this.add(auxPanel , BorderLayout.SOUTH);
+        this.add(auxPanel , BorderLayout.NORTH);
 
 
 

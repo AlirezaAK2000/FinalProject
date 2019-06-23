@@ -19,12 +19,47 @@ public class SongPanels extends JPanel implements Serializable {
     private BufferedImage originalImage;
     private BufferedImage scaledImage;
     private ArrayList<SongPanel> songPanels;
+    private JPanel headPanel;
     public SongPanels(String address) throws IOException {
         super();
+        headPanel = new JPanel();
+        headPanel.setBackground(Color.BLACK);
+        headPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE , 30));
+        headPanel.setLayout(new GridLayout(1 , 4 , 10 , 10));
+        headPanel.setBorder(BorderFactory.createEmptyBorder());
+        JLabel empty = new JLabel();
+        empty.setBackground(Color.BLACK);
+        empty.setBorder(BorderFactory.createEmptyBorder());
+        headPanel.add(empty);
+
+        JLabel title = new JLabel("Title");
+        title.setBackground(Color.BLACK);
+        title.setForeground(Color.white);
+        title.setFont(new Font("serif" , Font.BOLD ,20));
+        title.setBorder(BorderFactory.createEmptyBorder());
+        headPanel.add(title);
+
+        JLabel artist = new JLabel("Artist");
+        artist.setBackground(Color.BLACK);
+        artist.setForeground(Color.white);
+        artist.setFont(new Font("serif" , Font.BOLD ,20));
+        artist.setBorder(BorderFactory.createEmptyBorder());
+        headPanel.add(artist);
+
+        JLabel album = new JLabel("Album");
+        album.setBackground(Color.BLACK);
+        album.setForeground(Color.white);
+        album.setFont(new Font("serif" , Font.BOLD ,20));
+        album.setBorder(BorderFactory.createEmptyBorder());
+        headPanel.add(album);
+
         songPanels = new ArrayList<>();
         originalImage = ImageIO.read(new File(address));
         this.setLayout(new BoxLayout(this , BoxLayout.Y_AXIS));
         this.add(Box.createVerticalStrut(5));
+        this.add(headPanel);
+        this.add(Box.createVerticalStrut(5));
+
     }
     public void paintComponent(Graphics g) {
         double widthScaleFactor = getWidth() / (double)originalImage.getWidth();

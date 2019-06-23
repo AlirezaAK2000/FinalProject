@@ -7,8 +7,7 @@ import Tools.ProButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.io.Serializable;
@@ -22,27 +21,28 @@ public class SongPanel extends JPanel implements Serializable {
     private ImageIcon unliked;
     private Song song;
     private Boxoffice boxoffice;
+    private boolean changeAllowed;
 
     public SongPanel(Song song){
         super();
         this.boxoffice = boxoffice;
         this.song = song;
         this.setBackground(Color.BLACK);
-        System.out.println(song.getTitle());
-        System.out.println(song.getTitle().length());
+        this.setMaximumSize(new Dimension(Integer.MAX_VALUE , 30));
+
         title = new JLabel(song.getTitle());
         title.setBackground(Color.BLACK);
         title.setForeground(Color.white);
         title.setFont(new Font("serif" , Font.BOLD ,15));
         title.setBorder(BorderFactory.createEmptyBorder());
 
-        artist = new JLabel(song.getArtist());
+        artist = new JLabel(song.getAlbum());
         artist.setBackground(Color.BLACK);
         artist.setForeground(Color.white);
         artist.setFont(new Font("serif" , Font.BOLD ,15));
         artist.setBorder(BorderFactory.createEmptyBorder());
 
-        album = new JLabel(song.getAlbum());
+        album = new JLabel(song.getArtist());
         album.setBackground(Color.BLACK);
         album.setForeground(Color.white);
         album.setFont(new Font("serif" , Font.BOLD ,15));
@@ -51,6 +51,15 @@ public class SongPanel extends JPanel implements Serializable {
         liked = new ImageIcon("Icons\\unlike2.png");
         unliked = new ImageIcon("Icons\\like1.png");
         liker = new ProButton(unliked);
+        liker.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(liker.getIcon().equals(liked))
+                    liker.setIcon(unliked);
+                else
+                    liker.setIcon(liked);
+            }
+        });
         liker.setPreferredSize(new Dimension(28,28));
 
         JPanel auxPanel = new JPanel();
@@ -64,6 +73,23 @@ public class SongPanel extends JPanel implements Serializable {
         this.add(title);
         this.add(album);
         this.add(artist);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setBackground(Color.darkGray);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setBackground(Color.BLACK);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+        });
 
     }
     public SongPanel(String titleText , String artistText , String albumText)
@@ -88,6 +114,24 @@ public class SongPanel extends JPanel implements Serializable {
         album.setText(albumText);
         title.setText(titleText);
         artist.setText(artistText);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setBackground(Color.darkGray);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setBackground(Color.BLACK);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(liker.isSelected()==true)
+                    System.out.println("is ok");
+            }
+        });
     }
 
     public void setArtistText(String artistText) {
@@ -113,16 +157,5 @@ public class SongPanel extends JPanel implements Serializable {
     public Boxoffice getBoxoffice() {
         return boxoffice;
     }
-    public void paintComponent(Graphics g) {
-        addComponentListener(new ResizerListener());
-    }
 
-
-    private class ResizerListener extends ComponentAdapter {
-        @Override
-        public void componentResized(ComponentEvent e) {
-            setPreferredSize(new Dimension(getParent().getWidth() , 30));
-            repaint();
-        }
-    }
 }

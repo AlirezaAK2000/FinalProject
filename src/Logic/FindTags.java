@@ -1,5 +1,6 @@
 package Logic;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,7 +9,12 @@ public class FindTags {
     private FileInputStream myFile;
     private byte[] allBytes;
     public FindTags(String nameOfFile) throws IOException {
-        myFile=new FileInputStream(nameOfFile);
+        myFile=new FileInputStream(new File(nameOfFile));
+        allBytes = new byte[myFile.available()];
+        myFile.read(allBytes);
+    }
+    public FindTags(File file) throws IOException {
+        myFile=new FileInputStream(file);
         allBytes = new byte[myFile.available()];
         myFile.read(allBytes);
     }

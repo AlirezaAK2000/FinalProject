@@ -91,6 +91,8 @@ public class Boxoffice extends JPanel {
 
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     selectedFile = JfileChooser.getSelectedFile();
+                    if(selectedFile == null)
+                        System.out.println("null");
                     try {
                         songRepository.addSong(new SongPanel(new Song(selectedFile)));
                     } catch (FileNotFoundException e1) {

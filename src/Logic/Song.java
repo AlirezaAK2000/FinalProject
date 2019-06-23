@@ -52,8 +52,8 @@ public class Song {
                 pause =playbackEvent.getFrame();
             }
         });
-        fileName = file.getName();
-        findTags=new FindTags(fileName);
+
+        findTags=new FindTags(file);
         artist=findTags.getArtist();
         album=findTags.getAlbum();
         title=findTags.getTitle();
