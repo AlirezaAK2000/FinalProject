@@ -1,5 +1,6 @@
 package Musicbox;
 
+import Center.Center;
 import Tools.ProButton;
 import Tools.ProSlider;
 import Tools.SliderDemoSkin;
@@ -37,7 +38,6 @@ public class MusicBox extends JPanel  {
     private ImageIcon backbIc;
     private ImageIcon shuffleIc;
     private ImageIcon unShuffle;
-
     public MusicBox() throws IOException {
         super();
         center = new JPanel();

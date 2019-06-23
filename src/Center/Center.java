@@ -1,6 +1,7 @@
 package Center;
 
 
+import Musicbox.MusicBox;
 import Tools.Background;
 
 import javax.imageio.ImageIO;
@@ -24,9 +25,11 @@ public class Center extends JPanel {
     private SearchBox searchBox;
     private JPanel main;
     private JPanel background;
+    private MusicBox musicBox;
 
-    public Center() throws IOException {
+    public Center(MusicBox musicBox) throws IOException {
         super();
+        this.musicBox = musicBox;
         originalImage = ImageIO.read(new File("backgrounds\\center4.jpg"));
         background = new Background(originalImage);
         this.setLayout(new BorderLayout());
@@ -36,6 +39,9 @@ public class Center extends JPanel {
 
     }
 
+    public MusicBox getMusicBox() {
+        return musicBox;
+    }
 
     public void setMain(JPanel main) {
         removeAll();

@@ -74,22 +74,7 @@ public class SongPanel extends JPanel implements Serializable {
         this.add(album);
         this.add(artist);
 
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setBackground(Color.darkGray);
-            }
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setBackground(Color.BLACK);
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-        });
 
     }
     public SongPanel(String titleText , String artistText , String albumText)

@@ -57,7 +57,7 @@ public class Boxoffice extends JPanel {
         super();
         b = this;
         this.center = center;
-        songRepository = new SongPanels("backgrounds\\center5.jpg");
+        songRepository = new SongPanels( "backgrounds\\center5.jpg" ,center.getMusicBox());
         playlists = new ArrayList<>();
         this.setBackground(Color.darkGray);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -369,6 +369,9 @@ public class Boxoffice extends JPanel {
         }
     }
 
+    public Center getCenter() {
+        return center;
+    }
 }
 
 

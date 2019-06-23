@@ -1,5 +1,8 @@
 package Music;
 
+import Boxoffice.Boxoffice;
+import Musicbox.MusicBox;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -20,9 +23,11 @@ public class SongPanels extends JPanel implements Serializable {
     private BufferedImage scaledImage;
     private ArrayList<SongPanel> songPanels;
     private JPanel headPanel;
-    public SongPanels(String address) throws IOException {
+    private MusicBox musicBox;
+    public SongPanels(String address ,MusicBox musicBox ) throws IOException {
         super();
         headPanel = new JPanel();
+        this.musicBox = musicBox;
         headPanel.setBackground(Color.BLACK);
         headPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE , 30));
         headPanel.setLayout(new GridLayout(1 , 4 , 10 , 10));
@@ -59,7 +64,6 @@ public class SongPanels extends JPanel implements Serializable {
         this.add(Box.createVerticalStrut(5));
         this.add(headPanel);
         this.add(Box.createVerticalStrut(5));
-
     }
     public void paintComponent(Graphics g) {
         double widthScaleFactor = getWidth() / (double)originalImage.getWidth();
@@ -77,6 +81,23 @@ public class SongPanels extends JPanel implements Serializable {
     }
     public void addSong(SongPanel songPanel){
         songPanels.add(songPanel);
+
+        songPanel.  addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setBackground(Color.darkGray);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setBackground(Color.BLACK);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+        });
         this.add(songPanel);
         this.add(Box.createVerticalStrut(5));
         SwingUtilities.updateComponentTreeUI(this);
@@ -96,6 +117,12 @@ public class SongPanels extends JPanel implements Serializable {
             scaledImage = scaleOp.filter(originalImage, null);
 
             repaint();
+        }
+    }
+    public void isSelect(SongPanel songPanel){
+        int index = songPanels.indexOf(songPanel);
+        for(int i = index;i>=0;i--){
+
         }
     }
 
