@@ -2,10 +2,15 @@ package Music;
 
 import Boxoffice.Boxoffice;
 import Logic.Song;
+import Tools.Background;
 import Tools.ProButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.io.Serializable;
 
 public class SongPanel extends JPanel implements Serializable {
@@ -55,7 +60,7 @@ public class SongPanel extends JPanel implements Serializable {
 
         this.setMaximumSize(new Dimension(Integer.MAX_VALUE , 30));
         this.setLayout(new GridLayout(1 , 4 , 10 ,10));
-        this.add(auxPanel);
+        this.add(liker);
         this.add(title);
         this.add(album);
         this.add(artist);
@@ -107,5 +112,17 @@ public class SongPanel extends JPanel implements Serializable {
 
     public Boxoffice getBoxoffice() {
         return boxoffice;
+    }
+    public void paintComponent(Graphics g) {
+        addComponentListener(new ResizerListener());
+    }
+
+
+    private class ResizerListener extends ComponentAdapter {
+        @Override
+        public void componentResized(ComponentEvent e) {
+            setPreferredSize(new Dimension(getParent().getWidth() , 30));
+            repaint();
+        }
     }
 }
