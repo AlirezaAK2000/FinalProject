@@ -60,7 +60,7 @@ public class SliderDemoSkin extends JPanel {
         slider = new ProSlider();
         slider.putClientProperty("Nimbus.Overrides", d);
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        this.setBackground(new Color(245 , 245 , 245));
+        this.setBackground(Color.WHITE);
         this.add(Box.createRigidArea(new Dimension(10, 20)));
         this.add(slider);
     }

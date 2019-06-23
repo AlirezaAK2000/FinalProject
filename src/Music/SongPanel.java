@@ -23,19 +23,21 @@ public class SongPanel extends JPanel implements Serializable {
         this.boxoffice = boxoffice;
         this.song = song;
         this.setBackground(Color.BLACK);
-        title = new JLabel("title");
+        System.out.println(song.getTitle());
+        System.out.println(song.getTitle().length());
+        title = new JLabel(song.getTitle());
         title.setBackground(Color.BLACK);
         title.setForeground(Color.white);
         title.setFont(new Font("serif" , Font.BOLD ,15));
         title.setBorder(BorderFactory.createEmptyBorder());
 
-        artist = new JLabel("artist");
+        artist = new JLabel(song.getArtist());
         artist.setBackground(Color.BLACK);
         artist.setForeground(Color.white);
         artist.setFont(new Font("serif" , Font.BOLD ,15));
         artist.setBorder(BorderFactory.createEmptyBorder());
 
-        album = new JLabel("album");
+        album = new JLabel(song.getAlbum());
         album.setBackground(Color.BLACK);
         album.setForeground(Color.white);
         album.setFont(new Font("serif" , Font.BOLD ,15));
@@ -44,7 +46,7 @@ public class SongPanel extends JPanel implements Serializable {
         liked = new ImageIcon("Icons\\unlike2.png");
         unliked = new ImageIcon("Icons\\like1.png");
         liker = new ProButton(unliked);
-        liker.setPreferredSize(new Dimension(26,28));
+        liker.setPreferredSize(new Dimension(28,28));
 
         JPanel auxPanel = new JPanel();
         auxPanel.setBackground(Color.BLACK);

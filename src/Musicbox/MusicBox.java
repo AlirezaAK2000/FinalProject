@@ -7,8 +7,8 @@ import Tools.SliderDemoSkin;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -18,15 +18,15 @@ public class MusicBox extends JPanel  {
     private ImageIcon stopI;
     private ProButton nextb;
     private ProButton backb;
-    private ProButton unliked;
-    private ImageIcon ulikedI;
+    private ProButton unrepeat;
+    private ImageIcon unrepeatI;
     private ProButton shuffle;
-    private ImageIcon liked;
+    private ImageIcon repeat;
     private SliderDemoSkin volumeSet;
     private SliderDemoSkin songSetter;
     private ProButton muter;
     private ProSlider volume;
-    private Icon mute;
+    private ImageIcon mute;
     private ImageIcon volumeOn;
     private JPanel center;
     private JPanel auxPanel;
@@ -36,12 +36,14 @@ public class MusicBox extends JPanel  {
     private ImageIcon nextbIc;
     private ImageIcon backbIc;
     private ImageIcon shuffleIc;
+    private ImageIcon unShuffle;
+
     public MusicBox() throws IOException {
         super();
         center = new JPanel();
         auxPanel = new JPanel();
         center.setLayout(new FlowLayout(1,50,20));
-        center.setBackground(new Color(245 , 245 , 245));
+        center.setBackground(Color.WHITE);
         stopI =new ImageIcon();
         stopI.setImage(ImageIO.read(new File("Icons\\stop.png")));
         nextbIc = new ImageIcon();
@@ -53,23 +55,30 @@ public class MusicBox extends JPanel  {
         playI = new ImageIcon();
         playI.setImage(ImageIO.read(new File("Icons\\play.png")));
         playb = new ProButton (playI);
-        ulikedI =  new ImageIcon();
-        ulikedI.setImage(ImageIO.read(new File("Icons\\unliked.png")));
-        unliked = new ProButton (ulikedI);
+        unrepeatI =  new ImageIcon();
+        unrepeatI.setImage(ImageIO.read(new File("Icons\\unrepeat.png")));
+        unrepeat = new ProButton (unrepeatI);
         shuffleIc = new ImageIcon();
         shuffleIc.setImage(ImageIO.read(new File("Icons\\shuffle.png")));
+        unShuffle = new ImageIcon();
+        unShuffle.setImage(ImageIO.read(new File("Icons\\unshuffle.png")));
         shuffle = new ProButton(shuffleIc);
-        liked =  new ImageIcon();
-        liked.setImage(ImageIO.read(new File("Icons\\liked.png")));
+        shuffle.addActionListener(new Mousehandler());
+        repeat =  new ImageIcon();
+        repeat.setImage(ImageIO.read(new File("Icons\\repeat.png")));
         volumeOn = new ImageIcon();
         volumeOn.setImage(ImageIO.read(new File("Icons\\sound.png")));
+        mute = new ImageIcon();
+        mute.setImage(ImageIO.read(new File("Icons\\mute.png")));
         muter = new ProButton(volumeOn);
+        muter.addActionListener(new Mousehandler());
+
 
         playb.setPreferredSize(new Dimension(28,28));
         nextb.setPreferredSize(new Dimension(28,28));
         backb.setPreferredSize(new Dimension(28,28));
         shuffle.setPreferredSize(new Dimension(28,28));
-        unliked.setPreferredSize(new Dimension(28,28));
+        unrepeat.setPreferredSize(new Dimension(28,28));
         muter.setPreferredSize(new Dimension(28,28));
 
         songInformation = new JPanel();
@@ -94,55 +103,51 @@ public class MusicBox extends JPanel  {
         songSetter.getSlider().setValue(0);
         this.setLayout(new BorderLayout());
         center.add(shuffle, FlowLayout.LEFT );
-        center.add(unliked, FlowLayout.CENTER);
+        center.add(unrepeat, FlowLayout.CENTER);
         center.add( nextb , FlowLayout.LEFT,1);
         center.add( playb, FlowLayout.CENTER, 1);
         center.add(backb , FlowLayout.CENTER , 1);
         this.add(center ,BorderLayout.CENTER);
         this.add(volumeSet, BorderLayout.EAST);
-        this.add(auxPanel , BorderLayout.NORTH);
+        this.add(auxPanel , BorderLayout.SOUTH);
 
 
 
-        playb.addMouseListener(new Mousehandler());
-        unliked.addMouseListener(new Mousehandler());
+        playb.addActionListener(new Mousehandler());
+        unrepeat.addActionListener(new Mousehandler());
 
 
     }
-    private class Mousehandler extends MouseAdapter {
+    private class Mousehandler implements ActionListener {
+
+
         @Override
-        public void mouseClicked(MouseEvent e) {
-            if(e.getSource()==unliked) {
-                if (e.getClickCount() % 2 == 0)
-                    unliked.setIcon(ulikedI);
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource()==unrepeat){
+                if (unrepeat.getIcon().equals(unrepeatI))
+                    unrepeat.setIcon(repeat);
                 else
-                    unliked.setIcon(liked);
+                    unrepeat.setIcon(unrepeatI);
             }
             if (e.getSource() == playb){
-                if(e.getClickCount() % 2==0)
+                if(playb.getIcon().equals(stopI))
                     playb.setIcon(playI);
                 else
                     playb.setIcon(stopI);
             }
-
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            if(e.getSource()==unliked) {
-                if (e.getClickCount() % 2 == 0)
-                    unliked.setIcon(ulikedI);
+            if (e.getSource()==muter){
+                if(muter.getIcon().equals(mute))
+                    muter.setIcon(volumeOn);
                 else
-                    unliked.setIcon(liked);
+                    muter.setIcon(mute);
             }
-            if (e.getSource() == playb){
-                if(e.getClickCount() % 2==0)
-                    playb.setIcon(playI);
+            if (e.getSource() == shuffle){
+                if(shuffle.getIcon().equals(unShuffle))
+                    shuffle.setIcon(shuffleIc);
                 else
-                    playb.setIcon(stopI);
+                    shuffle.setIcon(unShuffle);
             }
         }
-
     }
 
     public JPanel getSongInformation() {

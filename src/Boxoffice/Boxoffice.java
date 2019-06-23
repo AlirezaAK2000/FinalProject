@@ -97,6 +97,8 @@ public class Boxoffice extends JPanel {
                         e1.printStackTrace();
                     } catch (JavaLayerException e1) {
                         e1.printStackTrace();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
                     }
                 }
 

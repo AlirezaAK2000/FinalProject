@@ -41,7 +41,7 @@ public class Song {
 
 
     }
-    public Song(File file) throws FileNotFoundException, JavaLayerException {
+    public Song(File file) throws IOException, JavaLayerException {
         playTheread=new Thread();
         this.file = file;
         advancedPlayer=new AdvancedPlayer(new FileInputStream(file));
@@ -52,7 +52,12 @@ public class Song {
                 pause =playbackEvent.getFrame();
             }
         });
-        this.fileName = file.getName();
+        fileName = file.getName();
+        findTags=new FindTags(fileName);
+        artist=findTags.getArtist();
+        album=findTags.getAlbum();
+        title=findTags.getTitle();
+        track=findTags.getTrack();
 
     }
     public void continuee() throws FileNotFoundException, JavaLayerException {
