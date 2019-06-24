@@ -9,7 +9,6 @@ import Tools.SliderDemoSkin;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
-import org.farng.mp3.TagException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -100,11 +99,13 @@ public class SongPanels extends JPanel implements Serializable , Adder {
             @Override
             public void mouseEntered(MouseEvent e) {
                 setBackground(Color.darkGray);
+                songPanel.getParent().repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 setBackground(Color.BLACK);
+                songPanel.getParent().repaint();
             }
 
             @Override
@@ -162,6 +163,7 @@ public class SongPanels extends JPanel implements Serializable , Adder {
 
     }
 
+
     public void removeSong(Component comp) {
         songPanelList.remove(comp);
         remove(comp);
@@ -194,13 +196,12 @@ public class SongPanels extends JPanel implements Serializable , Adder {
                 myMusicBox.setSongPanels(SongPanels.this);
                 myMusicBox.setSongPanel(songPanel);
                 myMusicBox.getSlider().addMouseListener(new SliderListener(myMusicBox.getSlider(), myMusicBox, songPanel.getSong()));
+
             } catch (UnsupportedTagException e1) {
                 e1.printStackTrace();
             } catch (InvalidDataException e1) {
                 e1.printStackTrace();
             } catch (IOException e1) {
-                e1.printStackTrace();
-            } catch (TagException e1) {
                 e1.printStackTrace();
             }
             myMusicBox.getPlayb().addActionListener(new PlaybListener(songPanel.getSong(), myMusicBox));
@@ -224,7 +225,7 @@ public class SongPanels extends JPanel implements Serializable , Adder {
             private Song song;
             private Integer position;
 
-            public SliderListener(ProSlider slider, MusicBox musicBox, Song song) throws UnsupportedTagException, InvalidDataException, IOException, TagException {
+            public SliderListener(ProSlider slider, MusicBox musicBox, Song song) throws UnsupportedTagException, InvalidDataException, IOException{
                 this.slider = slider;
                 this.musicBox = musicBox;
                 this.song = song;
@@ -327,8 +328,6 @@ public class SongPanels extends JPanel implements Serializable , Adder {
                     } catch (InvalidDataException e1) {
                         e1.printStackTrace();
                     } catch (IOException e1) {
-                        e1.printStackTrace();
-                    } catch (TagException e1) {
                         e1.printStackTrace();
                     }
                     musicBox.getSlider().setValue(0);
