@@ -224,10 +224,8 @@ public class MusicBox extends JPanel  {
                     if(move){
                         slider.setValue(position.getValue());
 
-
                     }
                     position.setValue(position.getValue()+1);
-                    SwingUtilities.updateComponentTreeUI(slider);
                 }
             } catch (AWTException e) {
                 e.printStackTrace();

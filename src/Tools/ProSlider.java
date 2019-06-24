@@ -12,6 +12,7 @@ public class ProSlider extends JSlider {
     public ProSlider() {
         super(0,100,100);
         position=new Integer(0);
+        setMaximum(1000000);
         setMinimum(0);
         this.addMouseListener(new MouseAdapter() {
             @Override
