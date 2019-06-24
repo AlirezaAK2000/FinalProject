@@ -69,7 +69,11 @@ public class SongPanels extends JPanel implements Serializable , Adder {
         headPanel.add(album);
 
         songPanelList = new ArrayList<>();
-        originalImage = ImageIO.read(new File(address));
+        try {
+            originalImage = ImageIO.read(new File(address));
+        }catch (IOException e){
+            originalImage = ImageIO.read(new File("backgrounds\\center6.jpg"));
+        }
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(Box.createVerticalStrut(5));
         this.add(headPanel);

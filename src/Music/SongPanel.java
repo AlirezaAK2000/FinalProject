@@ -124,39 +124,30 @@ public class SongPanel extends JPanel implements Serializable {
     public boolean isAddedToRecently() {
         return addedToRecently;
     }
-
     public void setAlbumText(String albumText) {
         album.setText(albumText);
     }
-
     public void setTitleText(String titleText) {
         title.setText(titleText);
     }
-
     public void setSong(Song song) {
         this.song = song;
     }
-
     public Song getSong() {
         return song;
     }
-
     public ProButton getLiker() {
         return liker;
     }
-
     public ImageIcon getLiked() {
         return liked;
     }
-
     public ImageIcon getUnliked() {
         return unliked;
     }
-
     public void setAddedToRecently(boolean addedToRecently) {
         this.addedToRecently = addedToRecently;
     }
-
     public Boxoffice getBoxoffice() {
         return boxoffice;
     }

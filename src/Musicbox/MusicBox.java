@@ -117,8 +117,6 @@ public class MusicBox extends JPanel  {
         titleLabel.setFont(new Font("serif" , Font.BOLD , 15));
         artistLabel.setFont(new Font("serif" , Font.BOLD , 15));
 
-
-
         songSetter = new SliderDemoSkin();
         songSetter.getSlider().setPreferredSize(new Dimension(600 , 15));
         songSetter.setPreferredSize(new Dimension(600 , 10));

@@ -6,6 +6,8 @@ import Music.SongPanel;
 import Music.SongPanels;
 import Runners.GeneralManager;
 import Tools.Background;
+import Tools.BigPanel;
+import Tools.BigPanelContainer;
 import Tools.ProButton;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
@@ -62,10 +64,12 @@ public class Boxoffice extends JPanel {
     private ProButton buttonClicked;
     private Background artwork;
     private JPanel menubar;
+    private BigPanelContainer albumsContain;
     public Boxoffice(Center center) throws IOException {
         super();
         b = this;
         this.center = center;
+        albumsContain = new BigPanelContainer(Background.toBufferedImage(ImageIO.read(new File("backgrounds\\center7.jpg"))));
         recentlyList = new SongPanels("backgrounds\\center.png" , center.getMusicBox()){
           @Override
           public void addSong(SongPanel songPanel){
@@ -140,6 +144,11 @@ public class Boxoffice extends JPanel {
 
                     try {
                         SongPanel songPanel = new SongPanel(new Song(selectedFile));
+
+                        BufferedImage b = Background.toBufferedImage(songPanel.getSong().getArtWork().getImage());
+                        if(b ==null)
+                            b= ImageIO.read(new File("backgrounds\\center6.jpg"));
+                        albumsContain.addBigPanel(new BigPanel(b , songPanel , center.getMusicBox() , center));
                         songRepository.addSong(songPanel);
                         songRepository.repaintList();
                         songPanel.getLiker().addActionListener(new ActionListener() {
@@ -199,7 +208,6 @@ public class Boxoffice extends JPanel {
 
                             }
                         });
-
                     } catch (FileNotFoundException e1) {
                         e1.printStackTrace();
                     } catch (JavaLayerException e1) {
@@ -210,6 +218,8 @@ public class Boxoffice extends JPanel {
                         e1.printStackTrace();
                     } catch (UnsupportedTagException e1) {
                         e1.printStackTrace();
+                    }catch (NullPointerException e1){
+
                     }
                 }
 
@@ -299,6 +309,14 @@ public class Boxoffice extends JPanel {
         albums.setForeground(Color.white);
         albums.setBackground(Color.darkGray);
         albums.addMouseListener(new Bolder());
+        albums.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                center.setMain(albumsContain);
+                albumsContain.repaintList();
+                buttonClicked = albums;
+            }
+        });
         menubar.add(albums);
         artist = new ProButton("Artist");
         artist.setFont(pubFont);
