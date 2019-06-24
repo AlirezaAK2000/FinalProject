@@ -58,6 +58,8 @@ public class Boxoffice extends JPanel {
     private SongPanels favorite;
     private SongPanels recentlyList;
     private ProButton buttonClicked;
+    private JLabel artwork;
+    private JPanel menubar;
     public Boxoffice(Center center) throws IOException {
         super();
         b = this;
@@ -95,8 +97,11 @@ public class Boxoffice extends JPanel {
         songRepository = new SongPanels( "backgrounds\\center5.jpg" ,center.getMusicBox());
         favorite = new SongPanels("backgrounds\\center3.jpg" , center.getMusicBox());
         playlists = new ArrayList<>();
+        menubar = new JPanel();
         this.setBackground(Color.darkGray);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new BorderLayout());
+        menubar.setLayout(new BoxLayout(menubar, BoxLayout.Y_AXIS));
+        menubar.setBackground(Color.BLACK);
         tools = new ProButton("...");
         tools.addMouseListener(new MouseAdapter() {
             @Override
@@ -230,18 +235,18 @@ public class Boxoffice extends JPanel {
                 }
             }
         });
-        this.add(home);
+        menubar.add(home);
         browse = new ProButton("Browse");
         browse.setForeground(Color.white);
         browse.setBackground(Color.darkGray);
         browse.setFont(pubFont);
         browse.addMouseListener(new Bolder());
-        this.add(browse);
+        menubar.add(browse);
         sep = new JLabel("Library");
         sep.setFont(headFont);
         sep.setForeground(Color.white);
         sep.setBackground(Color.DARK_GRAY);
-        this.add(sep);
+        menubar.add(sep);
         recently = new ProButton("Recently");
         recently.setFont(pubFont);
         recently.setForeground(Color.white);
@@ -255,7 +260,7 @@ public class Boxoffice extends JPanel {
                 buttonClicked = recently;
             }
         });
-        this.add(recently);
+        menubar.add(recently);
         favorites = new ProButton("Favorites");
         favorites.setFont(pubFont);
         favorites.setForeground(Color.white);
@@ -269,25 +274,25 @@ public class Boxoffice extends JPanel {
                 buttonClicked = favorites;
             }
         });
-        this.add(favorites);
+        menubar.add(favorites);
         sharedPlaylist = new ProButton("Shared PlayList");
         sharedPlaylist.setFont(pubFont);
         sharedPlaylist.setForeground(Color.white);
         sharedPlaylist.setBackground(Color.darkGray);
         sharedPlaylist.addMouseListener(new Bolder());
-        this.add(sharedPlaylist);
+        menubar.add(sharedPlaylist);
         albums = new ProButton("Album");
         albums.setFont(pubFont);
         albums.setForeground(Color.white);
         albums.setBackground(Color.darkGray);
         albums.addMouseListener(new Bolder());
-        this.add(albums);
+        menubar.add(albums);
         artist = new ProButton("Artist");
         artist.setFont(pubFont);
         artist.setForeground(Color.white);
         artist.setBackground(Color.darkGray);
         artist.addMouseListener(new Bolder());
-        this.add(artist);
+        menubar.add(artist);
         songs = new ProButton("Songs");
         songs.setFont(pubFont);
         songs.setForeground(Color.white);
@@ -301,19 +306,19 @@ public class Boxoffice extends JPanel {
                 buttonClicked = songs;
             }
         });
-        this.add(songs);
+        menubar.add(songs);
         videos = new ProButton("Videos");
         videos.setFont(pubFont);
         videos.setForeground(Color.white);
         videos.setBackground(Color.darkGray);
         videos.addMouseListener(new Bolder());
-        this.add(videos);
+        menubar.add(videos);
         podcast = new ProButton("Podcasts");
         podcast.setFont(pubFont);
         podcast.setForeground(Color.white);
         podcast.setBackground(Color.darkGray);
         podcast.addMouseListener(new Bolder());
-        this.add(podcast);
+        menubar.add(podcast);
         playListLabel = new JLabel("Playlist");
         playListLabel.setFont(headFont);
         playListLabel.setBackground(Color.DARK_GRAY);
@@ -324,10 +329,17 @@ public class Boxoffice extends JPanel {
         addPlaylist.setForeground(Color.white);
         addPlaylist.addMouseListener(new Bolder());
         addPlaylist.addActionListener(new AddingPlaylist());
-        this.add(addPlaylist);
-
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
+        menubar.add(addPlaylist);
+        artwork = new JLabel();
+        artwork.setBackground(Color.DARK_GRAY);
+        ImageIcon artworkIcon = new ImageIcon();
+        artworkIcon.setImage(ImageIO.read(new File("backgrounds\\center1.jpg")));
+        artwork.setIcon(artworkIcon);
+        artwork.setPreferredSize(new Dimension(getWidth() , 100));
+        this.add(artwork , BorderLayout.SOUTH);
+        JScrollPane j=new JScrollPane(menubar);
+        j.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        this.add(menubar , BorderLayout.CENTER);
 
         originalImage = ImageIO.read(new File("backgrounds\\left2.jpg"));
         tools.addActionListener(new ActionListener() {
@@ -484,11 +496,3 @@ public class Boxoffice extends JPanel {
     }
 
 }
-
-
-
-
-
-
-
-

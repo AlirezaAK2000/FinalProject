@@ -22,14 +22,13 @@ public class GeneralManager extends JFrame {
         musicBox = new MusicBox();
         center = new Center(musicBox);
         boxoffice = new Boxoffice(center);
-        JScrollPane j=new JScrollPane(boxoffice);
-        j.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
         JScrollPane j1 = new JScrollPane(onlineUsers);
         j1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.setLayout(new BorderLayout());
         this.add(center , BorderLayout.CENTER);
         this.add(j1 , BorderLayout.EAST);
-        this.add(j , BorderLayout.WEST);
+        this.add(boxoffice , BorderLayout.WEST);
         this.add(musicBox , BorderLayout.SOUTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension min = new Dimension(500, 500);
