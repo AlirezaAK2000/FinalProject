@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class PlayListAdder extends JFrame {
     private ProButton cancel;
@@ -81,8 +82,13 @@ public class PlayListAdder extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(prompt.equals("add"))
-            boxoffice.addPlaylist(name.getText());
+            if(prompt.equals("add")) {
+                try {
+                    boxoffice.addPlaylist(name.getText());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
             else
                 boxoffice.editPlayList(name.getText() ,button );
             setVisible(false);

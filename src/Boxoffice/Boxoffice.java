@@ -6,6 +6,8 @@ import Music.SongPanel;
 import Music.SongPanels;
 import Runners.GeneralManager;
 import Tools.Background;
+import Tools.BigPanel;
+import Tools.BigPanelContainer;
 import Tools.ProButton;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
@@ -24,8 +26,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.PrivateKey;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 public class Boxoffice extends JPanel {
@@ -49,11 +50,9 @@ public class Boxoffice extends JPanel {
     private JLabel playListLabel;
     private BufferedImage originalImage;
     private BufferedImage scaledImage;
-    private ArrayList<ProButton> playlists;
+    private HashSet<ProButton> playlists;
+    private HashMap<String , ProButton> playlistnames;
     private Boxoffice b;
-    private JList<ProButton> playList;
-    private DefaultListModel<ProButton> playListModel;
-    private int count;
     private JFileChooser JfileChooser;
     private SongPanels songRepository;
     private Center center;
@@ -62,10 +61,16 @@ public class Boxoffice extends JPanel {
     private ProButton buttonClicked;
     private Background artwork;
     private JPanel menubar;
+    private BufferedImage c;
+    private BigPanelContainer albumsContain;
+    private HashMap<ProButton , SongPanels> playlistspanels;
     public Boxoffice(Center center) throws IOException {
         super();
         b = this;
         this.center = center;
+        playlistnames = new HashMap<>();
+        playlistspanels = new HashMap<>();
+        albumsContain = new BigPanelContainer(Background.toBufferedImage(ImageIO.read(new File("backgrounds\\center7.jpg"))));
         recentlyList = new SongPanels("backgrounds\\center.png" , center.getMusicBox()){
           @Override
           public void addSong(SongPanel songPanel){
@@ -98,7 +103,7 @@ public class Boxoffice extends JPanel {
 
         songRepository = new SongPanels( "backgrounds\\center5.jpg" ,center.getMusicBox());
         favorite = new SongPanels("backgrounds\\center3.jpg" , center.getMusicBox());
-        playlists = new ArrayList<>();
+        playlists = new HashSet<>();
         menubar = new JPanel();
         this.setBackground(Color.darkGray);
         this.setLayout(new BorderLayout());
@@ -126,7 +131,7 @@ public class Boxoffice extends JPanel {
         MenuItem file = new MenuItem("File");
         file.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e2) {
               JfileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
                 File selectedFile;
                 int returnValue = JfileChooser.showOpenDialog(null);
@@ -134,82 +139,88 @@ public class Boxoffice extends JPanel {
 
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     selectedFile = JfileChooser.getSelectedFile();
-                    if(selectedFile == null)
-                        System.out.println("null");
+                    if(selectedFile != null) {
 
+                        try {
+                            SongPanel songPanel = new SongPanel(new Song(selectedFile));
+                            try {
 
-                    try {
-                        SongPanel songPanel = new SongPanel(new Song(selectedFile));
-                        songRepository.addSong(songPanel);
-                        songRepository.repaintList();
-                        songPanel.getLiker().addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                if(songPanel.getLiker().getIcon().equals(songPanel.getUnliked())) {
-                                    songPanel.getLiker().setIcon(songPanel.getUnliked());
-                                    favorite.addSong(songPanel);
-                                    if (buttonClicked.equals(recently))
-                                        recentlyList.repaintList();
-                                    if (buttonClicked.equals(songs))
-                                        songRepository.repaint();
-                                    if (buttonClicked.equals(favorites))
-                                        favorite.repaintList();
-                                }
-                                else {
-                                    songPanel.getLiker().setIcon(songPanel.getLiked());
-
-                                    if (buttonClicked.equals(songs))
-                                        songRepository.repaintList();
-                                    if (buttonClicked.equals(recently))
-                                        recentlyList.repaintList();
-                                    favorite.removeSong(songPanel);
-                                    if (buttonClicked.equals(favorites))
-                                        favorite.repaintList();
-
-                                }
+                                c = Background.toBufferedImage(songPanel.getSong().getArtWork().getImage());
+                            } catch (NullPointerException e) {
+                                c = ImageIO.read(new File("backgrounds\\center6.jpg"));
                             }
-                        });
-                        songPanel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                if (songPanel.isAddedToRecently()==false) {
-                                    recentlyList.addSong(songPanel);
-                                    songPanel.setAddedToRecently(true);
-                                    center.getMusicBox().setInfo(songPanel.getSong().getTitle() , songPanel.getSong().getArtist());
-                                    if (buttonClicked.equals(recently))
-                                        recentlyList.repaintList();
-                                    if (buttonClicked.equals(songs))
-                                        songRepository.repaintList();
-                                    if (buttonClicked.equals(favorites))
-                                        favorite.repaintList();
+                            albumsContain.addBigPanel(new BigPanel(c, songPanel, center.getMusicBox(), center));
+                            songRepository.addSong(songPanel);
+                            songRepository.repaintList();
+                            songPanel.getLiker().addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    if (songPanel.getLiker().getIcon().equals(songPanel.getUnliked())) {
+                                        songPanel.getLiker().setIcon(songPanel.getUnliked());
+                                        favorite.addSong(songPanel);
+                                        if (buttonClicked.equals(recently))
+                                            recentlyList.repaintList();
+                                        if (buttonClicked.equals(songs))
+                                            songRepository.repaint();
+                                        if (buttonClicked.equals(favorites))
+                                            favorite.repaintList();
+                                    } else {
+                                        songPanel.getLiker().setIcon(songPanel.getLiked());
 
-                                    artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
-                                }else {
-                                    recentlyList.removeSong(songPanel);
-                                    recentlyList.addSong(songPanel);
-                                    if (buttonClicked.equals(recently))
-                                        recentlyList.repaintList();
-                                    if (buttonClicked.equals(songs))
-                                        songRepository.repaintList();
-                                    if (buttonClicked.equals(favorites))
-                                        favorite.repaintList();
-                                    artwork.SetBack(songPanel.getSong().getArtWork().getImage());
+                                        if (buttonClicked.equals(songs))
+                                            songRepository.repaintList();
+                                        if (buttonClicked.equals(recently))
+                                            recentlyList.repaintList();
+                                        favorite.removeSong(songPanel);
+                                        if (buttonClicked.equals(favorites))
+                                            favorite.repaintList();
+
+                                    }
                                 }
+                            });
+                            songPanel.addMouseListener(new MouseAdapter() {
+                                @Override
+                                public void mouseClicked(MouseEvent e) {
+                                    if (songPanel.isAddedToRecently() == false) {
+                                        recentlyList.addSong(songPanel);
+                                        songPanel.setAddedToRecently(true);
+                                        center.getMusicBox().setInfo(songPanel.getSong().getTitle(), songPanel.getSong().getArtist());
+                                        if (buttonClicked.equals(recently))
+                                            recentlyList.repaintList();
+                                        if (buttonClicked.equals(songs))
+                                            songRepository.repaintList();
+                                        if (buttonClicked.equals(favorites))
+                                            favorite.repaintList();
+
+                                        artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
+                                    } else {
+                                        recentlyList.removeSong(songPanel);
+                                        recentlyList.addSong(songPanel);
+                                        if (buttonClicked.equals(recently))
+                                            recentlyList.repaintList();
+                                        if (buttonClicked.equals(songs))
+                                            songRepository.repaintList();
+                                        if (buttonClicked.equals(favorites))
+                                            favorite.repaintList();
+                                        artwork.SetBack(songPanel.getSong().getArtWork().getImage());
+                                    }
 
 
-                            }
-                        });
-
-                    } catch (FileNotFoundException e1) {
-                        e1.printStackTrace();
-                    } catch (JavaLayerException e1) {
-                        e1.printStackTrace();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    } catch (InvalidDataException e1) {
-                        e1.printStackTrace();
-                    } catch (UnsupportedTagException e1) {
-                        e1.printStackTrace();
+                                }
+                            });
+                        } catch (FileNotFoundException e1) {
+                            System.out.println("1");
+                        } catch (JavaLayerException e1) {
+                            System.out.println("2");
+                        } catch (IOException e1) {
+                            System.out.println(3);
+                        } catch (InvalidDataException e1) {
+                            System.out.println(4);
+                        } catch (UnsupportedTagException e1) {
+                            System.out.println(5);
+                        } catch (NullPointerException e1) {
+                            System.out.println(6);
+                        }
                     }
                 }
 
@@ -299,6 +310,14 @@ public class Boxoffice extends JPanel {
         albums.setForeground(Color.white);
         albums.setBackground(Color.darkGray);
         albums.addMouseListener(new Bolder());
+        albums.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                center.setMain(albumsContain);
+                albumsContain.repaintList();
+                buttonClicked = albums;
+            }
+        });
         menubar.add(albums);
         artist = new ProButton("Artist");
         artist.setFont(pubFont);
@@ -427,13 +446,24 @@ public class Boxoffice extends JPanel {
         }
     }
 
-    public void addPlaylist(String name) {
+    public void addPlaylist(String name) throws IOException {
         ProButton playlist = new ProButton(name);
         playlist.setFont(pubFont);
         playlist.setBackground(Color.darkGray);
         playlist.setForeground(Color.white);
         playlist.addMouseListener(new Bolder());
         playlist.addMouseListener(new RemoveListener(playlists , playlist));
+        SongPanels songPanels = new SongPanels("backgrounds\\center9.jpg" , center.getMusicBox());
+        playlistspanels.put(playlist , songPanels);
+        playlistnames.put(name , playlist);
+        playlist.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                center.setMain(songPanels);
+                songPanels.repaintList();
+                buttonClicked = playlist;
+            }
+        });
         playlists.add(playlist);
         menubar.add(playlist);
         menubar.revalidate();
@@ -445,17 +475,15 @@ public class Boxoffice extends JPanel {
         this.repaint();
     }
 
-    public ArrayList<ProButton> getPlaylists() {
-        return playlists;
-    }
+
 
     public ProButton getTools() {
         return tools;
     }
     private class RemoveListener extends MouseAdapter{
         private ProButton button;
-        private ArrayList<ProButton> buttons;
-        public RemoveListener(ArrayList<ProButton> playlists, ProButton button) {
+        private HashSet<ProButton> buttons;
+        public RemoveListener(HashSet<ProButton> playlists, ProButton button) {
             super();
             this.button=button;
             buttons= playlists;
