@@ -187,18 +187,16 @@ public class SongPanels extends JPanel implements Serializable , Adder {
         @Override
         public void mouseClicked(MouseEvent e) {
             try {
-                if (playTheread!= null ) {
+                if (playTheread!= null) {
                     playTheread.stop();
-
                 }
-                if(musicBox.getSongPanel()!=null)
-                    musicBox.getSongPanel().setBackground(Color.BLACK);
-                songPanel.setBackground(new Color(0x2A7314));
-
+                myMusicBox.getSongPanel().setBackground(Color.BLACK);
                 musicBox.getSlider().setValue(0);
                 musicBox.setMove(true);
                 myMusicBox.setSongPanels(SongPanels.this);
                 myMusicBox.setSongPanel(songPanel);
+                songPanel.setBackground(new Color(0x308320));
+                myMusicBox.getSlider().setMaximum(songPanel.getSong().getSize());
                 myMusicBox.getSlider().addMouseListener(new SliderListener(myMusicBox.getSlider(), myMusicBox, songPanel.getSong()));
 
             } catch (UnsupportedTagException e1) {
