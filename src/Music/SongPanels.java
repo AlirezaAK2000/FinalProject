@@ -154,8 +154,8 @@ public class SongPanels extends JPanel implements Serializable {
         @Override
         public void mouseClicked(MouseEvent e) {
             try {
-                if(musicBox.getPlayThread()!=null)
-                      musicBox.getPlayThread().stop();
+                if(musicBox.getPlayThread()!=null){
+                      musicBox.getPlayThread().stop();}
 
                 musicBox.getSlider().setValue(0);
                 musicBox.setMove(true);

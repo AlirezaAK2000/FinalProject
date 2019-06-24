@@ -119,7 +119,6 @@ public class Song {
             playTheread.start();
         }
         else if(playTheread==null){
-            System.out.println("sd");
                pause=place;
         }
     }
