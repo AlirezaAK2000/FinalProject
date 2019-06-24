@@ -175,6 +175,7 @@ public class Boxoffice extends JPanel {
                                 if (songPanel.isAddedToRecently()==false) {
                                     recentlyList.addSong(songPanel);
                                     songPanel.setAddedToRecently(true);
+                                    center.getMusicBox().setInfo(songPanel.getSong().getTitle() , songPanel.getSong().getArtist());
                                     if (buttonClicked.equals(recently))
                                         recentlyList.repaintList();
                                     if (buttonClicked.equals(songs))
