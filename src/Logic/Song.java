@@ -9,6 +9,7 @@ import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
 
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,10 +24,11 @@ public class Song {
     private String album;
     private String  title;
     private  String track;
+    private ImageIcon artWork;
     private File file;
     public static Thread playTheread;
 
-    public Song(String fileName) throws IOException, JavaLayerException {
+    public Song(String fileName) throws IOException, JavaLayerException, TagException, InvalidDataException, UnsupportedTagException {
         playTheread=new Thread();
         advancedPlayer=new AdvancedPlayer(new FileInputStream(fileName));
         advancedPlayer.setPlayBackListener(new PlaybackListener() {
@@ -42,10 +44,13 @@ public class Song {
         album=findTags.getAlbum();
         title=findTags.getTitle();
         track=findTags.getTrack();
+        Mp3File mp3File=new Mp3File(fileName);
+        artWork=new ImageIcon(mp3File.getId3v2Tag().getAlbumImage());
+
 
 
     }
-    public Song(File file) throws IOException, JavaLayerException {
+    public Song(File file) throws IOException, JavaLayerException, InvalidDataException, UnsupportedTagException {
         playTheread=new Thread();
         this.file = file;
         fileName=file.getPath();
@@ -63,6 +68,8 @@ public class Song {
         album=findTags.getAlbum();
         title=findTags.getTitle();
         track=findTags.getTrack();
+        Mp3File mp3File=new Mp3File(file.getPath());
+        artWork=new ImageIcon(mp3File.getId3v2Tag().getAlbumImage());
 
     }
     public void continuee() throws FileNotFoundException, JavaLayerException {
@@ -153,6 +160,10 @@ public class Song {
 
     public String getArtist() {
         return artist;
+    }
+
+    public ImageIcon getArtWork() {
+        return artWork;
     }
 
     public FindTags getFindTags() {

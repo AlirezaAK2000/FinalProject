@@ -7,6 +7,8 @@ import Music.SongPanels;
 import Runners.GeneralManager;
 import Tools.Background;
 import Tools.ProButton;
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.decoder.Manager;
 
@@ -191,6 +193,10 @@ public class Boxoffice extends JPanel {
                     } catch (JavaLayerException e1) {
                         e1.printStackTrace();
                     } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (InvalidDataException e1) {
+                        e1.printStackTrace();
+                    } catch (UnsupportedTagException e1) {
                         e1.printStackTrace();
                     }
                 }

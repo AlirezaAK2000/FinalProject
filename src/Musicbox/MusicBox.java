@@ -16,6 +16,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class MusicBox extends JPanel  {
@@ -238,4 +239,7 @@ public class MusicBox extends JPanel  {
     public void setMove(boolean move) {
         this.move = move;
     }
+    //****************************************************************************
+    //****************************************************************************
+
 }
