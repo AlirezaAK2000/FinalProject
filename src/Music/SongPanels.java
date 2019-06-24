@@ -166,7 +166,7 @@ public class SongPanels extends JPanel implements Serializable , Adder {
 
     public void removeSong(Component comp) {
         songPanelList.remove(comp);
-        remove(comp);
+        this.remove(comp);
     }
 
 

@@ -46,6 +46,9 @@ public class MusicBox extends JPanel  {
     private ImageIcon unShuffle;
     private SongPanels songPanels;
     private SongPanel songPanel;
+    private JPanel infoMusic;
+    private JLabel artistLabel;
+    private JLabel titleLabel;
     private Thread playThread;
     private Thread moveSliderThread;
     private boolean move;
@@ -94,10 +97,6 @@ public class MusicBox extends JPanel  {
         unrepeat.setPreferredSize(new Dimension(28,28));
         muter.setPreferredSize(new Dimension(28,28));
 
-        songInformation = new JPanel();
-        songInformation.setLayout(new BoxLayout(songInformation, BoxLayout.Y_AXIS));
-        songName = new JLabel();
-
         volumeSet = new SliderDemoSkin();
         volumeSet.remove(volumeSet.getSlider());
         volumeSet.setLayout(new FlowLayout());
@@ -107,12 +106,24 @@ public class MusicBox extends JPanel  {
         volumeSet.getSlider().setPreferredSize(new Dimension(100 , 15));
         volumeSet.getSlider().setValue(50);
 
+        artistLabel = new JLabel();
+        titleLabel = new JLabel();
+        infoMusic = new JPanel();
+        infoMusic.setLayout(new BoxLayout(infoMusic , BoxLayout.Y_AXIS));
+        infoMusic.add(titleLabel);
+        infoMusic.add(artistLabel);
+        infoMusic.setBackground(Color.WHITE);
+        infoMusic.setMaximumSize(new Dimension(200 , 20));
+        titleLabel.setFont(new Font("serif" , Font.BOLD , 15));
+        artistLabel.setFont(new Font("serif" , Font.BOLD , 15));
+
+
 
         songSetter = new SliderDemoSkin();
         songSetter.getSlider().setPreferredSize(new Dimension(600 , 15));
         songSetter.setPreferredSize(new Dimension(600 , 10));
         auxPanel.add(songSetter.getSlider());
-        auxPanel.setBackground(new Color(245,245,245));
+        auxPanel.setBackground(Color.WHITE);
         songSetter.getSlider().setValue(0);
         this.setLayout(new BorderLayout());
         center.add(shuffle, FlowLayout.LEFT );
@@ -120,12 +131,12 @@ public class MusicBox extends JPanel  {
         center.add( nextb , FlowLayout.LEFT,1);
         center.add( playb, FlowLayout.CENTER, 1);
         center.add(backb , FlowLayout.CENTER , 1);
+
         this.add(new JLabel(""),BorderLayout.WEST);
         this.add(center ,BorderLayout.CENTER);
         this.add(volumeSet, BorderLayout.EAST);
         this.add(auxPanel , BorderLayout.NORTH);
-
-
+        this.add(infoMusic , BorderLayout.WEST);
 
         playb.addActionListener(new Mousehandler());
         unrepeat.addActionListener(new Mousehandler());
@@ -232,6 +243,11 @@ public class MusicBox extends JPanel  {
             }
 
         }
+    }
+
+    public void setInfo(String title , String artist){
+        artistLabel.setText(artist);
+        titleLabel.setText(title);
     }
 
     public void setMove(boolean move) {

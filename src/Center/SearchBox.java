@@ -21,28 +21,9 @@ public class SearchBox extends JPanel {
     private JTextField searcher;
     private BufferedImage originalImage;
     private BufferedImage scaledImage;
-
     public SearchBox() throws IOException {
-        searcher = new JTextField("Search") {
-            @Override
-            protected void paintComponent(Graphics g) {
-                if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-                    Graphics2D g2 = (Graphics2D) g.create();
-                    g2.setPaint(getBackground());
-                    g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-                            0, 0, getWidth() - 1, getHeight() - 1));
-                    g2.dispose();
-                }
-                super.paintComponent(g);
-            }
-
-            @Override
-            public void updateUI() {
-                super.updateUI();
-                setOpaque(false);
-                setBorder(new RoundedCornerBorder());
-            }
-        };
+        searcher = new JTextField("Search");
+        searcher.setBackground(Color.GRAY);
         searcher.setPreferredSize(new Dimension(250, 30));
         searcher.setEditable(true);
 

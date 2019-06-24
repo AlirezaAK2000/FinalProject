@@ -7,7 +7,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 
 public class Background extends JPanel {
     private BufferedImage originalImage;
@@ -15,6 +14,7 @@ public class Background extends JPanel {
     public Background(BufferedImage originalImage){
         this.originalImage = originalImage;
     }
+    @Override
     public void paintComponent(Graphics g) {
         double widthScaleFactor = getParent().getWidth() / (double)originalImage.getWidth();
         double heightScaleFactor = getParent().getHeight() / (double)originalImage.getHeight();
@@ -26,7 +26,7 @@ public class Background extends JPanel {
         scaledImage = scaleOp.filter(originalImage, null);
 
 
-        g.drawImage(scaledImage, 0, 0,null);
+        g.drawImage(scaledImage, 0, 0,getWidth() , getHeight(),null);
         addComponentListener(new ResizerListener());
     }
 
@@ -45,6 +45,29 @@ public class Background extends JPanel {
 
             repaint();
         }
+    }
+
+    public void SetBack(Image image){
+        originalImage = toBufferedImage(image);
+        repaint();
+    }
+    public static BufferedImage toBufferedImage(Image img)
+    {
+        if (img instanceof BufferedImage)
+        {
+            return (BufferedImage) img;
+        }
+
+        // Create a buffered image with transparency
+        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+        // Draw the image on to the buffered image
+        Graphics2D bGr = bimage.createGraphics();
+        bGr.drawImage(img, 0, 0, null);
+        bGr.dispose();
+
+        // Return the buffered image
+        return bimage;
     }
 
 
