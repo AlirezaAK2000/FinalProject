@@ -60,7 +60,7 @@ public class Boxoffice extends JPanel {
     private SongPanels favorite;
     private SongPanels recentlyList;
     private ProButton buttonClicked;
-    private JLabel artwork;
+    private Background artwork;
     private JPanel menubar;
     public Boxoffice(Center center) throws IOException {
         super();
@@ -180,6 +180,8 @@ public class Boxoffice extends JPanel {
                                         songRepository.repaintList();
                                     if (buttonClicked.equals(favorites))
                                         favorite.repaintList();
+
+                                    artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
                                 }else
                                     recentlyList.removeSong(songPanel);
                                     recentlyList.addSong(songPanel);
@@ -189,6 +191,8 @@ public class Boxoffice extends JPanel {
                                     songRepository.repaintList();
                                 if (buttonClicked.equals(favorites))
                                     favorite.repaintList();
+                                artwork.SetBack(songPanel.getSong().getArtWork().getImage());
+
 
                             }
                         });
@@ -336,16 +340,14 @@ public class Boxoffice extends JPanel {
         addPlaylist.addMouseListener(new Bolder());
         addPlaylist.addActionListener(new AddingPlaylist());
         menubar.add(addPlaylist);
-        artwork = new JLabel();
+        BufferedImage b = ImageIO.read(new File("backgrounds\\center6.jpg"));
+        artwork = new Background(b);
         artwork.setBackground(Color.DARK_GRAY);
-        ImageIcon artworkIcon = new ImageIcon();
-        artworkIcon.setImage(ImageIO.read(new File("backgrounds\\center1.jpg")));
-        artwork.setIcon(artworkIcon);
-        artwork.setPreferredSize(new Dimension(getWidth() , 100));
+        artwork.setPreferredSize(new Dimension(getWidth() , 200));
         this.add(artwork , BorderLayout.SOUTH);
         JScrollPane j=new JScrollPane(menubar);
         j.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        this.add(menubar , BorderLayout.CENTER);
+        this.add(j , BorderLayout.CENTER);
 
         originalImage = ImageIO.read(new File("backgrounds\\left2.jpg"));
         tools.addActionListener(new ActionListener() {
@@ -430,9 +432,9 @@ public class Boxoffice extends JPanel {
         playlist.addMouseListener(new Bolder());
         playlist.addMouseListener(new RemoveListener(playlists , playlist));
         playlists.add(playlist);
-        this.add(playlist);
-        this.revalidate();
-        this.repaint();
+        menubar.add(playlist);
+        menubar.revalidate();
+        menubar.repaint();
     }
     public void editPlayList(String name , ProButton button){
         button.setText(name);

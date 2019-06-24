@@ -68,7 +68,12 @@ public class Song {
         title=findTags.getTitle();
         track=findTags.getTrack();
         Mp3File mp3File=new Mp3File(file.getPath());
-        artWork=new ImageIcon(mp3File.getId3v2Tag().getAlbumImage());
+        try {
+            artWork = new ImageIcon(mp3File.getId3v2Tag().getAlbumImage());
+        }
+        catch (NullPointerException e){
+            System.out.println("no artwork");
+        }
 
     }
     public void continuee() throws FileNotFoundException, JavaLayerException {
