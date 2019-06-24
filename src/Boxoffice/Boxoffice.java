@@ -64,6 +64,7 @@ public class Boxoffice extends JPanel {
     private BufferedImage c;
     private BigPanelContainer albumsContain;
     private HashMap<ProButton , SongPanels> playlistspanels;
+    private Thread thread;
     public Boxoffice(Center center) throws IOException {
         super();
         b = this;
@@ -180,34 +181,42 @@ public class Boxoffice extends JPanel {
                             });
                             songPanel.addMouseListener(new MouseAdapter() {
                                 @Override
-                                public void mouseClicked(MouseEvent e) {
-                                    if (songPanel.isAddedToRecently() == false) {
-                                        recentlyList.addSong(songPanel);
-                                        songPanel.setAddedToRecently(true);
-                                        center.getMusicBox().setInfo(songPanel.getSong().getTitle(), songPanel.getSong().getArtist());
-                                        if (buttonClicked.equals(recently))
-                                            recentlyList.repaintList();
-                                        if (buttonClicked.equals(songs))
-                                            songRepository.repaintList();
-                                        if (buttonClicked.equals(favorites))
-                                            favorite.repaintList();
+                                public void mouseClicked(MouseEvent e1) {
+                                    if(!e1.isMetaDown()) {
+                                        if (thread != null)
+                                            try {
+                                                Song.playTheread.stop();
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        if (songPanel.isAddedToRecently() == false) {
+                                            recentlyList.addSong(songPanel);
+                                            songPanel.setAddedToRecently(true);
+                                            center.getMusicBox().setInfo(songPanel.getSong().getTitle(), songPanel.getSong().getArtist());
+                                            if (buttonClicked.equals(recently))
+                                                recentlyList.repaintList();
+                                            if (buttonClicked.equals(songs))
+                                                songRepository.repaintList();
+                                            if (buttonClicked.equals(favorites))
+                                                favorite.repaintList();
 
-                                        artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
-                                    } else {
-                                        recentlyList.removeSong(songPanel);
-                                        recentlyList.addSong(songPanel);
-                                        if (buttonClicked.equals(recently))
-                                            recentlyList.repaintList();
-                                        if (buttonClicked.equals(songs))
-                                            songRepository.repaintList();
-                                        if (buttonClicked.equals(favorites))
-                                            favorite.repaintList();
-                                        artwork.SetBack(songPanel.getSong().getArtWork().getImage());
+                                            artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
+                                        } else {
+                                            recentlyList.removeSong(songPanel);
+                                            recentlyList.addSong(songPanel);
+                                            if (buttonClicked.equals(recently))
+                                                recentlyList.repaintList();
+                                            if (buttonClicked.equals(songs))
+                                                songRepository.repaintList();
+                                            if (buttonClicked.equals(favorites))
+                                                favorite.repaintList();
+                                            artwork.SetBack(songPanel.getSong().getArtWork().getImage());
+                                        }
+
                                     }
-
-
                                 }
                             });
+                            songPanel.getAddtoPlaylist().addActionListener(new AddToPlayListFrame(songPanel));
                         } catch (FileNotFoundException e1) {
                             System.out.println("1");
                         } catch (JavaLayerException e1) {
@@ -221,6 +230,7 @@ public class Boxoffice extends JPanel {
                         } catch (NullPointerException e1) {
                             System.out.println(6);
                         }
+
                     }
                 }
 
@@ -380,6 +390,40 @@ public class Boxoffice extends JPanel {
         });
 
 
+    }
+
+    private class AddToPlayListFrame extends JFrame implements ActionListener{
+        private JComboBox<String> namesCombo;
+        private String listName;
+        private SongPanels list;
+        private SongPanel song;
+        private JFrame itSelf;
+        public AddToPlayListFrame(SongPanel song){
+            this.song = song;
+            itSelf = this;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+           String[] names = playlistnames.keySet().toArray(new String[0]);
+           namesCombo = new JComboBox<>(names);
+           namesCombo.addItemListener(new ItemListener() {
+               @Override
+               public void itemStateChanged(ItemEvent e) {
+                   if(e.getStateChange() == ItemEvent.SELECTED){
+                       listName = namesCombo.getItemAt(namesCombo.getSelectedIndex());
+                       list=  playlistspanels.get(playlistnames.get(listName));
+                       list.addSong(song);
+                       itSelf.setVisible(false);
+                   }
+               }
+           });
+           this.setBackground(Color.BLACK);
+           this.add(namesCombo);
+           this.setSize(new Dimension(300 , 80));
+           this.setLocation(300 , 300);
+           this.setVisible(true);
+
+        }
     }
 
 

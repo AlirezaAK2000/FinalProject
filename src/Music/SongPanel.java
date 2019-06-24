@@ -22,6 +22,10 @@ public class SongPanel extends JPanel implements Serializable {
     private Song song;
     private  boolean hasPlayListener;
     private Boxoffice boxoffice;
+    private MenuItem addtoPlaylist;
+    private MenuItem remove;
+    private MenuItem addtoShareList;
+    private PopupMenu adder;
     private boolean addedToRecently = false;
     private boolean hasNextListener=false;
     public SongPanel(Song song){
@@ -76,49 +80,29 @@ public class SongPanel extends JPanel implements Serializable {
         this.add(album);
         this.add(artist);
 
+        addtoPlaylist = new MenuItem("Add to playlist");
+        addtoShareList = new MenuItem("Add to sharelist");
+        remove=  new MenuItem("Remove");
 
+        adder = new PopupMenu();
+        adder.add(addtoPlaylist);
+        adder.add(addtoShareList);
+        adder.add(remove);
+        this.add(adder);
 
-    }
-    public SongPanel(String titleText , String artistText , String albumText)
-    {
-        super();
-        this.setBackground(Color.BLACK);
-        title = new JLabel();
-        title.setBackground(Color.BLACK);
-        title.setForeground(Color.white);
-        title.setFont(new Font("serif" , Font.BOLD ,15));
-        title.setBorder(BorderFactory.createEmptyBorder());
-        artist = new JLabel();
-        artist.setBackground(Color.BLACK);
-        artist.setForeground(Color.white);
-        artist.setFont(new Font("serif" , Font.BOLD ,15));
-        artist.setBorder(BorderFactory.createEmptyBorder());
-        album = new JLabel();
-        album.setBackground(Color.BLACK);
-        album.setForeground(Color.white);
-        album.setFont(new Font("serif" , Font.BOLD ,15));
-        album.setBorder(BorderFactory.createEmptyBorder());
-        album.setText(albumText);
-        title.setText(titleText);
-        artist.setText(artistText);
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setBackground(Color.darkGray);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setBackground(Color.BLACK);
-            }
-
+        SongPanel b = this;
+        this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(liker.isSelected()==true)
-                    System.out.println("is ok");
+                if(e.isMetaDown())
+                    adder.show(b , getParent().getX() , getParent().getY());
             }
         });
+
+    }
+
+    public PopupMenu getAdder() {
+        return adder;
     }
 
     public void setArtistText(String artistText) {
@@ -127,31 +111,24 @@ public class SongPanel extends JPanel implements Serializable {
     public boolean isAddedToRecently() {
         return addedToRecently;
     }
-
     public void setAlbumText(String albumText) {
         album.setText(albumText);
     }
-
     public void setTitleText(String titleText) {
         title.setText(titleText);
     }
-
     public void setSong(Song song) {
         this.song = song;
     }
-
     public Song getSong() {
         return song;
     }
-
     public ProButton getLiker() {
         return liker;
     }
-
     public ImageIcon getLiked() {
         return liked;
     }
-
     public ImageIcon getUnliked() {
         return unliked;
     }
@@ -163,9 +140,19 @@ public class SongPanel extends JPanel implements Serializable {
     public void setAddedToRecently(boolean addedToRecently) {
         this.addedToRecently = addedToRecently;
     }
-
     public Boxoffice getBoxoffice() {
         return boxoffice;
     }
 
+    public MenuItem getAddtoPlaylist() {
+        return addtoPlaylist;
+    }
+
+    public MenuItem getAddtoShareList() {
+        return addtoShareList;
+    }
+
+    public MenuItem getRemove() {
+        return remove;
+    }
 }
