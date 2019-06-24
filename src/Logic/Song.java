@@ -28,7 +28,7 @@ public class Song {
     private File file;
     public static Thread playTheread;
 
-    public Song(String fileName) throws IOException, JavaLayerException, TagException, InvalidDataException, UnsupportedTagException {
+    public Song(String fileName) throws IOException, JavaLayerException, InvalidDataException, UnsupportedTagException {
         playTheread=new Thread();
         advancedPlayer=new AdvancedPlayer(new FileInputStream(fileName));
         advancedPlayer.setPlayBackListener(new PlaybackListener() {
