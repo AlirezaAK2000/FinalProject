@@ -146,8 +146,8 @@ public class Boxoffice extends JPanel {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 if(songPanel.getLiker().getIcon().equals(songPanel.getUnliked())) {
+                                    songPanel.getLiker().setIcon(songPanel.getUnliked());
                                     favorite.addSong(songPanel);
-                                    songPanel.getLiker().setIcon(songPanel.getLiked());
                                     if (buttonClicked.equals(recently))
                                         recentlyList.repaintList();
                                     if (buttonClicked.equals(songs))
@@ -156,15 +156,16 @@ public class Boxoffice extends JPanel {
                                         favorite.repaintList();
                                 }
                                 else {
+                                    songPanel.getLiker().setIcon(songPanel.getLiked());
 
-                                    favorite.removeSong(songPanel);
-                                    songPanel.getLiker().setIcon(songPanel.getUnliked());
-                                    if (buttonClicked.equals(recently))
-                                        recentlyList.repaintList();
                                     if (buttonClicked.equals(songs))
                                         songRepository.repaintList();
+                                    if (buttonClicked.equals(recently))
+                                        recentlyList.repaintList();
+                                    favorite.removeSong(songPanel);
                                     if (buttonClicked.equals(favorites))
                                         favorite.repaintList();
+
                                 }
                             }
                         });
@@ -182,16 +183,17 @@ public class Boxoffice extends JPanel {
                                         favorite.repaintList();
 
                                     artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
-                                }else
+                                }else {
                                     recentlyList.removeSong(songPanel);
                                     recentlyList.addSong(songPanel);
-                                if (buttonClicked.equals(recently))
-                                    recentlyList.repaintList();
-                                if (buttonClicked.equals(songs))
-                                    songRepository.repaintList();
-                                if (buttonClicked.equals(favorites))
-                                    favorite.repaintList();
-                                artwork.SetBack(songPanel.getSong().getArtWork().getImage());
+                                    if (buttonClicked.equals(recently))
+                                        recentlyList.repaintList();
+                                    if (buttonClicked.equals(songs))
+                                        songRepository.repaintList();
+                                    if (buttonClicked.equals(favorites))
+                                        favorite.repaintList();
+                                    artwork.SetBack(songPanel.getSong().getArtWork().getImage());
+                                }
 
 
                             }

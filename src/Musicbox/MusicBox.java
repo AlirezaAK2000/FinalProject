@@ -46,6 +46,9 @@ public class MusicBox extends JPanel  {
     private ImageIcon unShuffle;
     private SongPanels songPanels;
     private SongPanel songPanel;
+    private JPanel infoMusic;
+    private JLabel artistLabel;
+    private JLabel titleLabel;
     private Thread playThread;
     private Thread moveSliderThread;
     private boolean move;
@@ -107,6 +110,12 @@ public class MusicBox extends JPanel  {
         volumeSet.getSlider().setPreferredSize(new Dimension(100 , 15));
         volumeSet.getSlider().setValue(50);
 
+        artistLabel = new JLabel();
+        titleLabel = new JLabel();
+        infoMusic = new JPanel();
+        infoMusic.setLayout(new BoxLayout(infoMusic , BoxLayout.Y_AXIS));
+        infoMusic.add(titleLabel);
+        infoMusic.add(artistLabel);
 
         songSetter = new SliderDemoSkin();
         songSetter.getSlider().setPreferredSize(new Dimension(600 , 15));
@@ -120,12 +129,12 @@ public class MusicBox extends JPanel  {
         center.add( nextb , FlowLayout.LEFT,1);
         center.add( playb, FlowLayout.CENTER, 1);
         center.add(backb , FlowLayout.CENTER , 1);
+
         this.add(new JLabel(""),BorderLayout.WEST);
         this.add(center ,BorderLayout.CENTER);
         this.add(volumeSet, BorderLayout.EAST);
         this.add(auxPanel , BorderLayout.NORTH);
-
-
+        this.add(infoMusic , BorderLayout.WEST);
 
         playb.addActionListener(new Mousehandler());
         unrepeat.addActionListener(new Mousehandler());
@@ -232,6 +241,11 @@ public class MusicBox extends JPanel  {
             }
 
         }
+    }
+
+    public void setInfo(String title , String artist){
+        artistLabel.setText(artist);
+        titleLabel.setText(title);
     }
 
     public void setMove(boolean move) {

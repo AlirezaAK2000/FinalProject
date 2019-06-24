@@ -66,19 +66,4 @@ public class OvalBorder implements Border {
                 2 * ovalHeight, -90, -90);
     }
 
-    public static void main(String[] s) {
-        JFrame f = new JFrame("Oval Border");
-        f.setSize(100, 100);
-
-        JPanel p = new JPanel(new GridLayout(0, 1, 5, 5));
-        JButton l = new JButton("Oval Border");
-
-        l.setBorder(new OvalBorder(20,20,new Color(5555),new Color(0xD1DE2A)));
-
-        p.add(l);
-        p.setBorder(new OvalBorder());
-
-        f.getContentPane().add(p);
-        f.show();
-    }
 }

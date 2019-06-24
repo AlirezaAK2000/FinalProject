@@ -7,7 +7,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 
 public class Background extends JPanel {
     private BufferedImage originalImage;
