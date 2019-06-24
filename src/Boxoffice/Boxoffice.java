@@ -23,6 +23,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.PrivateKey;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Boxoffice extends JPanel {
 
@@ -53,11 +55,45 @@ public class Boxoffice extends JPanel {
     private JFileChooser JfileChooser;
     private SongPanels songRepository;
     private Center center;
+    private SongPanels favorite;
+    private SongPanels recentlyList;
+    private ProButton buttonClicked;
     public Boxoffice(Center center) throws IOException {
         super();
         b = this;
         this.center = center;
+        recentlyList = new SongPanels("backgrounds\\center.png" , center.getMusicBox()){
+          @Override
+          public void addSong(SongPanel songPanel){
+              ArrayList<SongPanel> songPanels = getSongPanelList();
+              if(songPanels.contains(songPanel))
+                  songPanels.remove(songPanel);
+              ArrayList<SongPanel> songPanels1= new ArrayList<>();
+              songPanels1.add(songPanel);
+              songPanels1.addAll(songPanels);
+              setSongPanelList(songPanels1);
+              songPanel.addMouseListener(new MouseAdapter() {
+                  @Override
+                  public void mouseEntered(MouseEvent e) {
+                      setBackground(Color.darkGray);
+                  }
+
+                  @Override
+                  public void mouseExited(MouseEvent e) {
+                      setBackground(Color.BLACK);
+                  }
+
+                  @Override
+                  public void mouseClicked(MouseEvent e) {
+
+                  }
+              });
+
+          }
+        };
+
         songRepository = new SongPanels( "backgrounds\\center5.jpg" ,center.getMusicBox());
+        favorite = new SongPanels("backgrounds\\center3.jpg" , center.getMusicBox());
         playlists = new ArrayList<>();
         this.setBackground(Color.darkGray);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -93,8 +129,63 @@ public class Boxoffice extends JPanel {
                     selectedFile = JfileChooser.getSelectedFile();
                     if(selectedFile == null)
                         System.out.println("null");
+
+
                     try {
-                        songRepository.addSong(new SongPanel(new Song(selectedFile)));
+                        SongPanel songPanel = new SongPanel(new Song(selectedFile));
+                        songRepository.addSong(songPanel);
+                        songRepository.repaintList();
+                        songPanel.getLiker().addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                if(songPanel.getLiker().getIcon().equals(songPanel.getUnliked())) {
+                                    favorite.addSong(songPanel);
+                                    songPanel.getLiker().setIcon(songPanel.getLiked());
+                                    if (buttonClicked.equals(recently))
+                                        recentlyList.repaintList();
+                                    if (buttonClicked.equals(songs))
+                                        songRepository.repaintList();
+                                    if (buttonClicked.equals(favorites))
+                                        favorite.repaintList();
+                                }
+                                else {
+
+                                    favorite.removeSong(songPanel);
+                                    songPanel.getLiker().setIcon(songPanel.getUnliked());
+                                    if (buttonClicked.equals(recently))
+                                        recentlyList.repaintList();
+                                    if (buttonClicked.equals(songs))
+                                        songRepository.repaintList();
+                                    if (buttonClicked.equals(favorites))
+                                        favorite.repaintList();
+                                }
+                            }
+                        });
+                        songPanel.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                if (songPanel.isAddedToRecently()==false) {
+                                    recentlyList.addSong(songPanel);
+                                    songPanel.setAddedToRecently(true);
+                                    if (buttonClicked.equals(recently))
+                                        recentlyList.repaintList();
+                                    if (buttonClicked.equals(songs))
+                                        songRepository.repaintList();
+                                    if (buttonClicked.equals(favorites))
+                                        favorite.repaintList();
+                                }else
+                                    recentlyList.removeSong(songPanel);
+                                    recentlyList.addSong(songPanel);
+                                if (buttonClicked.equals(recently))
+                                    recentlyList.repaintList();
+                                if (buttonClicked.equals(songs))
+                                    songRepository.repaintList();
+                                if (buttonClicked.equals(favorites))
+                                    favorite.repaintList();
+
+                            }
+                        });
+
                     } catch (FileNotFoundException e1) {
                         e1.printStackTrace();
                     } catch (JavaLayerException e1) {
@@ -133,6 +224,7 @@ public class Boxoffice extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     center.setMain(new Background( ImageIO.read(new File("backgrounds\\center4.jpg"))));
+                    buttonClicked = home;
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -155,12 +247,28 @@ public class Boxoffice extends JPanel {
         recently.setForeground(Color.white);
         recently.setBackground(Color.darkGray);
         recently.addMouseListener(new Bolder());
+        recently.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                center.setMain(recentlyList);
+                recentlyList.repaintList();
+                buttonClicked = recently;
+            }
+        });
         this.add(recently);
         favorites = new ProButton("Favorites");
         favorites.setFont(pubFont);
         favorites.setForeground(Color.white);
         favorites.setBackground(Color.darkGray);
         favorites.addMouseListener(new Bolder());
+        favorites.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                center.setMain(favorite);
+                favorite.repaintList();
+                buttonClicked = favorites;
+            }
+        });
         this.add(favorites);
         sharedPlaylist = new ProButton("Shared PlayList");
         sharedPlaylist.setFont(pubFont);
@@ -189,6 +297,8 @@ public class Boxoffice extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 center.setMain(songRepository);
+                songRepository.repaintList();
+                buttonClicked = songs;
             }
         });
         this.add(songs);
@@ -343,7 +453,7 @@ public class Boxoffice extends JPanel {
                 remove.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        buttons.remove(buttons.indexOf(button));
+                        buttons.remove(button);
                         Boxoffice.this.remove(button);
                         Boxoffice.this.repaint();
 

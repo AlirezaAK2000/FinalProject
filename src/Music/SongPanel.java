@@ -21,7 +21,7 @@ public class SongPanel extends JPanel implements Serializable {
     private ImageIcon unliked;
     private Song song;
     private Boxoffice boxoffice;
-    private boolean changeAllowed;
+    private boolean addedToRecently;
 
     public SongPanel(Song song){
         super();
@@ -51,16 +51,16 @@ public class SongPanel extends JPanel implements Serializable {
         liked = new ImageIcon("Icons\\unlike2.png");
         unliked = new ImageIcon("Icons\\like1.png");
         liker = new ProButton(unliked);
-        liker.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(liker.getIcon().equals(liked))
-                    liker.setIcon(unliked);
-                else
-                    liker.setIcon(liked);
-            }
-        });
         liker.setPreferredSize(new Dimension(28,28));
+//        liker.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if(liker.getIcon().equals(liked))
+//                    liker.setIcon(unliked);
+//                else
+//                    liker.setIcon(liked);
+//            }
+//        });
 
         JPanel auxPanel = new JPanel();
         auxPanel.setBackground(Color.BLACK);
@@ -143,4 +143,22 @@ public class SongPanel extends JPanel implements Serializable {
         return boxoffice;
     }
 
+    public ProButton getLiker() {
+        return liker;
+    }
+
+    public ImageIcon getLiked() {
+        return liked;
+    }
+
+    public ImageIcon getUnliked() {
+        return unliked;
+    }
+
+    public void setAddedToRecently(boolean addedToRecently) {
+        this.addedToRecently = addedToRecently;
+    }
+    public boolean isAddedToRecently(){
+        return addedToRecently;
+    }
 }
