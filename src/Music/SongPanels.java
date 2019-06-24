@@ -187,7 +187,7 @@ public class SongPanels extends JPanel implements Serializable , Adder {
         @Override
         public void mouseClicked(MouseEvent e) {
             try {
-                if (musicBox.getPlayThread() != null) {
+                if (playTheread!= null) {
                     playTheread.stop();
                 }
 
