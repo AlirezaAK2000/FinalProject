@@ -70,7 +70,7 @@ public class Boxoffice extends JPanel {
         this.center = center;
         playlistnames = new HashMap<>();
         playlistspanels = new HashMap<>();
-        albumsContain = new BigPanelContainer(Background.toBufferedImage(ImageIO.read(new File("backgrounds\\center7.jpg"))));
+        albumsContain = new BigPanelContainer(Background.toBufferedImage(ImageIO.read(new File("backgrounds\\tataloo.jpg"))));
         recentlyList = new SongPanels("backgrounds\\center.png" , center.getMusicBox()){
           @Override
           public void addSong(SongPanel songPanel){
