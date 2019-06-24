@@ -7,7 +7,8 @@ import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
-
+import org.farng.mp3.MP3File;
+import org.farng.mp3.TagException;
 
 import javax.swing.*;
 import java.io.File;
@@ -169,7 +170,7 @@ public class Song {
     public FindTags getFindTags() {
         return findTags;
     }
-    public int getSize() throws IOException, InvalidDataException, UnsupportedTagException {
+    public int getSize() throws IOException, TagException, InvalidDataException, UnsupportedTagException {
         return (int)new Mp3File(fileName).getLengthInMilliseconds();
     }
 }
