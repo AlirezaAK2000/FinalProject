@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static Logic.Song.playTheread;
+
 public class SongPanels extends JPanel implements Serializable {
     private BufferedImage originalImage;
     private BufferedImage scaledImage;
@@ -155,7 +157,7 @@ public class SongPanels extends JPanel implements Serializable {
         public void mouseClicked(MouseEvent e) {
             try {
                 if(musicBox.getPlayThread()!=null){
-                      musicBox.getPlayThread().stop();}
+                    playTheread.stop();}
 
                 musicBox.getSlider().setValue(0);
                 musicBox.setMove(true);
@@ -172,18 +174,13 @@ public class SongPanels extends JPanel implements Serializable {
                 e1.printStackTrace();
             }
             myMusicBox.getPlayb().addActionListener(new PlaybListener(songPanel.getSong(),myMusicBox));
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        songPanel.getSong().play(0);
-                    } catch (FileNotFoundException e1) {
-                        e1.printStackTrace();
-                    } catch (JavaLayerException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            }).start();
+            try {
+                songPanel.getSong().play(0);
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+            } catch (JavaLayerException e1) {
+                e1.printStackTrace();
+            }
 
         }
     }

@@ -19,14 +19,13 @@ public class Song {
     private int pause=0;
     private AdvancedPlayer advancedPlayer;
     private String fileName;
-    private  Thread playTheread;
     private FindTags findTags;
     private String artist;
     private String album;
     private String  title;
     private  String track;
     private File file;
-
+    public static Thread playTheread;
 
     public Song(String fileName) throws IOException, JavaLayerException {
         playTheread=new Thread();

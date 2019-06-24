@@ -175,7 +175,7 @@ public class MusicBox extends JPanel  {
 
     public void setSongPanel(SongPanel songPanel) {
         this.songPanel = songPanel;
-        playThread=songPanel.getSong().getPlayTheread();
+        playThread=this.songPanel.getSong().getPlayTheread();
     }
 
     public SongPanel getSongPanel() {
