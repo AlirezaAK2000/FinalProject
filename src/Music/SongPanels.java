@@ -190,7 +190,8 @@ public class SongPanels extends JPanel implements Serializable , Adder {
                 if (playTheread!= null) {
                     playTheread.stop();
                 }
-                myMusicBox.getSongPanel().setBackground(Color.BLACK);
+                if(songPanel!=null)
+                    myMusicBox.getSongPanel().setBackground(Color.BLACK);
                 musicBox.getSlider().setValue(0);
                 musicBox.setMove(true);
                 myMusicBox.setSongPanels(SongPanels.this);
