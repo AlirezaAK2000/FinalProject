@@ -188,6 +188,7 @@ public class MusicBox extends JPanel  {
     public void setSongPanel(SongPanel songPanel) throws InvalidDataException, IOException, UnsupportedTagException {
         this.songPanel = songPanel;
         this.getSlider().setMaximum(songPanel.getSong().getSize());
+        SwingUtilities.updateComponentTreeUI(getSlider());
     }
 
     public SongPanel getSongPanel() {
