@@ -44,7 +44,6 @@ public class Center extends JPanel {
     }
 
     public void setMain(JPanel main) {
-        background.removeAll();
         removeAll();
         this.add(searchBox , BorderLayout.NORTH);
         background = main;

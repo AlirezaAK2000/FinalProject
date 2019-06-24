@@ -9,6 +9,7 @@ import Tools.SliderDemoSkin;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
+import org.farng.mp3.TagException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -199,6 +200,8 @@ public class SongPanels extends JPanel implements Serializable , Adder {
                 e1.printStackTrace();
             } catch (IOException e1) {
                 e1.printStackTrace();
+            } catch (TagException e1) {
+                e1.printStackTrace();
             }
             myMusicBox.getPlayb().addActionListener(new PlaybListener(songPanel.getSong(), myMusicBox));
             try {
@@ -221,7 +224,7 @@ public class SongPanels extends JPanel implements Serializable , Adder {
             private Song song;
             private Integer position;
 
-            public SliderListener(ProSlider slider, MusicBox musicBox, Song song) throws UnsupportedTagException, InvalidDataException, IOException {
+            public SliderListener(ProSlider slider, MusicBox musicBox, Song song) throws UnsupportedTagException, InvalidDataException, IOException, TagException {
                 this.slider = slider;
                 this.musicBox = musicBox;
                 this.song = song;
@@ -294,14 +297,51 @@ public class SongPanels extends JPanel implements Serializable , Adder {
                         musicBox.setMove(false);
                         song.pause();
 
-                    }
                 }
             }
         }
     }
-}
+    //********************************************************************
+    class NextClickListener implements ActionListener {
+        private MusicBox musicBox;
+        private SongPanels songPanels;
 
 
+        public NextClickListener(MusicBox musicBox, SongPanels songPanels) {
+            this.musicBox = musicBox;
+            this.songPanels = songPanels;
 
+        }
 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (songPanels == musicBox.getSongPanels()) {
+                int nextSong = songPanels.getSongPanelList().indexOf(musicBox.getSongPanel().getSong()) + 1;
+                if (songPanels.getSongPanelList().size() - 1 != nextSong - 1) {
+                    try {
+                        if (playTheread != null)
+                            playTheread.stop();
+                        musicBox.getSlider().addMouseListener(new SliderListener(musicBox.getSlider(), musicBox, musicBox.getSongPanels().getSongPanelList().get(nextSong).getSong()));
+                    } catch (UnsupportedTagException e1) {
+                        e1.printStackTrace();
+                    } catch (InvalidDataException e1) {
+                        e1.printStackTrace();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (TagException e1) {
+                        e1.printStackTrace();
+                    }
+                    musicBox.getSlider().setValue(0);
+                    musicBox.setSongPanel(songPanels.getSongPanelList().get(nextSong));
+                    try {
+                        musicBox.getSongPanel().getSong().play(0);
+                    } catch (FileNotFoundException e1) {
+                        e1.printStackTrace();
+                    } catch (JavaLayerException e1) {
+                        e1.printStackTrace();
+                    }
 
+                }
+            }
+        }
+    }}}
