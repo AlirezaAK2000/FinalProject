@@ -8,6 +8,8 @@ import Tools.Integer;
 import Tools.ProButton;
 import Tools.ProSlider;
 import Tools.SliderDemoSkin;
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
 
 import javax.imageio.ImageIO;
@@ -185,9 +187,9 @@ public class MusicBox extends JPanel  {
         this.songPanels=songPanels;
     }
 
-    public void setSongPanel(SongPanel songPanel) {
+    public void setSongPanel(SongPanel songPanel) throws InvalidDataException, IOException, UnsupportedTagException {
         this.songPanel = songPanel;
-        playThread=this.songPanel.getSong().getPlayTheread();
+        this.getSlider().setMaximum(songPanel.getSong().getSize());
     }
 
     public SongPanel getSongPanel() {
@@ -198,9 +200,6 @@ public class MusicBox extends JPanel  {
         return songPanels;
     }
 
-    public Thread getPlayThread() {
-        return playThread;
-    }
 
     public  ProSlider getSlider(){
         return songSetter.getSlider();

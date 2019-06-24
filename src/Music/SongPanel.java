@@ -20,12 +20,15 @@ public class SongPanel extends JPanel implements Serializable {
     private ImageIcon liked;
     private ImageIcon unliked;
     private Song song;
+    private  boolean hasPlayListener;
     private Boxoffice boxoffice;
     private boolean addedToRecently = false;
+    private boolean hasNextListener=false;
     public SongPanel(Song song){
         super();
         this.boxoffice = boxoffice;
         this.song = song;
+        hasPlayListener=false;
         this.setBackground(Color.BLACK);
         this.setMaximumSize(new Dimension(Integer.MAX_VALUE , 30));
 
@@ -152,6 +155,10 @@ public class SongPanel extends JPanel implements Serializable {
     public ImageIcon getUnliked() {
         return unliked;
     }
+    public boolean getHasPlayListener(){return hasPlayListener;}
+    public void setHasPlayListener(boolean flag){hasPlayListener=flag;}
+    public boolean getHasNextListener(){return hasNextListener;}
+    public void setHasNextListener(boolean flag){hasNextListener=flag;}
 
     public void setAddedToRecently(boolean addedToRecently) {
         this.addedToRecently = addedToRecently;
