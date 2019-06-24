@@ -8,8 +8,6 @@ import Tools.ProButton;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.io.Serializable;
 
 public class SongPanel extends JPanel implements Serializable {
@@ -21,6 +19,10 @@ public class SongPanel extends JPanel implements Serializable {
     private ImageIcon unliked;
     private Song song;
     private Boxoffice boxoffice;
+    private MenuItem addtoPlaylist;
+    private MenuItem remove;
+    private MenuItem addtoShareList;
+    private PopupMenu adder;
     private boolean addedToRecently = false;
     public SongPanel(Song song){
         super();
@@ -73,7 +75,16 @@ public class SongPanel extends JPanel implements Serializable {
         this.add(album);
         this.add(artist);
 
+        addtoPlaylist = new MenuItem("Add to playlist");
+        addtoShareList = new MenuItem("Add to sharelist");
+        remove=  new MenuItem("Remove");
 
+        adder = new PopupMenu();
+        adder.add(addtoPlaylist);
+        adder.add(addtoShareList);
+        adder.add(remove);
+
+        this.add(adder);
 
     }
     public SongPanel(String titleText , String artistText , String albumText)
@@ -99,23 +110,10 @@ public class SongPanel extends JPanel implements Serializable {
         title.setText(titleText);
         artist.setText(artistText);
 
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setBackground(Color.darkGray);
-            }
+    }
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setBackground(Color.BLACK);
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if(liker.isSelected()==true)
-                    System.out.println("is ok");
-            }
-        });
+    public PopupMenu getAdder() {
+        return adder;
     }
 
     public void setArtistText(String artistText) {
@@ -152,4 +150,15 @@ public class SongPanel extends JPanel implements Serializable {
         return boxoffice;
     }
 
+    public MenuItem getAddtoPlaylist() {
+        return addtoPlaylist;
+    }
+
+    public MenuItem getAddtoShareList() {
+        return addtoShareList;
+    }
+
+    public MenuItem getRemove() {
+        return remove;
+    }
 }
