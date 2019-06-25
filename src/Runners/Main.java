@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
+        System.out.println(Thread.activeCount());
         EventQueue.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");

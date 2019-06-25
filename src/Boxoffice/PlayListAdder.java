@@ -86,7 +86,7 @@ public class PlayListAdder extends JFrame {
                 try {
                     boxoffice.addPlaylist(name.getText());
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+
                 }
             }
             else
