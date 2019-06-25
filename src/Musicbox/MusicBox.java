@@ -275,7 +275,7 @@ public class MusicBox extends JPanel  {
 
                                 } else if ((!isRepeat) && isShuffle) {
                                     Random random = new Random();
-                                    int numberOfSong = random.nextInt() % songPanels.getSongPanelList().size();
+                                    int numberOfSong = random.nextInt(songPanels.getSongPanelList().size());
                                     position.setValue(0);
                                     slider.setValue(0);
                                     if (playThread != null) {

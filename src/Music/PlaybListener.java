@@ -29,7 +29,7 @@ public class PlaybListener implements ActionListener {
             if (a % 2 == 1) {
                 ++a;
                 try {
-                    musicBox.getSlider().setMaximum(song.getSize());
+                    musicBox.getSlider().setMaximum(song.getSize()/1000);
                     musicBox.setMove(true);
                     song.continuee();
 
@@ -46,7 +46,7 @@ public class PlaybListener implements ActionListener {
                 }
             } else {
                 try {
-                    musicBox.getSlider().setMaximum(song.getSize());
+                    musicBox.getSlider().setMaximum(song.getSize()/1000);
                     a++;
                     musicBox.setMove(false);
                     song.pause();
