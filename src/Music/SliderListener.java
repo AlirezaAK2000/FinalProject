@@ -43,7 +43,7 @@ public class SliderListener extends MouseAdapter {
             slider.setValue(result);
             position.setValue(result);
             try {
-                song.play(result);
+                song.play(result*1000);
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
             } catch (JavaLayerException e1) {
@@ -56,7 +56,7 @@ public class SliderListener extends MouseAdapter {
     public void mouseReleased(MouseEvent e) {
         if (musicBox.getSongPanel().getSong() == song) {
             try {
-                song.play(position.getValue());
+                song.play(position.getValue()*1000);
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
             } catch (JavaLayerException e1) {

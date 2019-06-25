@@ -62,21 +62,18 @@ public class Boxoffice extends JPanel {
     private SongPanels recentlyList;
     private ProButton buttonClicked;
     private Background artwork;
-    private SongPanels sharedList;
     private JPanel menubar;
     private BufferedImage c;
     private BigPanelContainer albumsContain;
     private HashMap<ProButton , SongPanels> playlistspanels;
     private Thread thread;
-    private int count = 0;
     public Boxoffice(Center center) throws IOException {
         super();
         b = this;
         this.center = center;
         playlistnames = new HashMap<>();
         playlistspanels = new HashMap<>();
-        albumsContain = new BigPanelContainer(Background.toBufferedImage(ImageIO.read(new File("backgrounds\\center9.jpg"))));
-        sharedList = new SongPanels("backgrounds\\center10.jpg" , center.getMusicBox());
+        albumsContain = new BigPanelContainer(Background.toBufferedImage(ImageIO.read(new File("backgrounds\\tataloo.jpg"))));
         recentlyList = new SongPanels("backgrounds\\center.png" , center.getMusicBox()){
           @Override
           public void addSong(SongPanel songPanel){
@@ -151,54 +148,17 @@ public class Boxoffice extends JPanel {
 
                         try {
                             SongPanel songPanel = new SongPanel(new Song(selectedFile));
-                            ArrayList<SongPanel> songPanelrepoos = songRepository.getSongPanelList();
-                            boolean isAvailable = false;
-                            for (SongPanel p : songPanelrepoos)
-                                if (songPanel.equals(p)) {
-                                    isAvailable = true;
-                                    break;
-                                }
-                            if (!isAvailable) {
+                            try {
 
-                                try {
+                                c = Background.toBufferedImage(songPanel.getSong().getArtWork().getImage());
+                            } catch (NullPointerException e) {
+                                c = ImageIO.read(new File("backgrounds\\center6.jpg"));
+                            }
+                            albumsContain.addBigPanel(new BigPanel(c, songPanel, center.getMusicBox(), center));
 
-                                    c = Background.toBufferedImage(songPanel.getSong().getArtWork().getImage());
-                                } catch (NullPointerException e) {
-                                    c = ImageIO.read(new File("backgrounds\\center6.jpg"));
-                                }
-                                boolean haveSameAlbum = false;
-                                for(SongPanel p:songPanelrepoos) {
-                                    if (songPanel.sameAlbum(p)) {
-                                        haveSameAlbum = true;
-                                        songPanel.setAlbumPanel(p.getAlbumPanel());
-                                        p.getAlbumPanel().addSong(songPanel);
+                            songRepository.addSong(songPanel);
+                            songRepository.repaintList();
 
-                                        break;
-                                    }
-                                }
-                                if(!haveSameAlbum) {
-                                    BigPanel bigPanel = new BigPanel(c, songPanel, center.getMusicBox(), center);
-                                    songPanel.setAlbumPanel(bigPanel);
-                                    albumsContain.addBigPanel(bigPanel);
-                                }
-                                System.out.println("kir");
-                                songRepository.addSong(songPanel);
-                                songRepository.repaintList();
-
-                                songPanel.getLiker().addActionListener(new ActionListener() {
-                                    @Override
-                                    public void actionPerformed(ActionEvent e) {
-                                        if (songPanel.getLiker().getIcon().equals(songPanel.getUnliked())) {
-                                            songPanel.getLiker().setIcon(songPanel.getUnliked());
-                                            favorite.addSong(songPanel);
-                                            if (buttonClicked.equals(recently))
-                                                recentlyList.repaintList();
-                                            if (buttonClicked.equals(songs))
-                                                songRepository.repaint();
-                                            if (buttonClicked.equals(favorites))
-                                                favorite.repaintList();
-                                        } else {
-                                            songPanel.getLiker().setIcon(songPanel.getLiked());
                             songPanel.getLiker().addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
@@ -222,13 +182,13 @@ public class Boxoffice extends JPanel {
                                     } else {
                                         songPanel.getLiker().setIcon(songPanel.getLiked());
 
-                                            if (buttonClicked.equals(songs))
-                                                songRepository.repaintList();
-                                            if (buttonClicked.equals(recently))
-                                                recentlyList.repaintList();
-                                            favorite.removeSong(songPanel);
-                                            if (buttonClicked.equals(favorites))
-                                                favorite.repaintList();
+                                        if (buttonClicked.equals(songs))
+                                            songRepository.repaintList();
+                                        if (buttonClicked.equals(recently))
+                                            recentlyList.repaintList();
+                                        favorite.removeSong(songPanel);
+                                        if (buttonClicked.equals(favorites))
+                                            favorite.repaintList();
 
                                     }
                                 }
@@ -261,42 +221,7 @@ public class Boxoffice extends JPanel {
                                                 songRepository.repaintList();
                                             if (buttonClicked.equals(favorites))
                                                 favorite.repaintList();
-                                        }
-                                    }
-                                });
-                                songPanel.addMouseListener(new MouseAdapter() {
-                                    @Override
-                                    public void mouseClicked(MouseEvent e1) {
-                                        if (!e1.isMetaDown()) {
-                                            if (thread != null)
-                                                try {
-                                                    Song.playTheread.stop();
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            if (songPanel.isAddedToRecently() == false) {
-                                                recentlyList.addSong(songPanel);
-                                                songPanel.setAddedToRecently(true);
-                                                center.getMusicBox().setInfo(songPanel.getSong().getTitle(), songPanel.getSong().getArtist());
-                                                if (buttonClicked.equals(recently))
-                                                    recentlyList.repaintList();
-                                                if (buttonClicked.equals(songs))
-                                                    songRepository.repaintList();
-                                                if (buttonClicked.equals(favorites))
-                                                    favorite.repaintList();
 
-                                                artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
-                                            } else {
-                                                recentlyList.removeSong(songPanel);
-                                                recentlyList.addSong(songPanel);
-                                                if (buttonClicked.equals(recently))
-                                                    recentlyList.repaintList();
-                                                if (buttonClicked.equals(songs))
-                                                    songRepository.repaintList();
-                                                if (buttonClicked.equals(favorites))
-                                                    favorite.repaintList();
-                                                artwork.SetBack(songPanel.getSong().getArtWork().getImage());
-                                            }
                                             artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
                                         } else {
                                             recentlyList.removeSong(songPanel);
@@ -318,19 +243,10 @@ public class Boxoffice extends JPanel {
                                             artwork.SetBack(songPanel.getSong().getArtWork().getImage());
                                         }
 
-                                        }
                                     }
-                                });
-                                songPanel.getAddtoPlaylist().addActionListener(new AddToPlayListFrame(songPanel));
-                                songPanel.getAddtoShareList().addActionListener(new ActionListener() {
-                                    @Override
-                                    public void actionPerformed(ActionEvent e) {
-                                        sharedList.addSong(songPanel);
-                                        sharedList.repaintList();
-                                        System.out.println(sharedList.getSongPanelList().size());
-                                    }
-                                });
-                            }
+                                }
+                            });
+                            songPanel.getAddtoPlaylist().addActionListener(new AddToPlayListFrame(songPanel));
                         } catch (FileNotFoundException e1) {
                             System.out.println("1");
                         } catch (JavaLayerException e1) {
@@ -344,7 +260,6 @@ public class Boxoffice extends JPanel {
                         } catch (NullPointerException e1) {
                             System.out.println(6);
                         }
-
 
                     }
                 }
@@ -530,7 +445,15 @@ public class Boxoffice extends JPanel {
                    if(e.getStateChange() == ItemEvent.SELECTED){
                        listName = namesCombo.getItemAt(namesCombo.getSelectedIndex());
                        list=  playlistspanels.get(playlistnames.get(listName));
-                       list.addSong(song);
+                       try {
+                           list.addSong(song);
+                       } catch (InvalidDataException e1) {
+                           e1.printStackTrace();
+                       } catch (IOException e1) {
+                           e1.printStackTrace();
+                       } catch (UnsupportedTagException e1) {
+                           e1.printStackTrace();
+                       }
                        itSelf.setVisible(false);
                    }
                }
