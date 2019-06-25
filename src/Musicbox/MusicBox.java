@@ -6,10 +6,8 @@ import Music.PlaybListener;
 import Music.SliderListener;
 import Music.SongPanel;
 import Music.SongPanels;
+import Tools.*;
 import Tools.Integer;
-import Tools.ProButton;
-import Tools.ProSlider;
-import Tools.SliderDemoSkin;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
@@ -17,6 +15,8 @@ import javazoom.jl.player.advanced.PlaybackListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -116,7 +116,20 @@ public class MusicBox extends JPanel  {
         volumeSet.add(volumeSet.getSlider() , FlowLayout.CENTER);
 
         volumeSet.getSlider().setPreferredSize(new Dimension(100 , 15));
+        volumeSet.getSlider().setMaximum(100);
+        volumeSet.getSlider().setMinimum(0);
         volumeSet.getSlider().setValue(50);
+        Audio.setMasterOutputVolume((float) (50.0/100.0));
+        volumeSet.getSlider().addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                Audio.setMasterOutputVolume((float)(volumeSet.getSlider().getValue()/100.0));
+                if(volumeSet.getSlider().getValue() == 0)
+                    muter.setIcon(mute);
+                else muter.setIcon(volumeOn);
+
+            }
+        });
 
         artistLabel = new JLabel();
         titleLabel = new JLabel();
@@ -177,10 +190,14 @@ public class MusicBox extends JPanel  {
                     playb.setIcon(stopI);
             }
             if (e.getSource()==muter){
-                if(muter.getIcon().equals(mute))
+                if(muter.getIcon().equals(mute)) {
                     muter.setIcon(volumeOn);
-                else
+                    Audio.setMasterOutputVolume((float)(volumeSet.getSlider().getValue()/100.0));
+                }
+                else {
                     muter.setIcon(mute);
+                    Audio.setMasterOutputVolume(0.0f);
+                }
             }
             if (e.getSource() == shuffle){
                 if(shuffle.getIcon().equals(unShuffle)) {
