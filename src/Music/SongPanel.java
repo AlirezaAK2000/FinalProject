@@ -23,7 +23,7 @@ public class SongPanel extends JPanel implements Serializable {
     private  boolean hasPlayListener;
     private Boxoffice boxoffice;
     private boolean addedToRecently = false;
-    private boolean hasNextListener=false;
+    private boolean hasSliderListener=false;
     public SongPanel(Song song){
         super();
         this.boxoffice = boxoffice;
@@ -157,8 +157,8 @@ public class SongPanel extends JPanel implements Serializable {
     }
     public boolean getHasPlayListener(){return hasPlayListener;}
     public void setHasPlayListener(boolean flag){hasPlayListener=flag;}
-    public boolean getHasNextListener(){return hasNextListener;}
-    public void setHasNextListener(boolean flag){hasNextListener=flag;}
+    public boolean getHasSliderListener(){return hasSliderListener;}
+    public void setHasSliderListener(boolean flag){hasSliderListener=flag;}
 
     public void setAddedToRecently(boolean addedToRecently) {
         this.addedToRecently = addedToRecently;

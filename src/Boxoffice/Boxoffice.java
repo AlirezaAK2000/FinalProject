@@ -29,6 +29,8 @@ import java.security.PrivateKey;
 import java.util.*;
 import java.util.List;
 
+import static Logic.Song.playTheread;
+
 public class Boxoffice extends JPanel {
 
     private PopupMenu popupMenu;
@@ -132,6 +134,8 @@ public class Boxoffice extends JPanel {
         file.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e2) {
+                if(playTheread!=null)
+                    playTheread.stop();
               JfileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
                 File selectedFile;
                 int returnValue = JfileChooser.showOpenDialog(null);
@@ -150,8 +154,10 @@ public class Boxoffice extends JPanel {
                                 c = ImageIO.read(new File("backgrounds\\center6.jpg"));
                             }
                             albumsContain.addBigPanel(new BigPanel(c, songPanel, center.getMusicBox(), center));
+
                             songRepository.addSong(songPanel);
                             songRepository.repaintList();
+
                             songPanel.getLiker().addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
@@ -252,7 +258,7 @@ public class Boxoffice extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    center.setMain(new Background( ImageIO.read(new File("backgrounds\\center4.jpg"))));
+                    center.setMain(new Background( ImageIO.read(new File("backgrounds\\center8.jpg"))));
                     buttonClicked = home;
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -280,6 +286,7 @@ public class Boxoffice extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 center.setMain(recentlyList);
+                center.getMusicBox().setSongPanels(Boxoffice.this.getRecentlyList());
                 recentlyList.repaintList();
                 buttonClicked = recently;
             }
@@ -294,6 +301,7 @@ public class Boxoffice extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 center.setMain(favorite);
+                center.getMusicBox().setSongPanels(Boxoffice.this.getFavorite());
                 favorite.repaintList();
                 buttonClicked = favorites;
             }
@@ -334,6 +342,7 @@ public class Boxoffice extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 center.setMain(songRepository);
+                center.getMusicBox().setSongPanels(Boxoffice.this.songRepository);
                 songRepository.repaintList();
                 buttonClicked = songs;
             }
@@ -475,6 +484,17 @@ public class Boxoffice extends JPanel {
         this.repaint();
     }
 
+    public SongPanels getFavorite() {
+        return favorite;
+    }
+
+    public SongPanels getSongRepository() {
+        return songRepository;
+    }
+
+    public SongPanels getRecentlyList() {
+        return recentlyList;
+    }
 
 
     public ProButton getTools() {

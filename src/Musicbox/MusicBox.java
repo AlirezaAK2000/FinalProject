@@ -22,33 +22,35 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class MusicBox extends JPanel  {
+    private boolean isShuffle;
+    private boolean isRepeat;
     private ProButton playb;
-    private ImageIcon playI;
-    private ImageIcon stopI;
+    private ProButton shuffle;
     private ProButton nextb;
     private ProButton backb;
+    private ProButton muter;
     private ProButton unrepeat;
+    private ImageIcon playI;
+    private ImageIcon stopI;
+    private ImageIcon nextbIc;
+    private ImageIcon backbIc;
+    private ImageIcon shuffleIc;
+    private ImageIcon unShuffle;
     private ImageIcon unrepeatI;
-    private ProButton shuffle;
     private ImageIcon repeat;
     private SliderDemoSkin volumeSet;
     private SliderDemoSkin songSetter;
-    private ProButton muter;
     private ProSlider volume;
     private ImageIcon mute;
     private ImageIcon volumeOn;
     private JPanel center;
     private JPanel auxPanel;
     private JPanel songInformation;
-    private JLabel songName;
-    private JLabel artist;
-    private ImageIcon nextbIc;
-    private ImageIcon backbIc;
-    private ImageIcon shuffleIc;
-    private ImageIcon unShuffle;
     private SongPanels songPanels;
     private SongPanel songPanel;
     private JPanel infoMusic;
+    private JLabel songName;
+    private JLabel artist;
     private JLabel artistLabel;
     private JLabel titleLabel;
     private Thread playThread;
@@ -56,6 +58,8 @@ public class MusicBox extends JPanel  {
     private boolean move;
     public MusicBox() throws IOException {
         super();
+        isRepeat=false;
+        isRepeat=false;
         playThread=new Thread();
         move=false;
         center = new JPanel();
@@ -151,10 +155,14 @@ public class MusicBox extends JPanel  {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource()==unrepeat){
-                if (unrepeat.getIcon().equals(unrepeatI))
+                if (unrepeat.getIcon().equals(unrepeatI)) {
                     unrepeat.setIcon(repeat);
-                else
+                    isRepeat=true;
+                }
+                else {
                     unrepeat.setIcon(unrepeatI);
+                    isRepeat=false;
+                }
             }
             if (e.getSource() == playb){
                 if(playb.getIcon().equals(stopI))
@@ -169,10 +177,14 @@ public class MusicBox extends JPanel  {
                     muter.setIcon(mute);
             }
             if (e.getSource() == shuffle){
-                if(shuffle.getIcon().equals(unShuffle))
+                if(shuffle.getIcon().equals(unShuffle)) {
                     shuffle.setIcon(shuffleIc);
-                else
+                    isShuffle=true;
+                }
+                else {
                     shuffle.setIcon(unShuffle);
+                    isShuffle=false;
+                }
             }
         }
     }
@@ -251,7 +263,6 @@ public class MusicBox extends JPanel  {
     public void setMove(boolean move) {
         this.move = move;
     }
-    //****************************************************************************
     //****************************************************************************
 
 }

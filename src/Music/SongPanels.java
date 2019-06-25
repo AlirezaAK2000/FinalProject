@@ -208,7 +208,8 @@ class SongPanelListenr extends MouseAdapter {
             myMusicBox.setSongPanel(songPanel);
             songPanel.setBackground(new Color(0x308320));
             myMusicBox.getSlider().setMaximum(songPanel.getSong().getSize());
-            myMusicBox.getSlider().addMouseListener(new SliderListener(myMusicBox.getSlider(), myMusicBox, songPanel.getSong()));
+            if(!songPanel.getHasSliderListener())
+              myMusicBox.getSlider().addMouseListener(new SliderListener(myMusicBox.getSlider(), myMusicBox, songPanel.getSong()));
 
 
         } catch (UnsupportedTagException e1) {
@@ -247,12 +248,6 @@ class NextClickListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            Robot r= new Robot();
-            r.delay(100);
-        } catch (AWTException e1) {
-            e1.printStackTrace();
-        }
         if (songPanels == musicBox.getSongPanels()) {
             int nextSong = songPanels.getSongPanelList().indexOf(musicBox.getSongPanel()) + 1;
             if (songPanels.getSongPanelList().size() - 1 != nextSong - 1) {
@@ -260,7 +255,10 @@ class NextClickListener implements ActionListener {
                     if (playTheread != null)
                         playTheread.stop();
                     musicBox.getSongPanel().setBackground(Color.BLACK);
-                    musicBox.getSlider().addMouseListener(new SliderListener(musicBox.getSlider(), musicBox, songPanels.getSongPanelList().get(nextSong).getSong()));
+                    if(!songPanels.getSongPanelList().get(nextSong).getHasSliderListener()) {
+                        songPanels.getSongPanelList().get(nextSong).setHasSliderListener(true);
+                        musicBox.getSlider().addMouseListener(new SliderListener(musicBox.getSlider(), musicBox, songPanels.getSongPanelList().get(nextSong).getSong()));
+                    }
 
                 } catch (UnsupportedTagException e1) {
                     e1.printStackTrace();
@@ -306,7 +304,10 @@ class NextClickListener implements ActionListener {
                     if (playTheread != null)
                         playTheread.stop();
                     musicBox.getSongPanel().setBackground(Color.BLACK);
-                    musicBox.getSlider().addMouseListener(new SliderListener(musicBox.getSlider(), musicBox, songPanels.getSongPanelList().get(0).getSong()));
+                    if(!songPanels.getSongPanelList().get(0).getHasSliderListener()) {
+                        songPanels.getSongPanelList().get(0).setHasSliderListener(true);
+                        musicBox.getSlider().addMouseListener(new SliderListener(musicBox.getSlider(), musicBox, songPanels.getSongPanelList().get(0).getSong()));
+                    }
                 } catch (UnsupportedTagException e1) {
                     e1.printStackTrace();
                 } catch (InvalidDataException e1) {
@@ -361,12 +362,7 @@ class BackClickListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            Robot r= new Robot();
-            r.delay(100);
-        } catch (AWTException e1) {
-            e1.printStackTrace();
-        }
+
         if (songPanels == musicBox.getSongPanels()) {
             int backSong = songPanels.getSongPanelList().indexOf(musicBox.getSongPanel()) - 1;
             if ( -1!= backSong) {
@@ -374,7 +370,10 @@ class BackClickListener implements ActionListener {
                     if (playTheread != null)
                         playTheread.stop();
                     musicBox.getSongPanel().setBackground(Color.BLACK);
-                    musicBox.getSlider().addMouseListener(new SliderListener(musicBox.getSlider(), musicBox, songPanels.getSongPanelList().get(backSong).getSong()));
+                    if(!songPanels.getSongPanelList().get(backSong).getHasSliderListener()) {
+                        songPanels.getSongPanelList().get(backSong).setHasSliderListener(true);
+                        musicBox.getSlider().addMouseListener(new SliderListener(musicBox.getSlider(), musicBox, songPanels.getSongPanelList().get(backSong).getSong()));
+                    }
 
                 } catch (UnsupportedTagException e1) {
                     e1.printStackTrace();
@@ -421,7 +420,10 @@ class BackClickListener implements ActionListener {
                     if (playTheread != null)
                         playTheread.stop();
                     musicBox.getSongPanel().setBackground(Color.BLACK);
-                    musicBox.getSlider().addMouseListener(new SliderListener(musicBox.getSlider(), musicBox, songPanels.getSongPanelList().get(number).getSong()));
+                    if(!songPanels.getSongPanelList().get(number).getHasSliderListener()) {
+                        songPanels.getSongPanelList().get(number).setHasSliderListener(true);
+                        musicBox.getSlider().addMouseListener(new SliderListener(musicBox.getSlider(), musicBox, songPanels.getSongPanelList().get(number).getSong()));
+                    }
                 } catch (UnsupportedTagException e1) {
                     e1.printStackTrace();
                 } catch (InvalidDataException e1) {
