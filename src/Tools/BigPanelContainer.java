@@ -24,7 +24,7 @@ public class BigPanelContainer extends JPanel{
         this.originalImage = originalImage;
         this.setBackground(Color.BLACK);
         bigPanels = new ArrayList<>();
-        this.setLayout(new GridLayout(10, 3 ));
+        this.setLayout(new GridLayout(3, 40  , 10 , 10));
     }
     public void addBigPanel(BigPanel bigPanel){
         this.add(bigPanel);

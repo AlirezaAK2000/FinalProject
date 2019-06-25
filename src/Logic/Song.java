@@ -107,6 +107,7 @@ public class Song {
         {
             pause=place;
             playTheread.stop();
+            System.out.println("First"+Thread.activeCount());
             advancedPlayer=new AdvancedPlayer(new FileInputStream(fileName));
             advancedPlayer.setPlayBackListener(new PlaybackListener() {
                 @Override
@@ -126,6 +127,7 @@ public class Song {
                 }
             });
             playTheread.start();
+            System.out.println("Second" +Thread.activeCount());
         }
         else if(playTheread==null){
                pause=place;

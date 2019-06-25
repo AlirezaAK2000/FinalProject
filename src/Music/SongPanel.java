@@ -3,6 +3,8 @@ package Music;
 import Boxoffice.Boxoffice;
 import Logic.Song;
 import Tools.Background;
+import Tools.BigPanel;
+import Tools.BigPanelContainer;
 import Tools.ProButton;
 
 import javax.swing.*;
@@ -28,6 +30,9 @@ public class SongPanel extends JPanel implements Serializable {
     private PopupMenu adder;
     private boolean addedToRecently = false;
     private boolean hasSliderListener=false;
+    private BigPanel albumPanel;
+    private BigPanel artistPanel;
+
     public SongPanel(Song song){
         super();
         this.boxoffice = boxoffice;
@@ -95,7 +100,8 @@ public class SongPanel extends JPanel implements Serializable {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(e.isMetaDown())
-                    adder.show(b , getParent().getX() , getParent().getY());
+                    adder.show(b , getParent().getParent().getX() , getParent().getParent().getY());
+
             }
         });
 
@@ -123,6 +129,23 @@ public class SongPanel extends JPanel implements Serializable {
     public Song getSong() {
         return song;
     }
+
+    public void setAlbumPanel(BigPanel albumPanel) {
+        this.albumPanel = albumPanel;
+    }
+
+    public void setArtistPanel(BigPanel artistPanel) {
+        this.artistPanel = artistPanel;
+    }
+
+    public BigPanel getAlbumPanel() {
+        return albumPanel;
+    }
+
+    public BigPanel getArtistPanel() {
+        return artistPanel;
+    }
+
     public ProButton getLiker() {
         return liker;
     }
@@ -154,5 +177,25 @@ public class SongPanel extends JPanel implements Serializable {
 
     public MenuItem getRemove() {
         return remove;
+    }
+
+
+    public boolean equals(SongPanel songPanel) {
+        SongPanel s = songPanel;
+        if(s.getSong().getTitle().equals(this.getSong().getTitle())||s.getSong().equals(song))
+            return true;
+        return false;
+    }
+
+    public boolean sameAlbum(SongPanel songPanel){
+        if (songPanel.getSong().getAlbum().toLowerCase().equals(song.getAlbum().toLowerCase()))
+            return true;
+        return false;
+    }
+
+    public boolean sameArtist(SongPanel songPanel){
+        if (songPanel.getSong().getArtist().toLowerCase().equals(song.getArtist().toLowerCase()))
+            return true;
+        return false;
     }
 }
