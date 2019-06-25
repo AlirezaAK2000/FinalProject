@@ -28,6 +28,7 @@ public class ProSlider extends JSlider {
         this.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
+
                 position.setValue(ProSlider.this.getValue());
             }
         });

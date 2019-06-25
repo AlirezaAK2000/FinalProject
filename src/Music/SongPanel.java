@@ -28,6 +28,7 @@ public class SongPanel extends JPanel implements Serializable {
     private PopupMenu adder;
     private boolean addedToRecently = false;
     private boolean hasSliderListener=false;
+    private boolean hasSongPanelListener=false;
     public SongPanel(Song song){
         super();
         this.boxoffice = boxoffice;
@@ -132,6 +133,15 @@ public class SongPanel extends JPanel implements Serializable {
     public ImageIcon getUnliked() {
         return unliked;
     }
+
+    public boolean isHasSongPanelListener() {
+        return hasSongPanelListener;
+    }
+
+    public void setHasSongPanelListener(boolean hasSongPanelListener) {
+        this.hasSongPanelListener = hasSongPanelListener;
+    }
+
     public boolean getHasPlayListener(){return hasPlayListener;}
     public void setHasPlayListener(boolean flag){hasPlayListener=flag;}
     public boolean getHasSliderListener(){return hasSliderListener;}

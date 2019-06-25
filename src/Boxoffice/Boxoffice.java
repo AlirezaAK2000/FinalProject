@@ -164,7 +164,15 @@ public class Boxoffice extends JPanel {
                                 public void actionPerformed(ActionEvent e) {
                                     if (songPanel.getLiker().getIcon().equals(songPanel.getUnliked())) {
                                         songPanel.getLiker().setIcon(songPanel.getUnliked());
-                                        favorite.addSong(songPanel);
+                                        try {
+                                            favorite.addSong(songPanel);
+                                        } catch (InvalidDataException e1) {
+                                            e1.printStackTrace();
+                                        } catch (IOException e1) {
+                                            e1.printStackTrace();
+                                        } catch (UnsupportedTagException e1) {
+                                            e1.printStackTrace();
+                                        }
                                         if (buttonClicked.equals(recently))
                                             recentlyList.repaintList();
                                         if (buttonClicked.equals(songs))
@@ -196,7 +204,15 @@ public class Boxoffice extends JPanel {
                                                 e.printStackTrace();
                                             }
                                         if (songPanel.isAddedToRecently() == false) {
-                                            recentlyList.addSong(songPanel);
+                                            try {
+                                                recentlyList.addSong(songPanel);
+                                            } catch (InvalidDataException e) {
+                                                e.printStackTrace();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            } catch (UnsupportedTagException e) {
+                                                e.printStackTrace();
+                                            }
                                             songPanel.setAddedToRecently(true);
                                             center.getMusicBox().setInfo(songPanel.getSong().getTitle(), songPanel.getSong().getArtist());
                                             if (buttonClicked.equals(recently))
@@ -209,7 +225,15 @@ public class Boxoffice extends JPanel {
                                             artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
                                         } else {
                                             recentlyList.removeSong(songPanel);
-                                            recentlyList.addSong(songPanel);
+                                            try {
+                                                recentlyList.addSong(songPanel);
+                                            } catch (InvalidDataException e) {
+                                                e.printStackTrace();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            } catch (UnsupportedTagException e) {
+                                                e.printStackTrace();
+                                            }
                                             if (buttonClicked.equals(recently))
                                                 recentlyList.repaintList();
                                             if (buttonClicked.equals(songs))
@@ -421,7 +445,15 @@ public class Boxoffice extends JPanel {
                    if(e.getStateChange() == ItemEvent.SELECTED){
                        listName = namesCombo.getItemAt(namesCombo.getSelectedIndex());
                        list=  playlistspanels.get(playlistnames.get(listName));
-                       list.addSong(song);
+                       try {
+                           list.addSong(song);
+                       } catch (InvalidDataException e1) {
+                           e1.printStackTrace();
+                       } catch (IOException e1) {
+                           e1.printStackTrace();
+                       } catch (UnsupportedTagException e1) {
+                           e1.printStackTrace();
+                       }
                        itSelf.setVisible(false);
                    }
                }

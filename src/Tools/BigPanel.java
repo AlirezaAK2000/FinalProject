@@ -4,6 +4,8 @@ import Center.Center;
 import Music.SongPanel;
 import Music.SongPanels;
 import Musicbox.MusicBox;
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.UnsupportedTagException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +20,7 @@ public class BigPanel extends JPanel {
     private SongPanels songs;
     private Background background;
     private Center center;
-    public BigPanel(BufferedImage originalImage, SongPanel song , MusicBox musicBox ,Center center) throws IOException {
+    public BigPanel(BufferedImage originalImage, SongPanel song , MusicBox musicBox ,Center center) throws IOException, InvalidDataException, UnsupportedTagException {
         background = new Background(originalImage);
         this.center = center;
         this.setPreferredSize(new Dimension(200 , 200));
@@ -56,7 +58,7 @@ public class BigPanel extends JPanel {
         this.add(nameButton , BorderLayout.SOUTH);
         this.setBackground(Color.BLACK);
     }
-    public void addSong(SongPanel songPanel){
+    public void addSong(SongPanel songPanel) throws InvalidDataException, IOException, UnsupportedTagException {
         songs.addSong(songPanel);
     }
 
