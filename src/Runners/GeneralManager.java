@@ -27,7 +27,8 @@ public class GeneralManager extends JFrame {
     private Saver saver;
     public GeneralManager() throws IOException, InterruptedException, UnsupportedTagException, InvalidDataException, JavaLayerException, ClassNotFoundException {
         super();
-        musicBox = new MusicBox();
+        onlineUsers = new OnlineUsers();
+        musicBox.setArtWork(boxoffice.getArtwork());
         center = new Center(musicBox);
 
         onlineUsers = new OnlineUsers();

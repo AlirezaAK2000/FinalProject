@@ -349,7 +349,8 @@ public class Boxoffice extends JPanel implements Serializable {
                 popupMenu.show(tools, tools.getParent().getX(), tools.getParent().getY());
             }
         });
-
+        center.getMusicBox().getNextb().addActionListener(new NextClickListener(center.getMusicBox(),artwork));
+        center.getMusicBox().getBackb().addActionListener(new NextClickListener(center.getMusicBox(),artwork));
 
     }
 
@@ -663,6 +664,10 @@ public class Boxoffice extends JPanel implements Serializable {
 
     public SongPanels getSongRepository() {
         return songRepository;
+    }
+
+    public Background getArtwork() {
+        return artwork;
     }
 
     public SongPanels getRecentlyList() {

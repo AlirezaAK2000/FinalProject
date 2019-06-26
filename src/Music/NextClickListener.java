@@ -27,74 +27,75 @@ public class NextClickListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (songPanels == musicBox.getSongPanels()) {
-            int nextSong = songPanels.getSongPanelList().indexOf(musicBox.getSongPanel()) + 1;
-            if (songPanels.getSongPanelList().size() - 1 != nextSong - 1) {
-                if (playTheread != null)
-                    playTheread.stop();
-                musicBox.getSongPanel().setBackground(Color.BLACK);
+            if (songPanels.getSongPanelList().size() != 0 && musicBox.getSongPanel()!=null) {
+                int nextSong = songPanels.getSongPanelList().indexOf(musicBox.getSongPanel()) + 1;
+                if (songPanels.getSongPanelList().size() - 1 != nextSong - 1) {
+                    if (playTheread != null)
+                        playTheread.stop();
+                    musicBox.getSongPanel().setBackground(Color.BLACK);
 
 
-                musicBox.getSlider().setValue(0);
-                try {
-                    musicBox.setSongPanel(songPanels.getSongPanelList().get(nextSong));
-                } catch (InvalidDataException e1) {
-                    e1.printStackTrace();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                } catch (UnsupportedTagException e1) {
-                    e1.printStackTrace();
+                    musicBox.getSlider().setValue(0);
+                    try {
+                        musicBox.setSongPanel(songPanels.getSongPanelList().get(nextSong));
+                    } catch (InvalidDataException e1) {
+                        e1.printStackTrace();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (UnsupportedTagException e1) {
+                        e1.printStackTrace();
+                    }
+
+
+                    try {
+                        musicBox.getSlider().setMaximum(musicBox.getSongPanel().getSong().getSize());
+                        musicBox.getSongPanel().getSong().play(0);
+                        musicBox.getSongPanel().setBackground(new Color(0x308320));
+                    } catch (FileNotFoundException e1) {
+                        e1.printStackTrace();
+                    } catch (JavaLayerException e1) {
+                        e1.printStackTrace();
+                    } catch (UnsupportedTagException e1) {
+                        e1.printStackTrace();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (InvalidDataException e1) {
+                        e1.printStackTrace();
+                    }
+
+                } else {
+                    if (playTheread != null)
+                        playTheread.stop();
+                    musicBox.getSongPanel().setBackground(Color.BLACK);
+
+                    musicBox.getSlider().setValue(0);
+                    try {
+                        musicBox.setSongPanel(songPanels.getSongPanelList().get(0));
+                    } catch (InvalidDataException e1) {
+                        e1.printStackTrace();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (UnsupportedTagException e1) {
+                        e1.printStackTrace();
+                    }
+
+                    try {
+                        musicBox.getSlider().setMaximum(musicBox.getSongPanel().getSong().getSize());
+                        musicBox.getSongPanel().getSong().play(0);
+                        musicBox.getSongPanel().setBackground(new Color(0x308320));
+                    } catch (FileNotFoundException e1) {
+                        e1.printStackTrace();
+                    } catch (JavaLayerException e1) {
+                        e1.printStackTrace();
+                    } catch (UnsupportedTagException e1) {
+                        e1.printStackTrace();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (InvalidDataException e1) {
+                        e1.printStackTrace();
+                    }
+
                 }
-
-
-                try {
-                    musicBox.getSlider().setMaximum(musicBox.getSongPanel().getSong().getSize());
-                    musicBox.getSongPanel().getSong().play(0);
-                    musicBox.getSongPanel().setBackground(new Color(0x308320));
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
-                } catch (JavaLayerException e1) {
-                    e1.printStackTrace();
-                } catch (UnsupportedTagException e1) {
-                    e1.printStackTrace();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                } catch (InvalidDataException e1) {
-                    e1.printStackTrace();
-                }
-
-            }
-            else {
-                if (playTheread != null)
-                    playTheread.stop();
-                musicBox.getSongPanel().setBackground(Color.BLACK);
-
-                musicBox.getSlider().setValue(0);
-                try {
-                    musicBox.setSongPanel(songPanels.getSongPanelList().get(0));
-                } catch (InvalidDataException e1) {
-                    e1.printStackTrace();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                } catch (UnsupportedTagException e1) {
-                    e1.printStackTrace();
-                }
-
-                try {
-                    musicBox.getSlider().setMaximum(musicBox.getSongPanel().getSong().getSize());
-                    musicBox.getSongPanel().getSong().play(0);
-                    musicBox.getSongPanel().setBackground(new Color(0x308320));
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
-                } catch (JavaLayerException e1) {
-                    e1.printStackTrace();
-                } catch (UnsupportedTagException e1) {
-                    e1.printStackTrace();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                } catch (InvalidDataException e1) {
-                    e1.printStackTrace();
-                }
-
             }
         }
     }

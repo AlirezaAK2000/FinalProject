@@ -28,6 +28,7 @@ public class BackClickListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (songPanels == musicBox.getSongPanels()) {
+            if(songPanels.getSongPanelList().size()!=0){
             int backSong = songPanels.getSongPanelList().indexOf(musicBox.getSongPanel()) - 1;
             if ( -1!= backSong) {
                 if (playTheread != null)
@@ -95,6 +96,7 @@ public class BackClickListener implements ActionListener {
                 }
 
             }
+        }
         }
     }
 }

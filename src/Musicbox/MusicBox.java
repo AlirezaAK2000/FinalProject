@@ -60,6 +60,7 @@ public class MusicBox extends JPanel  {
     private JLabel artistLabel;
     private JLabel titleLabel;
     private Thread playThread;
+    private Background artWork;
     private Thread moveSliderThread;
     private boolean move;
     public MusicBox() throws IOException {
@@ -284,6 +285,7 @@ public class MusicBox extends JPanel  {
                                     songPanel.setBackground(Color.BLACK);
                                     MusicBox.this.setSongPanel(songPanels.getSongPanelList().get(numberOfSong));
                                     MusicBox.this.getSongPanel().setBackground(new Color(0x308320));
+
                                     if (!MusicBox.this.getSongPanel().getHasPlayListener()) {
                                         MusicBox.this.getSongPanel().setHasPlayListener(true);
                                         MusicBox.this.getPlayb().addActionListener(new PlaybListener(MusicBox.this.getSongPanel().getSong(), MusicBox.this));
@@ -389,6 +391,12 @@ public class MusicBox extends JPanel  {
                                         }
                                     }
                                 }
+                                artWork.SetBack(MusicBox.this.getSongPanel().getSong().getArtWork().getImage());
+                                MusicBox.this.getTitleLabel().setText(MusicBox.this.getSongPanel().getSong().getTitle());
+                                try {
+                                    MusicBox.this.getArtist().setText(MusicBox.this.getSongPanel().getSong().getArtist());
+                                }catch (NullPointerException e3){
+                                }
                             }
 
                         }
@@ -413,6 +421,18 @@ public class MusicBox extends JPanel  {
     public void setInfo(String title , String artist){
         artistLabel.setText(artist);
         titleLabel.setText(title);
+    }
+
+    public JLabel getTitleLabel() {
+        return titleLabel;
+    }
+
+    public JLabel getArtist() {
+        return artist;
+    }
+
+    public void setArtWork(Background artWork) {
+        this.artWork = artWork;
     }
 
     public void setMove(boolean move) {
