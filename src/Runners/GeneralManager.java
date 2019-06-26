@@ -22,6 +22,7 @@ public class GeneralManager extends JFrame {
         musicBox = new MusicBox();
         center = new Center(musicBox);
         boxoffice = new Boxoffice(center);
+        musicBox.setArtWork(boxoffice.getArtwork());
 
         JScrollPane j1 = new JScrollPane(onlineUsers);
         j1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
