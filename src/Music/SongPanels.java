@@ -31,13 +31,17 @@ public class SongPanels extends JPanel implements Serializable , Adder {
     private BufferedImage originalImage;
     private BufferedImage scaledImage;
     private ArrayList<SongPanel> songPanelList;
+    private ArrayList<String> addresses;
     private JPanel headPanel;
     private MusicBox musicBox;
+    private String name;
 
-    public SongPanels(String address, MusicBox musicBox) throws IOException {
+    public SongPanels(String address, MusicBox musicBox , String name) throws IOException {
         super();
         headPanel = new JPanel();
+        this.name = name;
         this.musicBox = musicBox;
+        addresses = new ArrayList<>();
         headPanel.setBackground(Color.BLACK);
         headPanel.setMaximumSize(new Dimension(java.lang.Integer.MAX_VALUE, 30));
         headPanel.setLayout(new GridLayout(1, 4, 10, 10));
@@ -94,9 +98,13 @@ public class SongPanels extends JPanel implements Serializable , Adder {
         g.drawImage(scaledImage, 0, 0, null);
         addComponentListener(new ResizerListener());
     }
+    public void removeAddresses(){
+        addresses = null;
+    }
 
     public void addSong(SongPanel songPanel) throws InvalidDataException, IOException, UnsupportedTagException {
         songPanelList.add(songPanel);
+        addresses.add(songPanel.getSong().getFileName());
 
             songPanel.addMouseListener(new SongPanelListenr(musicBox, songPanel, songPanelList, this));
 
@@ -183,11 +191,19 @@ public class SongPanels extends JPanel implements Serializable , Adder {
     }
 
 
-    public void removeSong(Component comp) {
+    public void removeSong(SongPanel comp) {
+        addresses.remove(comp.getSong().getFileName());
         songPanelList.remove(comp);
         this.remove(comp);
     }
 
-
+    @Override
+    public String getName() {
+        return name;
     }
+
+    public ArrayList<String> getAddresses() {
+        return addresses;
+    }
+}
 

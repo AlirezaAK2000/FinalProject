@@ -25,7 +25,7 @@ public class BigPanel extends JPanel {
         this.center = center;
         this.setPreferredSize(new Dimension(200 , 200));
         background.setPreferredSize(new Dimension(150 , 150));
-        this.songs = new SongPanels("backgrouns\\center8.png" , musicBox);
+        this.songs = new SongPanels("backgrouns\\center8.png" , musicBox , "none");
         songs.addSong(song);
         name = song.getSong().getAlbum();
         nameButton = new ProButton(name);

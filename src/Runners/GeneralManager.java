@@ -4,11 +4,18 @@ import Boxoffice.Boxoffice;
 import Center.Center;
 import Musicbox.MusicBox;
 import OnlineUsers.OnlineUsers;
+import Tools.Saver;
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.UnsupportedTagException;
+import javazoom.jl.decoder.JavaLayerException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
 public class GeneralManager extends JFrame {
     private Boxoffice boxoffice;
@@ -16,12 +23,24 @@ public class GeneralManager extends JFrame {
     private Center center;
     private MusicBox musicBox;
     private Image img;
-    public GeneralManager() throws IOException, InterruptedException {
+    private ObjectInputStream loader;
+    private Saver saver;
+    public GeneralManager() throws IOException, InterruptedException, UnsupportedTagException, InvalidDataException, JavaLayerException, ClassNotFoundException {
         super();
-        onlineUsers = new OnlineUsers();
         musicBox = new MusicBox();
         center = new Center(musicBox);
-        boxoffice = new Boxoffice(center);
+
+        onlineUsers = new OnlineUsers();
+//        try {
+            File file = new File("everyThing.ser");
+            loader = new ObjectInputStream(new FileInputStream(file));
+            saver = (Saver) loader.readObject();
+            boxoffice = new Boxoffice(center , "loading" );
+            boxoffice.setData(saver.getData());
+            loader.close();
+//        }catch (Exception e){
+          //  boxoffice = new Boxoffice(center , "first" );
+//        }
 
         JScrollPane j1 = new JScrollPane(onlineUsers);
         j1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
