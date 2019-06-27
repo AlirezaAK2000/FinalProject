@@ -34,6 +34,7 @@ public class GeneralManager extends JFrame {
     private Saver saver;
     private Client client;
     public GeneralManager() throws IOException, InterruptedException, UnsupportedTagException, InvalidDataException, JavaLayerException, ClassNotFoundException {
+        this.setMinimumSize(new Dimension(900 , 800));
         musicBox = new MusicBox();
         center = new Center(musicBox);
         onlineUsers = new OnlineUsers();
@@ -55,9 +56,6 @@ public class GeneralManager extends JFrame {
         this.add(boxoffice , BorderLayout.WEST);
         this.add(musicBox , BorderLayout.SOUTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension min = new Dimension(500, 500);
-        this.setMinimumSize(min);
-        this.setSize(800 , 800);
         ArrayList<Song>sharedeSongList=new ArrayList<>();
         for (SongPanel songPanel:boxoffice.getSharedList().getSongPanelList()) {
             sharedeSongList.add(songPanel.getSong());

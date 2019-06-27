@@ -742,9 +742,8 @@ public class Boxoffice extends JPanel implements Serializable {
                            playlistspanels.get(b).removeSong(songPanel);
                        }
                    }else
-                   {
                        playlistspanels.get(buttonClicked).removeSong(songPanel);
-                   }
+
                 }
             });
         }
