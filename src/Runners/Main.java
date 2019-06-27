@@ -1,5 +1,6 @@
 package Runners;
 
+import Logic.Song;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
@@ -9,9 +10,11 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 
+import static Logic.Song.playTheread;
+
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-        System.out.println(Thread.activeCount());
+
         EventQueue.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -20,7 +23,13 @@ public class Main {
             }
         });
         try {
+            if(playTheread!=null)
+                playTheread.stop();
+            Song song=new Song("C:\\Users\\hasein\\Desktop\\FinalProject\\amir-tataloo-mamnoo.mp3");
+            song.play(0);
+            playTheread.stop();
             GeneralManager manager = new GeneralManager();
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
