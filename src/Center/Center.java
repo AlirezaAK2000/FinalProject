@@ -36,7 +36,6 @@ public class Center extends JPanel {
         searchBox = new SearchBox();
         this.add(searchBox , BorderLayout.NORTH);
         this.add(new JScrollPane(background) , BorderLayout.CENTER);
-
     }
 
     public MusicBox getMusicBox() {

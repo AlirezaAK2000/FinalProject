@@ -1,5 +1,6 @@
 package OnlineUsers;
 
+import Server.FriendList;
 import Tools.RoundedCornerBorder;
 
 import javax.swing.*;
@@ -12,7 +13,8 @@ public class Friend extends JPanel {
     private JLabel title;
     private JLabel artist;
     private JLabel onORof;
-    public Friend(String tit , String artis , String onOro){
+    private FriendList friendList;
+    public Friend(String tit , String artis , String onOro , FriendList friendList){
         super();
         Font font = new Font("serif" , Font.BOLD , 15);
         information = new JPanel();
@@ -49,7 +51,11 @@ public class Friend extends JPanel {
         information.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+               JFrame shower = new JFrame();
+               shower.setBackground(Color.BLACK);
+               shower.add(friendList);
+               shower.setSize(new Dimension(400 ,200));
+               shower.setVisible(true);
             }
 
             @Override
