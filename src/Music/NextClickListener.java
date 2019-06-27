@@ -68,7 +68,6 @@ public class NextClickListener implements ActionListener {
                     if (playTheread != null)
                         playTheread.stop();
                     musicBox.getSongPanel().setBackground(Color.BLACK);
-
                     musicBox.getSlider().setValue(0);
                     try {
                         musicBox.setSongPanel(songPanels.getSongPanelList().get(0));
@@ -79,11 +78,11 @@ public class NextClickListener implements ActionListener {
                     } catch (UnsupportedTagException e1) {
                         e1.printStackTrace();
                     }
-
                     try {
                         musicBox.getSlider().setMaximum(musicBox.getSongPanel().getSong().getSize());
                         musicBox.getPlayb().setIcon(musicBox.getStopI());
                         musicBox.getSongPanel().getSong().play(0);
+                        musicBox.getSongPanel().getSong().continuee();
                         musicBox.getSongPanel().setBackground(new Color(0x308320));
                     } catch (FileNotFoundException e1) {
                         e1.printStackTrace();
@@ -96,7 +95,6 @@ public class NextClickListener implements ActionListener {
                     } catch (InvalidDataException e1) {
                         e1.printStackTrace();
                     }
-
                 }
             }
         }

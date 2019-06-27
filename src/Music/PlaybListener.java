@@ -26,8 +26,7 @@ public class PlaybListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (musicBox.getSongPanel().getSong() == song) {
 
-            if (a % 2 == 1) {
-                ++a;
+            if (musicBox.getPlayb().getIcon().equals(musicBox.getPlayI())) {
                 try {
                     musicBox.getSlider().setMaximum(song.getSize()/1000);
                     musicBox.setMove(true);
@@ -47,7 +46,6 @@ public class PlaybListener implements ActionListener {
             } else {
                 try {
                     musicBox.getSlider().setMaximum(song.getSize()/1000);
-                    a++;
                     musicBox.setMove(false);
                     song.pause();
                 } catch (IOException e1) {
