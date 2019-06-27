@@ -13,9 +13,10 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BigPanelContainer extends JPanel{
-    ArrayList<BigPanel> bigPanels;
+    private HashMap<String , BigPanel> bigPanels;
     private Center center;
     private BufferedImage originalImage;
     private BufferedImage scaledImage;
@@ -23,12 +24,13 @@ public class BigPanelContainer extends JPanel{
         super();
         this.originalImage = originalImage;
         this.setBackground(Color.BLACK);
-        bigPanels = new ArrayList<>();
+        bigPanels = new HashMap<>();
         this.setLayout(new GridLayout(3, 40  , 10 , 10));
     }
     public void addBigPanel(BigPanel bigPanel){
         this.add(bigPanel);
         bigPanel.setCenter(center);
+        bigPanels.put(bigPanel.getName() , bigPanel);
     }
 
     public void setCenter(Center center) {
@@ -39,4 +41,7 @@ public class BigPanelContainer extends JPanel{
         repaint();
     }
 
+    public HashMap<String, BigPanel> getBigPanels() {
+        return bigPanels;
+    }
 }
