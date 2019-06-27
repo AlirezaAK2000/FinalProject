@@ -430,7 +430,7 @@ public class MusicBox extends JPanel  {
     }
 
     public JLabel getArtist() {
-        return artist;
+        return artistLabel;
     }
 
     public void setArtWork(Background artWork) {
