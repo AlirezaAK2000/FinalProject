@@ -82,7 +82,6 @@ public class NextClickListener implements ActionListener {
                         musicBox.getSlider().setMaximum(musicBox.getSongPanel().getSong().getSize());
                         musicBox.getPlayb().setIcon(musicBox.getStopI());
                         musicBox.getSongPanel().getSong().play(0);
-                        musicBox.getSongPanel().getSong().continuee();
                         musicBox.getSongPanel().setBackground(new Color(0x308320));
                     } catch (FileNotFoundException e1) {
                         e1.printStackTrace();
