@@ -113,20 +113,23 @@ public class Song {
             pause=place;
             playTheread.stop();
             System.out.println("First"+Thread.activeCount());
-            advancedPlayer=new AdvancedPlayer(new FileInputStream(fileName));
-            advancedPlayer.setPlayBackListener(new PlaybackListener() {
-                @Override
-                public void playbackFinished(PlaybackEvent playbackEvent) {
-                    super.playbackFinished(playbackEvent);
-                    pause+=playbackEvent.getFrame();
-                }
-            });
+
             playTheread=new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
+                        advancedPlayer=new AdvancedPlayer(new FileInputStream(fileName));
+                        advancedPlayer.setPlayBackListener(new PlaybackListener() {
+                            @Override
+                            public void playbackFinished(PlaybackEvent playbackEvent) {
+                                super.playbackFinished(playbackEvent);
+                                pause+=playbackEvent.getFrame();
+                            }
+                        });
                         advancedPlayer.play((0+pause)/26,Integer.MAX_VALUE);
                     } catch (JavaLayerException e) {
+                        e.printStackTrace();
+                    } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
                 }

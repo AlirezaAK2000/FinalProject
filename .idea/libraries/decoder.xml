@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="decoder">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jlayer1.0.1 - 2/JLayer1.0.1/jl1.0.1.jar!/javazoom/jl/decoder" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/jlayer1.0.1 - 2/JLayer1.0.1/jl1.0.1.jar!/" />
+      <root url="file://$PROJECT_DIR$/src" />
+    </SOURCES>
+  </library>
+</component>

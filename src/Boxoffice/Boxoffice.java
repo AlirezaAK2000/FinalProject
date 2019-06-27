@@ -271,7 +271,7 @@ public class Boxoffice extends JPanel implements Serializable {
             public void actionPerformed(ActionEvent e) {
                 center.setMain(sharedList);
                 center.getMusicBox().setSongPanels(sharedList);
-                favorite.repaintList();
+                sharedList.repaintList();
                 buttonClicked = sharedPlaylist;
             }
         });
@@ -539,10 +539,8 @@ public class Boxoffice extends JPanel implements Serializable {
                 }
             }
         }
-        recentlyList = aux;
+        recentlyList.setAddresses(aux.getAddresses());
         data.put("recentlyList" , musics);
-
-
 
     }
 
@@ -642,8 +640,10 @@ public class Boxoffice extends JPanel implements Serializable {
                                 songRepository.repaintList();
                             if (buttonClicked.equals(favorites))
                                 favorite.repaintList();
-
-                            artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
+                            try {
+                                artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
+                            }catch (NullPointerException e){
+                            }
                         } else {
                             recentlyList.removeSong(songPanel);
                             try {
@@ -661,7 +661,10 @@ public class Boxoffice extends JPanel implements Serializable {
                                 songRepository.repaintList();
                             if (buttonClicked.equals(favorites))
                                 favorite.repaintList();
-                            artwork.SetBack(songPanel.getSong().getArtWork().getImage());
+                            try {
+                                artwork.SetBack(songPanel.getSong().getArtWork().getImage());
+                            }catch (NullPointerException e){
+                            }
                         }
 
                     }
@@ -671,17 +674,18 @@ public class Boxoffice extends JPanel implements Serializable {
             songPanel.getAddtoShareList().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    System.out.println("hasdasd");
                     try {
                         sharedList.addSong(songPanel);
                     } catch (InvalidDataException e1) {
-                        e1.printStackTrace();
+                        System.out.println("error1");
                     } catch (IOException e1) {
-                        e1.printStackTrace();
+                        System.out.println("error2");
                     } catch (UnsupportedTagException e1) {
-                        e1.printStackTrace();
+                        System.out.println("error3");
                     }
                     sharedList.repaintList();
-                    System.out.println(sharedList.getSongPanelList().size());
+                    System.out.println( "size"+sharedList.getSongPanelList().size());
                 }
             });
         }
@@ -731,25 +735,32 @@ public class Boxoffice extends JPanel implements Serializable {
                 popupMenu.add(remove);
                 popupMenu.add(edit);
                 button.add(popupMenu);
-
-                popupMenu.show(button,button.getParent().getX(),button.getParent().getY());
                 remove.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        playlistnames.remove(button.getName());
+                        if (data.containsKey(playlistspanels.get(button).getName()))
+                        data.remove(playlistspanels.get(button).getName());
+                        playlistspanels.remove(button);
                         buttons.remove(button);
-                        Boxoffice.this.remove(button);
-                        Boxoffice.this.repaint();
+                        menubar.remove(button);
+                        menubar.revalidate();
+                        menubar.repaint();
 
                     }
 
                 });
-
                 edit.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         PlayListAdder playListAdder = new PlayListAdder(b , "edit" , button);
                     }
                 });
+
+                popupMenu.show(button,button.getParent().getX(),button.getParent().getY());
+
+
+
             }
         }
         @Override

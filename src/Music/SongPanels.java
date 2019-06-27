@@ -1,31 +1,23 @@
 package Music;
 
-import Boxoffice.Boxoffice;
-import Logic.Song;
 import Musicbox.MusicBox;
-import Tools.Integer;
-import Tools.ProSlider;
-import Tools.SliderDemoSkin;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
-import javazoom.jl.decoder.JavaLayerException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.AncestorListener;
-import javax.swing.plaf.PanelUI;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import static Logic.Song.playTheread;
 
 public class SongPanels extends JPanel implements Serializable , Adder {
     private BufferedImage originalImage;
@@ -199,6 +191,7 @@ public class SongPanels extends JPanel implements Serializable , Adder {
         addresses.remove(comp.getSong().getFileName());
         songPanelList.remove(comp);
         this.remove(comp);
+        this.repaintList();
     }
 
     @Override
