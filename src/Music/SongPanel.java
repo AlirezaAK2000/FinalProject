@@ -98,6 +98,7 @@ public class SongPanel extends JPanel implements Serializable {
         this.add(title);
         this.add(album);
         this.add(artist);
+        this.setBorder(BorderFactory.createLineBorder(Color.GRAY , 3));
 
         addtoPlaylist = new MenuItem("Add to playlist");
         addtoShareList = new MenuItem("Add to sharelist");
