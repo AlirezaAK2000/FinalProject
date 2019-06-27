@@ -22,6 +22,7 @@ import java.io.*;
 import java.util.*;
 
 import static Logic.Song.playTheread;
+import static java.awt.FlowLayout.CENTER;
 
 public class Boxoffice extends JPanel implements Serializable {
 
@@ -69,6 +70,8 @@ public class Boxoffice extends JPanel implements Serializable {
         this.center = center;
         playlistnames = new HashMap<>();
         playlistspanels = new HashMap<>();
+
+
         albumsContain = new BigPanelContainer(Background.toBufferedImage(ImageIO.read(new File("backgrounds\\center9.jpg"))));
         sharedList = new SongPanels("backgrounds\\center10.jpg" , center.getMusicBox() , "sharedList");
         recentlyList = new SongPanels("backgrounds\\center.png" , center.getMusicBox() , "recentlyList"){
@@ -199,7 +202,6 @@ public class Boxoffice extends JPanel implements Serializable {
         popupMenu.add(playBack);
         popupMenu.add(help);
         tools.add(popupMenu);
-
 
         this.add(tools, BorderLayout.NORTH);
 
@@ -372,12 +374,16 @@ public class Boxoffice extends JPanel implements Serializable {
                 popupMenu.show(tools, tools.getParent().getX(), tools.getParent().getY());
             }
         });
+        playlistspanels.put(favorites ,favorite);
+        playlistspanels.put(recently , recentlyList);
+        playlistspanels.put(songs , songRepository);
+        playlistspanels.put(sharedPlaylist , sharedList);
         center.getMusicBox().getNextb().addActionListener(new NextClickListener(center.getMusicBox(),artwork));
         center.getMusicBox().getBackb().addActionListener(new NextClickListener(center.getMusicBox(),artwork));
 
     }
 
-    private class AddToPlayListFrame extends JFrame implements ActionListener{
+    private class AddToPlayListFrame implements ActionListener{
         private JComboBox<String> namesCombo;
         private String listName;
         private SongPanels list;
@@ -385,18 +391,25 @@ public class Boxoffice extends JPanel implements Serializable {
         private JFrame itSelf;
         public AddToPlayListFrame(SongPanel song){
             this.song = song;
-            itSelf = this;
+            itSelf = new JFrame();
         }
         @Override
         public void actionPerformed(ActionEvent e) {
             String[] names = playlistnames.keySet().toArray(new String[0]);
-            namesCombo = new JComboBox<>(names);
+            namesCombo = new JComboBox<>();
+            namesCombo.addItem("");
+            for (String str:names)
+                namesCombo.addItem(str);
+            namesCombo.setEnabled(true);
+            itSelf.setBackground(Color.BLACK);
+            itSelf.setLayout(new FlowLayout(CENTER));
+            itSelf.add(namesCombo);
             namesCombo.addItemListener(new ItemListener() {
                 @Override
                 public void itemStateChanged(ItemEvent e) {
                     if(e.getStateChange() == ItemEvent.SELECTED){
                         listName = namesCombo.getItemAt(namesCombo.getSelectedIndex());
-                        list=  playlistspanels.get(playlistnames.get(listName));
+                        list = playlistspanels.get(playlistnames.get(listName));
                         try {
                             list.addSong(song);
                         } catch (InvalidDataException e1) {
@@ -410,11 +423,9 @@ public class Boxoffice extends JPanel implements Serializable {
                     }
                 }
             });
-            this.setBackground(Color.BLACK);
-            this.add(namesCombo);
-            this.setSize(new Dimension(300 , 80));
-            this.setLocation(300 , 300);
-            this.setVisible(true);
+            itSelf.setSize(new Dimension(300 , 80));
+            itSelf.setLocation(300 , 300);
+            itSelf.setVisible(true);
 
         }
     }
@@ -522,8 +533,6 @@ public class Boxoffice extends JPanel implements Serializable {
             addProcess(str);
         }
         data.put("songs" , songRepository.getAddresses());
-        if (data.containsKey("favorite"))
-        System.out.println("is ok");
         ArrayList<String> likedList = loadedData.get("favorite");
         ArrayList<SongPanel> panels = songRepository.getSongPanelList();
         SongPanels aux = new SongPanels("backgrounds\\center.png" , center.getMusicBox() , "recentlyList");
@@ -559,13 +568,10 @@ public class Boxoffice extends JPanel implements Serializable {
                 }
             }
             data.put("sharedList", sharedList.getAddresses());
-            System.out.println("add"+sharedList.getAddresses().size());
-            System.out.println("panel" + sharedList.getSongPanelList().size());
 
         }catch (NullPointerException e){
-            System.out.println("fuck");
         }
-        Set<String> pllists =  data.keySet();
+        Set<String> pllists =  loadedData.keySet();
         System.out.println("kir:" + pllists.size());
 
         pllists.remove("sharedList");
@@ -592,10 +598,7 @@ public class Boxoffice extends JPanel implements Serializable {
                 }
             }
             data.put(name, songPanels.getAddresses());
-            System.out.println("add"+songPanels.getAddresses().size());
-            System.out.println("panel" + songPanels.getSongPanelList().size());
         }catch (NullPointerException e){
-            System.out.println("fuck");
         }
     }
 
@@ -647,22 +650,11 @@ public class Boxoffice extends JPanel implements Serializable {
                         } catch (UnsupportedTagException e1) {
                             e1.printStackTrace();
                         }
-                        if (buttonClicked.equals(recently))
-                            recentlyList.repaintList();
-                        if (buttonClicked.equals(songs))
-                            songRepository.repaint();
-                        if (buttonClicked.equals(favorites))
-                            favorite.repaintList();
+
                     } else {
                         songPanel.getLiker().setIcon(songPanel.getLiked());
 
-                        if (buttonClicked.equals(songs))
-                            songRepository.repaintList();
-                        if (buttonClicked.equals(recently))
-                            recentlyList.repaintList();
-                        favorite.removeSong(songPanel);
-                        if (buttonClicked.equals(favorites))
-                            favorite.repaintList();
+
 
                     }
                 }
@@ -689,12 +681,11 @@ public class Boxoffice extends JPanel implements Serializable {
                             }
                             songPanel.setAddedToRecently(true);
                             center.getMusicBox().setInfo(songPanel.getSong().getTitle(), songPanel.getSong().getArtist());
-                            if (buttonClicked.equals(recently))
-                                recentlyList.repaintList();
-                            if (buttonClicked.equals(songs))
-                                songRepository.repaintList();
-                            if (buttonClicked.equals(favorites))
-                                favorite.repaintList();
+                            try {
+                                playlistspanels.get(buttonClicked).repaintList();
+                            }catch (NullPointerException e){
+                                songPanel.getAlbumPanel().getSongs().repaintList();
+                            }
                             try {
                                 artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
                             }catch (NullPointerException e){
@@ -710,12 +701,12 @@ public class Boxoffice extends JPanel implements Serializable {
                             } catch (UnsupportedTagException e) {
                                 e.printStackTrace();
                             }
-                            if (buttonClicked.equals(recently))
-                                recentlyList.repaintList();
-                            if (buttonClicked.equals(songs))
-                                songRepository.repaintList();
-                            if (buttonClicked.equals(favorites))
-                                favorite.repaintList();
+                            try {
+                                playlistspanels.get(buttonClicked).repaintList();
+                            }catch (NullPointerException e){
+                                songPanel.getAlbumPanel().getSongs().repaintList();
+                            }
+
                             try {
                                 artwork.SetBack(songPanel.getSong().getArtWork().getImage());
                             }catch (NullPointerException e){

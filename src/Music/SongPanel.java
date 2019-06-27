@@ -31,7 +31,6 @@ public class SongPanel extends JPanel implements Serializable {
     private boolean addedToRecently = false;
     private boolean hasSliderListener=false;
     private BigPanel albumPanel;
-    private BigPanel artistPanel;
     private JPanel setting;
     private ProButton box;
 
@@ -99,6 +98,7 @@ public class SongPanel extends JPanel implements Serializable {
         this.add(title);
         this.add(album);
         this.add(artist);
+        this.setBorder(BorderFactory.createLineBorder(Color.GRAY , 3));
 
         addtoPlaylist = new MenuItem("Add to playlist");
         addtoShareList = new MenuItem("Add to sharelist");
@@ -121,6 +121,7 @@ public class SongPanel extends JPanel implements Serializable {
 
 
     }
+
 
     public PopupMenu getAdder() {
         return adder;
@@ -148,19 +149,9 @@ public class SongPanel extends JPanel implements Serializable {
     public void setAlbumPanel(BigPanel albumPanel) {
         this.albumPanel = albumPanel;
     }
-
-    public void setArtistPanel(BigPanel artistPanel) {
-        this.artistPanel = artistPanel;
-    }
-
     public BigPanel getAlbumPanel() {
         return albumPanel;
     }
-
-    public BigPanel getArtistPanel() {
-        return artistPanel;
-    }
-
     public ProButton getLiker() {
         return liker;
     }
