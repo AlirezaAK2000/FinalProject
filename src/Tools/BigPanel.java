@@ -37,6 +37,7 @@ public class BigPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 center.setMain(songs);
+                center.getMusicBox().setSongPanels(songs);
                 songs.repaintList();
             }
 
