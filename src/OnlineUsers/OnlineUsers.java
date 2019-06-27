@@ -1,18 +1,14 @@
 package OnlineUsers;
 
-import Server.FriendList;
-import Server.FriendSong;
+import ServerAndClient.FriendList;
+import ServerAndClient.FriendSong;
 import Tools.ProButton;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -73,11 +69,16 @@ public class OnlineUsers extends JPanel {
         friendList.addSong(new FriendSong("harvaght" , "tatalo mother ghahbe"));
         friendList.addSong(new FriendSong("harvaght" , "tatalo mother ghahbe"));
         friendList.addSong(new FriendSong("harvaght" , "tatalo mother ghahbe"));
-        Friend u1 = new Friend("title" , "artist" ,"on or of" ,friendList );
+        Friend u1 = new Friend("on or of" ,friendList );
         addOnlineUser(u1);
 
     }
-//    public void paintComponent(Graphics g) {
+
+    public ProButton getAddFriend() {
+        return addFriend;
+    }
+
+    //    public void paintComponent(Graphics g) {
 //        double widthScaleFactor = getWidth() / (double)originalImage.getWidth();
 //        double heightScaleFactor = getHeight() / (double)originalImage.getHeight();
 //

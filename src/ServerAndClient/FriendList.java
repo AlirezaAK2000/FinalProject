@@ -1,6 +1,4 @@
-package Server;
-
-import OnlineUsers.Friend;
+package ServerAndClient;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +27,7 @@ public class FriendList extends JPanel {
     }
 
     public void setFriendSongs(ArrayList<FriendSong> friendSongs) {
+        container.removeAll();
         for (FriendSong f:friendSongs){
             this.friendSongs.add(f);
             container.add(f);

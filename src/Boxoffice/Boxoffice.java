@@ -754,6 +754,10 @@ public class Boxoffice extends JPanel implements Serializable {
         return favorite;
     }
 
+    public SongPanels getSharedList() {
+        return sharedList;
+    }
+
     public SongPanels getSongRepository() {
         return songRepository;
     }

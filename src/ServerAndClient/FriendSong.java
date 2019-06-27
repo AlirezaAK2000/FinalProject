@@ -1,4 +1,4 @@
-package Server;
+package ServerAndClient;
 
 import OnlineUsers.Friend;
 

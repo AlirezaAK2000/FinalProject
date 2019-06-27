@@ -1,7 +1,6 @@
 package OnlineUsers;
 
-import Server.FriendList;
-import Tools.RoundedCornerBorder;
+import ServerAndClient.FriendList;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +13,7 @@ public class Friend extends JPanel {
     private JLabel artist;
     private JLabel onORof;
     private FriendList friendList;
-    public Friend(String tit , String artis , String onOro , FriendList friendList){
+    public Friend( String onOro , FriendList friendList){
         super();
         Font font = new Font("serif" , Font.BOLD , 15);
         information = new JPanel();
@@ -29,11 +28,11 @@ public class Friend extends JPanel {
         this.add(Box.createHorizontalStrut(5) , BorderLayout.WEST);
         this.add(Box.createHorizontalStrut(5) , BorderLayout.EAST);
         this.add(Box.createVerticalStrut(5) , BorderLayout.SOUTH);
-        title = new JLabel("  "+tit);
+        title = new JLabel("  ");
         title.setForeground(Color.white);
         title.setBackground(Color.BLACK);
         title.setFont(font);
-        artist = new JLabel("  "+artis);
+        artist = new JLabel("  ");
         artist.setForeground(Color.white);
         artist.setBackground(Color.BLACK);
         artist.setFont(font);
