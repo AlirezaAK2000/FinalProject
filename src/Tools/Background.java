@@ -13,6 +13,7 @@ public class Background extends JPanel {
     private BufferedImage scaledImage;
     public Background(BufferedImage originalImage){
         this.originalImage = originalImage;
+        this.setBorder(BorderFactory.createEmptyBorder());
     }
     @Override
     public void paintComponent(Graphics g) {

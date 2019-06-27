@@ -10,12 +10,8 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 
 public class GeneralManager extends JFrame {
     private Boxoffice boxoffice;
@@ -32,17 +28,18 @@ public class GeneralManager extends JFrame {
         center = new Center(musicBox);
 
         onlineUsers = new OnlineUsers();
+
         try {
             File file = new File("everyThing.ser");
             loader = new ObjectInputStream(new FileInputStream(file));
             saver = (Saver) loader.readObject();
-            boxoffice = new Boxoffice(center , "loading" );
+            boxoffice = new Boxoffice(center, "loading");
             boxoffice.setData(saver.getData());
             loader.close();
-        }catch (Exception e){
-            boxoffice = new Boxoffice(center , "first" );
+        }catch (FileNotFoundException e){
+            boxoffice = new Boxoffice(center, "");
         }
-        musicBox.setArtWork(boxoffice.getArtwork());
+
 
         JScrollPane j1 = new JScrollPane(onlineUsers);
         j1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

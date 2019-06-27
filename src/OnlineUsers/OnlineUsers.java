@@ -1,7 +1,5 @@
 package OnlineUsers;
 
-import Center.Center;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -34,13 +32,13 @@ public class OnlineUsers extends JPanel {
         this.setLayout(new BoxLayout(this , BoxLayout.Y_AXIS ));
         this.add(frinedsActivity);
 
-        OnlineUserAdder u1 = new OnlineUserAdder();
+        Friend u1 = new Friend("title" , "artist" ,"on or of");
         addOnlineUser(u1);
-        OnlineUserAdder u2 = new OnlineUserAdder();
+        Friend u2 = new Friend("title" , "artist" ,"on or of");
         addOnlineUser(u2);
-        OnlineUserAdder u3 = new OnlineUserAdder();
+        Friend u3 = new Friend("title" , "artist" ,"on or of");
         addOnlineUser(u3);
-        OnlineUserAdder u4 = new OnlineUserAdder();
+        Friend u4 = new Friend("title" , "artist" ,"on or of");
 
     }
     public void paintComponent(Graphics g) {

@@ -57,6 +57,7 @@ public class Boxoffice extends JPanel implements Serializable {
     private SongPanels sharedList;
     private JPanel menubar;
     private BufferedImage c;
+    private HashMap<String ,ArrayList<String>> loadedData;
     private HashMap<String ,ArrayList<String>> data;
     private BigPanelContainer albumsContain;
     private HashMap<ProButton , SongPanels> playlistspanels;
@@ -326,7 +327,12 @@ public class Boxoffice extends JPanel implements Serializable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    data.put(songRepository.getName() , songRepository.getAddresses());
                     data.put("favorite" , favorite.getAddresses());
+                    data.put(recentlyList.getName() , recentlyList.getAddresses());
+                    data.put(sharedList.getName() , sharedList.getAddresses());
+                    System.out.println("s:"+data.size());
+                    System.out.println("a:" +sharedList.getAddresses().size() );
                     new File("everyThing.ser").delete();
                     ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("everyThing.ser" ) );
                     out.writeObject(new Saver(data));
@@ -356,6 +362,7 @@ public class Boxoffice extends JPanel implements Serializable {
         this.add(artwork , BorderLayout.SOUTH);
         JScrollPane j=new JScrollPane(menubar);
         j.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        j.setViewportBorder(BorderFactory.createCompoundBorder());
         this.add(j , BorderLayout.CENTER);
 
         originalImage = ImageIO.read(new File("backgrounds\\left2.jpg"));
@@ -482,6 +489,7 @@ public class Boxoffice extends JPanel implements Serializable {
         playlist.addMouseListener(new RemoveListener(playlists , playlist));
         SongPanels songPanels = new SongPanels("backgrounds\\center9.jpg" , center.getMusicBox() , name);
         playlistspanels.put(playlist , songPanels);
+        data.put(name , songPanels.getAddresses());
         playlistnames.put(name , playlist);
         playlist.addActionListener(new ActionListener() {
             @Override
@@ -504,18 +512,19 @@ public class Boxoffice extends JPanel implements Serializable {
 
 
     public void setData(HashMap<String, ArrayList<String>> data) throws JavaLayerException, UnsupportedTagException, InvalidDataException, IOException {
-        this.data = data;
+        loadedData= data;
         load();
     }
     public void load() throws UnsupportedTagException, IOException, InvalidDataException, JavaLayerException {
-        ArrayList<String> musics = data.get("songs");
+
+        ArrayList<String> musics = loadedData.get("songs");
         for (String str:musics){
             addProcess(str);
         }
         data.put("songs" , songRepository.getAddresses());
         if (data.containsKey("favorite"))
         System.out.println("is ok");
-        ArrayList<String> likedList = data.get("favorite");
+        ArrayList<String> likedList = loadedData.get("favorite");
         ArrayList<SongPanel> panels = songRepository.getSongPanelList();
         SongPanels aux = new SongPanels("backgrounds\\center.png" , center.getMusicBox() , "recentlyList");
         for (String str:likedList) {
@@ -527,21 +536,67 @@ public class Boxoffice extends JPanel implements Serializable {
                 }
             }
         }
-        data.put("favorite" , likedList);
+        data.put("favorite" , favorite.getAddresses());
         data.put("recentlyList", recentlyList.getAddresses());
-        ArrayList<String> recent = data.get("recentlyList");
-        System.out.println("recent"+recent.size());
-        for (String str:recent) {
+        ArrayList<String> recent = loadedData.get("recentlyList");
+        for (int i=recent.size()-1;i>=0;i--) {
             for (SongPanel s : panels) {
 
-                if (str.equals(s.getSong().getFileName())) {
-                    aux.addSong(s);
+                if (recent.get(i).equals(s.getSong().getFileName())) {
+                    recentlyList.addSong(s);
                 }
             }
         }
-        recentlyList.setAddresses(aux.getAddresses());
-        data.put("recentlyList" , musics);
+        data.put("recentlyList" , recent);
 
+        try {
+            ArrayList<String> songAddresses = loadedData.get("sharedList");
+            ArrayList<SongPanel> all = songRepository.getSongPanelList();
+            for (String str : songAddresses) {
+                for (SongPanel s : all) {
+                    if (str.equals(s.getSong().getFileName()))
+                        sharedList.addSong(s);
+                }
+            }
+            data.put("sharedList", sharedList.getAddresses());
+            System.out.println("add"+sharedList.getAddresses().size());
+            System.out.println("panel" + sharedList.getSongPanelList().size());
+
+        }catch (NullPointerException e){
+            System.out.println("fuck");
+        }
+        Set<String> pllists =  data.keySet();
+        System.out.println("kir:" + pllists.size());
+
+        pllists.remove("sharedList");
+        pllists.remove("recentlyList");
+        pllists.remove("favorite");
+        pllists.remove("songs");
+        for (String str:pllists){
+            addPlaylist(str);
+            loadList(str);
+        }
+
+    }
+
+
+    public void loadList(String name) throws InvalidDataException, IOException, UnsupportedTagException {
+        try {
+            ArrayList<String> songAddresses = loadedData.get(name);
+            ArrayList<SongPanel> all = songRepository.getSongPanelList();
+            SongPanels songPanels = playlistspanels.get(playlistnames.get(name));
+            for (String str : songAddresses) {
+                for (SongPanel s : all) {
+                    if (str.equals(s.getSong().getFileName()))
+                        songPanels.addSong(s);
+                }
+            }
+            data.put(name, songPanels.getAddresses());
+            System.out.println("add"+songPanels.getAddresses().size());
+            System.out.println("panel" + songPanels.getSongPanelList().size());
+        }catch (NullPointerException e){
+            System.out.println("fuck");
+        }
     }
 
 
@@ -674,7 +729,6 @@ public class Boxoffice extends JPanel implements Serializable {
             songPanel.getAddtoShareList().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("hasdasd");
                     try {
                         sharedList.addSong(songPanel);
                     } catch (InvalidDataException e1) {
@@ -746,7 +800,6 @@ public class Boxoffice extends JPanel implements Serializable {
                         menubar.remove(button);
                         menubar.revalidate();
                         menubar.repaint();
-
                     }
 
                 });
@@ -756,11 +809,7 @@ public class Boxoffice extends JPanel implements Serializable {
                         PlayListAdder playListAdder = new PlayListAdder(b , "edit" , button);
                     }
                 });
-
                 popupMenu.show(button,button.getParent().getX(),button.getParent().getY());
-
-
-
             }
         }
         @Override

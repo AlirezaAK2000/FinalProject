@@ -118,14 +118,14 @@ public class SongPanels extends JPanel implements Serializable , Adder {
         songPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                setBackground(Color.darkGray);
-                songPanel.getParent().repaint();
+                songPanel.setBackground(Color.darkGray);
+                songPanel.repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                setBackground(Color.BLACK);
-                songPanel.getParent().repaint();
+                songPanel.setBackground(Color.BLACK);
+                songPanel.repaint();
             }
 
             @Override
@@ -160,12 +160,6 @@ public class SongPanels extends JPanel implements Serializable , Adder {
         return songPanelList;
     }
 
-    public void isSelect(SongPanel songPanel) {
-        int index = songPanelList.indexOf(songPanel);
-        for (int i = index; i >= 0; i--) {
-
-        }
-    }
     public void repaintList() {
         removeAll();
         add(Box.createVerticalStrut(5));
@@ -174,8 +168,7 @@ public class SongPanels extends JPanel implements Serializable , Adder {
             add(Box.createVerticalStrut(5));
             add(p);
         }
-        if (this == null)
-            System.out.println("fuck");
+
         revalidate();
         repaint();
 
@@ -184,6 +177,7 @@ public class SongPanels extends JPanel implements Serializable , Adder {
     public void setSongPanelList(ArrayList<SongPanel> songPanels1) {
         songPanelList = songPanels1;
 
+        repaintList();
     }
 
 
