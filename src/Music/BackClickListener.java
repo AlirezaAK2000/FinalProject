@@ -48,6 +48,7 @@ public class BackClickListener implements ActionListener {
                 }
                 try {
                     musicBox.getSlider().setMaximum(musicBox.getSongPanel().getSong().getSize());
+                    musicBox.getPlayb().setIcon(musicBox.getStopI());
                     musicBox.getSongPanel().getSong().play(0);
                     musicBox.getSongPanel().setBackground(new Color(0x308320));
                 } catch (FileNotFoundException e1) {
@@ -81,6 +82,7 @@ public class BackClickListener implements ActionListener {
                 }
                 try {
                     musicBox.getSlider().setMaximum(musicBox.getSongPanel().getSong().getSize());
+                    musicBox.getPlayb().setIcon(musicBox.getStopI());
                     musicBox.getSongPanel().getSong().play(0);
                     musicBox.getSongPanel().setBackground(new Color(0x308320));
                 } catch (FileNotFoundException e1) {

@@ -46,22 +46,17 @@ public class MusicBox extends JPanel  {
     private ImageIcon repeat;
     private SliderDemoSkin volumeSet;
     private SliderDemoSkin songSetter;
-    private ProSlider volume;
     private ImageIcon mute;
     private ImageIcon volumeOn;
     private JPanel center;
     private JPanel auxPanel;
-    private JPanel songInformation;
     private SongPanels songPanels;
     private SongPanel songPanel;
     private JPanel infoMusic;
-    private JLabel songName;
-    private JLabel artist;
     private JLabel artistLabel;
     private JLabel titleLabel;
     private Thread playThread;
     private Background artWork;
-    private Thread moveSliderThread;
     private boolean move;
     public MusicBox() throws IOException {
         super();
@@ -211,9 +206,6 @@ public class MusicBox extends JPanel  {
         }
     }
 
-    public JPanel getSongInformation() {
-        return songInformation;
-    }
 
     public void setSongPanels(SongPanels songPanels){
         this.songPanels=songPanels;
@@ -430,6 +422,14 @@ public class MusicBox extends JPanel  {
 
     public JLabel getArtist() {
         return artistLabel;
+    }
+
+    public ImageIcon getPlayI() {
+        return playI;
+    }
+
+    public ImageIcon getStopI() {
+        return stopI;
     }
 
     public void setArtWork(Background artWork) {
