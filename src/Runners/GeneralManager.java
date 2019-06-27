@@ -34,7 +34,6 @@ public class GeneralManager extends JFrame {
     private Saver saver;
     private Client client;
     public GeneralManager() throws IOException, InterruptedException, UnsupportedTagException, InvalidDataException, JavaLayerException, ClassNotFoundException {
-        super();
         musicBox = new MusicBox();
         center = new Center(musicBox);
         onlineUsers = new OnlineUsers();
@@ -48,8 +47,6 @@ public class GeneralManager extends JFrame {
         }catch (FileNotFoundException e){
             boxoffice = new Boxoffice(center, "");
         }
-
-
         JScrollPane j1 = new JScrollPane(onlineUsers);
         j1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.setLayout(new BorderLayout());

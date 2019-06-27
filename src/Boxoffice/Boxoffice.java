@@ -730,7 +730,21 @@ public class Boxoffice extends JPanel implements Serializable {
                         System.out.println("error3");
                     }
                     sharedList.repaintList();
-                    System.out.println( "size"+sharedList.getSongPanelList().size());
+                }
+            });
+            songPanel.getRemove().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                   Set<ProButton> buttons = playlistspanels.keySet();
+                   if(buttonClicked.equals(songs)) {
+                       songPanel.getAlbumPanel().getSongs().removeSong(songPanel);
+                       for (ProButton b : buttons) {
+                           playlistspanels.get(b).removeSong(songPanel);
+                       }
+                   }else
+                   {
+                       playlistspanels.get(buttonClicked).removeSong(songPanel);
+                   }
                 }
             });
         }

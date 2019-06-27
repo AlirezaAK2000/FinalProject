@@ -35,14 +35,11 @@ public class ProButton extends JButton {
         this.setContentAreaFilled(false);
         this.setFocusPainted(false);
     }
-    public ProButton(){
+    public ProButton() {
         super();
         this.setBorderPainted(false);
         this.setOpaque(false);
         this.setContentAreaFilled(false);
         this.setFocusPainted(false);
     }
-
-
-
 }
