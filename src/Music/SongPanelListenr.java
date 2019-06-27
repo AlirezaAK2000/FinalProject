@@ -39,7 +39,6 @@ public class SongPanelListenr extends MouseAdapter {
                 myMusicBox.getSongPanel().setBackground(Color.BLACK);
             myMusicBox.getSlider().setValue(0);
             myMusicBox.setMove(true);
-            myMusicBox.setSongPanels(songPanels);
             myMusicBox.setSongPanel(songPanel);
             songPanel.setBackground(new Color(0x308320));
             myMusicBox.getSlider().setMaximum(songPanel.getSong().getSize());

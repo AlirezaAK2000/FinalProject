@@ -23,11 +23,6 @@ public class Main {
             }
         });
         try {
-            if(playTheread!=null)
-                playTheread.stop();
-            Song song=new Song("C:\\Users\\hasein\\Desktop\\FinalProject\\amir-tataloo-mamnoo.mp3");
-            song.play(0);
-            playTheread.stop();
             GeneralManager manager = new GeneralManager();
 
         } catch (IOException e) {

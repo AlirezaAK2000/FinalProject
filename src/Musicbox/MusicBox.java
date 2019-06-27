@@ -264,7 +264,6 @@ public class MusicBox extends JPanel  {
                         if (move) {
                             slider.setMaximum(getSongPanel().getSong().getSize()/1000);
                             slider.setValue(position.getValue() + 1);
-                            System.out.println(slider.getMaximum());
                             if (position.getValue() > slider.getMaximum() - 1) {
                                 if (isRepeat) {
                                     position.setValue(0);
