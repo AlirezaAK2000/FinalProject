@@ -28,20 +28,21 @@ public class GeneralManager extends JFrame {
     public GeneralManager() throws IOException, InterruptedException, UnsupportedTagException, InvalidDataException, JavaLayerException, ClassNotFoundException {
         super();
         onlineUsers = new OnlineUsers();
-        musicBox.setArtWork(boxoffice.getArtwork());
+        musicBox = new MusicBox();
         center = new Center(musicBox);
 
         onlineUsers = new OnlineUsers();
-//        try {
+        try {
             File file = new File("everyThing.ser");
             loader = new ObjectInputStream(new FileInputStream(file));
             saver = (Saver) loader.readObject();
             boxoffice = new Boxoffice(center , "loading" );
             boxoffice.setData(saver.getData());
             loader.close();
-//        }catch (Exception e){
-          //  boxoffice = new Boxoffice(center , "first" );
-//        }
+        }catch (Exception e){
+            boxoffice = new Boxoffice(center , "first" );
+        }
+        musicBox.setArtWork(boxoffice.getArtwork());
 
         JScrollPane j1 = new JScrollPane(onlineUsers);
         j1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

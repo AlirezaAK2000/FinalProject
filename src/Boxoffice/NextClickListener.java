@@ -32,7 +32,9 @@ public class NextClickListener implements ActionListener {
 
         } catch (AWTException e1) {
             e1.printStackTrace();
-        }}
+        }catch (NullPointerException e1){
+        }
+        }
 
 
     }

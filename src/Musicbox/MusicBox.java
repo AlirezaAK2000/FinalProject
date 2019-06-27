@@ -139,7 +139,7 @@ public class MusicBox extends JPanel  {
         infoMusic.add(titleLabel);
         infoMusic.add(artistLabel);
         infoMusic.setBackground(Color.WHITE);
-        infoMusic.setMaximumSize(new Dimension(200 , 20));
+        infoMusic.setPreferredSize(new Dimension(200 , 20));
         titleLabel.setFont(new Font("serif" , Font.BOLD , 15));
         artistLabel.setFont(new Font("serif" , Font.BOLD , 15));
 
@@ -391,7 +391,9 @@ public class MusicBox extends JPanel  {
                                         }
                                     }
                                 }
-                                artWork.SetBack(MusicBox.this.getSongPanel().getSong().getArtWork().getImage());
+                                try {
+                                    artWork.SetBack(MusicBox.this.getSongPanel().getSong().getArtWork().getImage());
+                                }catch (NullPointerException e1){ }
                                 MusicBox.this.getTitleLabel().setText(MusicBox.this.getSongPanel().getSong().getTitle());
                                 try {
                                     MusicBox.this.getArtist().setText(MusicBox.this.getSongPanel().getSong().getArtist());

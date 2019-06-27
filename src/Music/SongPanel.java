@@ -32,6 +32,8 @@ public class SongPanel extends JPanel implements Serializable {
     private boolean hasSliderListener=false;
     private BigPanel albumPanel;
     private BigPanel artistPanel;
+    private JPanel setting;
+    private ProButton box;
 
     public SongPanel(Song song){
         super();
@@ -71,16 +73,29 @@ public class SongPanel extends JPanel implements Serializable {
                     liker.setIcon(liked);
             }
         });
-        liker.setPreferredSize(new Dimension(28,28));
+//        liker.setPreferredSize(new Dimension(28,28));
 
         JPanel auxPanel = new JPanel();
         auxPanel.setBackground(Color.BLACK);
         auxPanel.setLayout(new FlowLayout());
         auxPanel.add(liker , FlowLayout.LEFT);
 
+
+        box = new ProButton(".");
+        box.setBackground(Color.BLACK);
+        box.setForeground(Color.white);
+        box.setFont(new Font("serif" , Font.BOLD ,30));
+        box.setBorder(BorderFactory.createEmptyBorder());
+
+        setting = new JPanel();
+        setting.setBackground(Color.BLACK);
+        setting.setLayout(new GridLayout(1 , 2 , 1 ,1));
+        setting.add(box);
+        setting.add(liker);
+
         this.setMaximumSize(new Dimension(Integer.MAX_VALUE , 30));
         this.setLayout(new GridLayout(1 , 4 , 10 ,10));
-        this.add(liker);
+        this.add(setting);
         this.add(title);
         this.add(album);
         this.add(artist);
@@ -96,14 +111,14 @@ public class SongPanel extends JPanel implements Serializable {
         this.add(adder);
 
         SongPanel b = this;
-        this.addMouseListener(new MouseAdapter() {
+        box.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(e.isMetaDown())
                     adder.show(b , getParent().getParent().getX() , getParent().getParent().getY());
 
             }
         });
+
 
     }
 

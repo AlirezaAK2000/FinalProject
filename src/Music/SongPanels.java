@@ -104,6 +104,7 @@ public class SongPanels extends JPanel implements Serializable , Adder {
 
     public void addSong(SongPanel songPanel) throws InvalidDataException, IOException, UnsupportedTagException {
         songPanelList.add(songPanel);
+        System.out.println(songPanelList.size());
         addresses.add(songPanel.getSong().getFileName());
 
             songPanel.addMouseListener(new SongPanelListenr(musicBox, songPanel, songPanelList, this));
@@ -143,6 +144,9 @@ public class SongPanels extends JPanel implements Serializable , Adder {
 
     }
 
+    public void setAddresses(ArrayList<String> addresses) {
+        this.addresses = addresses;
+    }
 
     private class ResizerListener extends ComponentAdapter {
         @Override

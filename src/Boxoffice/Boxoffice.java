@@ -11,6 +11,7 @@ import javazoom.jl.decoder.JavaLayerException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.*;
@@ -72,14 +73,25 @@ public class Boxoffice extends JPanel implements Serializable {
         recentlyList = new SongPanels("backgrounds\\center.png" , center.getMusicBox() , "recentlyList"){
             @Override
             public void addSong(SongPanel songPanel){
-                recentlyList.getAddresses().add(songPanel.getSong().getFileName());
+                System.out.println("hello");
+                if (!recentlyList.getAddresses().contains(songPanel.getSong().getFileName())) {
+                     recentlyList.getAddresses().add(songPanel.getSong().getFileName());
+                }
+                ArrayList<String> adres = recentlyList.getAddresses();
                 ArrayList<SongPanel> songPanels = getSongPanelList();
-                if(songPanels.contains(songPanel))
+                if(songPanels.contains(songPanel)) {
                     songPanels.remove(songPanel);
+                    adres.remove(songPanel.getSong().getFileName());
+                }
+                ArrayList<String> aux = new ArrayList<>();
                 ArrayList<SongPanel> songPanels1= new ArrayList<>();
                 songPanels1.add(songPanel);
+                aux.add(songPanel.getSong().getFileName());
                 songPanels1.addAll(songPanels);
+                aux.addAll(adres);
                 setSongPanelList(songPanels1);
+                setAddresses(aux);
+                System.out.println("aux"+aux.size());
                 songPanel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseEntered(MouseEvent e) {
@@ -107,11 +119,11 @@ public class Boxoffice extends JPanel implements Serializable {
         menubar = new JPanel();
         this.setBackground(Color.darkGray);
         this.setLayout(new BorderLayout());
-            data = new HashMap<>();
-            data.put(sharedList.getName() , sharedList.getAddresses());
-            data.put(recentlyList.getName() , recentlyList.getAddresses());
-            data.put(songRepository.getName() , songRepository.getAddresses());
-            data.put(favorite.getName() , favorite.getAddresses());
+        data = new HashMap<>();
+        data.put(sharedList.getName() , sharedList.getAddresses());
+        data.put(recentlyList.getName() , recentlyList.getAddresses());
+        data.put(songRepository.getName() , songRepository.getAddresses());
+        data.put(favorite.getName() , favorite.getAddresses());
         menubar.setLayout(new BoxLayout(menubar, BoxLayout.Y_AXIS));
         menubar.setBackground(Color.BLACK);
         tools = new ProButton("...");
@@ -141,16 +153,19 @@ public class Boxoffice extends JPanel implements Serializable {
                     playTheread.stop();
                 JfileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
                 JfileChooser.setMultiSelectionEnabled(true);
-                File selectedFile;
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("mp3" , "mp3");
+                JfileChooser.addChoosableFileFilter(filter);
+                File[] selectedFiles;
                 int returnValue = JfileChooser.showOpenDialog(null);
                 // int returnValue = jfc.showSaveDialog(null);
 
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    selectedFile = JfileChooser.getSelectedFile();
-                    if(selectedFile != null) {
+                    selectedFiles = JfileChooser.getSelectedFiles();
+                    if(selectedFiles != null) {
+                        for (int i =0 ;i < selectedFiles.length;i++)
 
                         try {
-                            addProcess(new SongPanel(new Song(selectedFile)));
+                            addProcess(new SongPanel(new Song(selectedFiles[i])));
                         } catch (FileNotFoundException e1) {
                             System.out.println(1);
                         } catch (JavaLayerException e1) {
@@ -500,6 +515,7 @@ public class Boxoffice extends JPanel implements Serializable {
         System.out.println("is ok");
         ArrayList<String> likedList = data.get("favorite");
         ArrayList<SongPanel> panels = songRepository.getSongPanelList();
+        SongPanels aux = new SongPanels("backgrounds\\center.png" , center.getMusicBox() , "recentlyList");
         for (String str:likedList) {
             for (SongPanel s : panels) {
 
@@ -509,9 +525,25 @@ public class Boxoffice extends JPanel implements Serializable {
                 }
             }
         }
+        data.put("favorite" , likedList);
+        data.put("recentlyList", recentlyList.getAddresses());
+        ArrayList<String> recent = data.get("recentlyList");
+        System.out.println("recent"+recent.size());
+        for (String str:recent) {
+            for (SongPanel s : panels) {
+
+                if (str.equals(s.getSong().getFileName())) {
+                    aux.addSong(s);
+                }
+            }
+        }
+        recentlyList = aux;
+        data.put("recentlyList" , musics);
+
 
 
     }
+
 
     public void addProcess(SongPanel songPanel) throws IOException, InvalidDataException, UnsupportedTagException {
         songPanelrepoos = songRepository.getSongPanelList();
