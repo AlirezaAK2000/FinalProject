@@ -486,6 +486,7 @@ public class Boxoffice extends JPanel implements Serializable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 center.setMain(songPanels);
+                center.getMusicBox().setSongPanels(songPanels);
                 songPanels.repaintList();
                 buttonClicked = playlist;
             }
