@@ -38,6 +38,7 @@ public class FriendSongListener extends MouseAdapter {
             MenuItem menuItem1=new MenuItem("PLAY Simulneously");
             popupMenu.add(menuItem1);
             friendSong.add(popupMenu);
+            popupMenu.show(friendSong,friendSong.getParent().getX(),friendSong.getParent().getY());
             menuItem1.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -47,6 +48,7 @@ public class FriendSongListener extends MouseAdapter {
                     client.getPrintWriter().flush();
                     FileOutputStream fileOutputStream=new FileOutputStream("playSimulaneonly.txt");
                     fileOutputStream.write((byte[])client.getObjectInputStream().readObject());
+                    fileOutputStream.close();
                     Song song=new Song("playSimulaneonly.txt");
                     musicBox.getPlayb().addActionListener(new PlaybListener(song,musicBox));
                     musicBox.getSlider().addMouseListener(new SliderListener(musicBox.getSlider(),musicBox,song));

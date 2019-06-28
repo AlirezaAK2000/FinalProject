@@ -93,13 +93,19 @@ public class GeneralManager extends JFrame {
                                         });
                                     }
                                     Friend friend = new Friend("Online", friendList);
-
+                                    Timer timerUpdateFriendInformation=new Timer(15000,new UpedateFriendIformation(client,friend));
+                                    timerUpdateFriendInformation.start();
+                                    new Robot().delay(7000);
+                                    Timer updateFriendList=new Timer(15000,new UpdateFriendList(client,friend));
+                                    updateFriendList.start();
                                     onlineUsers.addOnlineUser(friend);
 
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 } catch (ClassNotFoundException ex) {
                                     System.err.println("IP is Wrong!");
+                                } catch (AWTException ex) {
+                                    ex.printStackTrace();
                                 }
 
                             }
@@ -156,4 +162,64 @@ public class GeneralManager extends JFrame {
     public OnlineUsers getOnlineUsers() {
         return onlineUsers;
     }
+    //******************************************************************************8
+    //****** first inner class
+    class UpedateFriendIformation implements ActionListener{
+        private  Client client;
+        private  Friend friend;
+
+        public UpedateFriendIformation(Client client, Friend friend) {
+            this.client = client;
+            this.friend = friend;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                client.getPrintWriter().println("WichSong");
+                client.getPrintWriter().flush();
+                SerializedData serializedData = (SerializedData) client.getObjectInputStream().readObject();
+                friend.setArtist(serializedData.getNameOfArtist().trim());
+                friend.setTitle(serializedData.getTitle().trim());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    //****************************************************************
+    //************** second inner class
+    class UpdateFriendList implements ActionListener{
+        private  Client client;
+        private  Friend friend;
+
+        public UpdateFriendList(Client client, Friend friend) {
+            this.client = client;
+            this.friend = friend;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+
+
+
+            client.getPrintWriter().println("getPlayList");
+            client.getPrintWriter().flush();
+            ArrayList<SerializedData> data = (ArrayList<SerializedData>) client.getObjectInputStream().readObject();
+            ArrayList<FriendSong> friendSongs=new ArrayList<>();
+            FriendList friendList = new FriendList();
+            for (SerializedData serializedData : data) {
+                FriendSong friendSong = new FriendSong(serializedData.getTitle(), serializedData.getNameOfArtist());
+                friendSong.addMouseListener(new FriendSongListener(data.indexOf(serializedData),client,friendSong,musicBox,boxoffice.getArtwork()));
+                friendSongs.add(friendSong);
+        }
+            friendList.setFriendSongs(friendSongs);
+            friend.setFriendList(friendList);
+    } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }}
 }

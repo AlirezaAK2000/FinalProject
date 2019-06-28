@@ -1,6 +1,7 @@
 package OnlineUsers;
 
 import ServerAndClient.FriendList;
+import ServerAndClient.FriendSongListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +16,7 @@ public class Friend extends JPanel {
     private FriendList friendList;
     public Friend( String onOro , FriendList friendList){
         super();
+        this.friendList=friendList;
         Font font = new Font("serif" , Font.BOLD , 15);
         information = new JPanel();
         information.setBackground(Color.BLACK);
@@ -47,36 +49,16 @@ public class Friend extends JPanel {
         information.add(Box.createVerticalStrut(8));
         information.add(onORof);
 
-        information.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-               JFrame shower = new JFrame();
-               shower.setBackground(Color.BLACK);
-               shower.add(friendList);
-               shower.setSize(new Dimension(400 ,200));
-               shower.setVisible(true);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                information.getParent().setBackground(Color.DARK_GRAY);
-                information.setBackground(Color.DARK_GRAY);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                information.getParent().setBackground(Color.BLACK);
-                information.setBackground(Color.BLACK);
-            }
-        });
-
-
+        information.addMouseListener(new FriendClickListener());
     }
 
     public void setArtist(String artist) {
         this.artist.setText(artist);
         revalidate();
         repaint();
+    }
+    public void setFriendList(FriendList friendList){
+        this.friendList=friendList;
     }
 
     public void setOnORof(String onORof) {
@@ -90,4 +72,25 @@ public class Friend extends JPanel {
         revalidate();
         repaint();
     }
-}
+    class FriendClickListener extends MouseAdapter{
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            JFrame shower = new JFrame();
+            shower.setBackground(Color.BLACK);
+            shower.add(friendList);
+            shower.setSize(new Dimension(400 ,200));
+            shower.setVisible(true);
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            information.getParent().setBackground(Color.DARK_GRAY);
+            information.setBackground(Color.DARK_GRAY);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            information.getParent().setBackground(Color.BLACK);
+            information.setBackground(Color.BLACK);
+        }
+}}

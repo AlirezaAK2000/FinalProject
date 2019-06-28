@@ -56,9 +56,22 @@ public class Server implements Runnable {
                                 out.writeObject(bytes);
                             }
                             else if(whatCanIdo.equals("WichSong")){
+                                try{
+                                    SerializedData serializedData=new SerializedData(musicBox.getSongPanel().getSong().getArtist(),musicBox.getSongPanel().getSong().getTitle());
+                                    out.writeObject(serializedData);
+                                    out.flush();
 
+                                }catch (NullPointerException e){
+                                    SerializedData serializedData=new SerializedData("","NO PLay");
+                                    out.writeObject(serializedData);
+                                    out.flush();
+
+                                }
                             }
                             else if(whatCanIdo.equals("getPlayList")){
+                                ArrayList<SerializedData> data=serializeSongs(sharedPLayList);
+                                out.writeObject(data);
+                                out.flush();
                             }
                             else if(whatCanIdo.equals("playSimulaneously")){
                                 int number=scan.nextInt();
@@ -76,8 +89,6 @@ public class Server implements Runnable {
                                         musicBox.setSongPanel(sharedPLayList.get(number));
                                         sharedPLayList.get(number).getSong().play(0);
                                         musicBox.setInfo(sharedPLayList.get(number).getSong().getTitle(),sharedPLayList.get(number).getSong().getArtist());
-
-
                                         acceptPanel.setVisible(false);
                                     } catch (IOException ex) {
                                             ex.printStackTrace();
