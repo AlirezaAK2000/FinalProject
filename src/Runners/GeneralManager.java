@@ -87,33 +87,7 @@ public class GeneralManager extends JFrame {
                                             @Override
                                             public void mouseClicked(MouseEvent e) {
                                                 super.mouseClicked(e);
-                                                try {
-
-
-                                                    client.getPrintWriter().println("getSong");
-                                                    client.getPrintWriter().println(data.indexOf(serializedData));
-                                                    client.getPrintWriter().flush();
-                                                    byte[] bytes = (byte[]) client.getObjectInputStream().readObject();
-                                                    System.out.println(serializedData.getTitle());
-                                                    File file1=new File(serializedData.getTitle().trim() + ".mp3");
-                                                    if(!file1.exists())
-                                                    file1.createNewFile();
-                                                    FileOutputStream file = new FileOutputStream(serializedData.getTitle().trim() + ".mp3");
-                                                    file.write(bytes);
-                                                    boxoffice.addProcess(new SongPanel(new Song(file1)));
-                                                } catch (IOException ex) {
-                                                    ex.printStackTrace();
-                                                } catch (JavaLayerException ex) {
-                                                    ex.printStackTrace();
-                                                } catch (UnsupportedTagException ex) {
-                                                    ex.printStackTrace();
-                                                } catch (InvalidDataException ex) {
-                                                    ex.printStackTrace();
-                                                } catch (ClassNotFoundException ex) {
-                                                    ex.printStackTrace();
-                                                }catch (NullPointerException eee){
-
-                                                }
+                                                downLoadFilesFromServer(client,data,serializedData);
                                             }
                                         });
                                     }
@@ -144,6 +118,32 @@ public class GeneralManager extends JFrame {
 
     public Boxoffice getBoxoffice() {
         return boxoffice;
+    }
+    public void downLoadFilesFromServer(Client client, ArrayList<SerializedData> data, SerializedData serializedData){
+        try {
+            client.getPrintWriter().println("getSong");
+            client.getPrintWriter().println(data.indexOf(serializedData));
+            client.getPrintWriter().flush();
+            byte[] bytes = (byte[]) client.getObjectInputStream().readObject();
+            System.out.println(serializedData.getTitle());
+            File file1=new File(serializedData.getTitle().trim() + ".mp3");
+            if(!file1.exists())
+                file1.createNewFile();
+            FileOutputStream file = new FileOutputStream(serializedData.getTitle().trim() + ".mp3");
+            file.write(bytes);
+            boxoffice.addProcess(new SongPanel(new Song(file1)));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (JavaLayerException ex) {
+            ex.printStackTrace();
+        } catch (UnsupportedTagException ex) {
+            ex.printStackTrace();
+        } catch (InvalidDataException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }catch (NullPointerException eee){
+        }
     }
 
     public MusicBox getMusicBox() {
