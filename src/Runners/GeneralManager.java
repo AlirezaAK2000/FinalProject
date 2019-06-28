@@ -21,6 +21,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
+import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -60,7 +62,7 @@ public class GeneralManager extends JFrame {
         this.add(musicBox , BorderLayout.SOUTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Server server=new Server(boxoffice.getSharedList().getSongPanelList(),musicBox);
+        Server server=new Server(boxoffice.getSharedList().getSongPanelList(),musicBox,username);
         new Thread(server).start();
         onlineUsers.getAddFriend().addActionListener(new ActionListener() {
             @Override
@@ -80,21 +82,10 @@ public class GeneralManager extends JFrame {
                             if (!friendAdder.getjTextField().getText().equals("")) {
                                 try {
                                        Client client = new Client(friendAdder.getjTextField().getText(), 13000);
-                                    ArrayList<SerializedData> data = (ArrayList<SerializedData>) client.getObjectInputStream().readObject();
-                                    FriendList friendList = new FriendList();
-                                    for (SerializedData serializedData : data) {
-                                        FriendSong friendSong = new FriendSong(serializedData.getTitle(), serializedData.getNameOfArtist());
-                                        friendSong.addMouseListener(new FriendSongListener(data.indexOf(serializedData),client,friendSong,musicBox,boxoffice.getArtwork()));
-                                        friendList.addSong(friendSong);
-                                        friendSong.addMouseListener(new MouseAdapter() {
-                                            @Override
-                                            public void mouseClicked(MouseEvent e) {
-                                                super.mouseClicked(e);
-                                                downLoadFilesFromServer(client,data,serializedData);
-                                            }
-                                        });
-                                    }
+                                    String userName = (String) client.getObjectInputStream().readObject();
+                                    FriendList friendList=new FriendList();
                                     Friend friend = new Friend("Online", friendList);
+                                    friend.setUserNameFriend(userName);
                                     Timer timerUpdateFriendInformation=new Timer(15000,new UpedateFriendIformation(client,friend));
                                     timerUpdateFriendInformation.start();
                                     new Robot().delay(7000);
@@ -164,6 +155,14 @@ public class GeneralManager extends JFrame {
     public OnlineUsers getOnlineUsers() {
         return onlineUsers;
     }
+    private Long getCurrentTime(){
+        Long time= (Long)System.currentTimeMillis()/1000;
+        return time;
+    }
+    private String calculateTime(Long time){
+
+        return ""+time/3600+":"+(time%3600)/60+":"+(time%3600)%60;
+    }
     //******************************************************************************8
     //****** first inner class
     class UpedateFriendIformation implements ActionListener{
@@ -182,7 +181,12 @@ public class GeneralManager extends JFrame {
                 SerializedData serializedData = (SerializedData) client.getObjectInputStream().readObject();
                 friend.setArtist(serializedData.getNameOfArtist().trim());
                 friend.setTitle(serializedData.getTitle().trim());
-            } catch (IOException ex) {
+            } catch (SocketException e23) {
+                friend.setOnORof(calculateTime(getCurrentTime()));
+                FriendList friendList = new FriendList();
+                friend.setFriendList(friendList);
+            }
+                catch (IOException ex) {
                 ex.printStackTrace();
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
@@ -203,9 +207,6 @@ public class GeneralManager extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-
-
-
             client.getPrintWriter().println("getPlayList");
             client.getPrintWriter().flush();
             ArrayList<SerializedData> data = (ArrayList<SerializedData>) client.getObjectInputStream().readObject();
@@ -215,10 +216,21 @@ public class GeneralManager extends JFrame {
                 FriendSong friendSong = new FriendSong(serializedData.getTitle(), serializedData.getNameOfArtist());
                 friendSong.addMouseListener(new FriendSongListener(data.indexOf(serializedData),client,friendSong,musicBox,boxoffice.getArtwork()));
                 friendSongs.add(friendSong);
+                friendSong.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+                        downLoadFilesFromServer(client,data,serializedData);
+                    }
+                });
         }
             friendList.setFriendSongs(friendSongs);
             friend.setFriendList(friendList);
-    } catch (IOException ex) {
+             } catch (SocketException e23){
+                friend.setOnORof(calculateTime(getCurrentTime()));
+                FriendList friendList=new FriendList();
+                friend.setFriendList(friendList);
+             } catch (IOException ex) {
                 ex.printStackTrace();
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();

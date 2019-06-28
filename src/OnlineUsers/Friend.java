@@ -13,6 +13,7 @@ public class Friend extends JPanel {
     private JLabel title;
     private JLabel artist;
     private JLabel onORof;
+    private JLabel userNameFriend;
     private FriendList friendList;
     public Friend( String onOro , FriendList friendList){
         super();
@@ -42,12 +43,19 @@ public class Friend extends JPanel {
         onORof.setForeground(Color.white);
         onORof.setBackground(Color.BLACK);
         onORof.setFont(font);
+        userNameFriend=new JLabel(" ");
+        userNameFriend.setForeground(Color.white);
+        userNameFriend.setBackground(Color.BLACK);
+        userNameFriend.setFont(font);
 
+        information.add(userNameFriend);
+        information.add(Box.createVerticalStrut(8));
         information.add(title);
         information.add(Box.createVerticalStrut(8));
         information.add(artist);
         information.add(Box.createVerticalStrut(8));
         information.add(onORof);
+
 
         information.addMouseListener(new FriendClickListener());
     }
@@ -63,6 +71,11 @@ public class Friend extends JPanel {
 
     public void setOnORof(String onORof) {
         this.onORof.setText(onORof);
+        revalidate();
+        repaint();
+    }
+    public void setUserNameFriend(String userNameFriend) {
+        this.userNameFriend.setText(userNameFriend);
         revalidate();
         repaint();
     }
