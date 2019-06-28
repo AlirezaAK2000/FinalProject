@@ -95,11 +95,11 @@ public class GeneralManager extends JFrame {
                                                     client.getPrintWriter().flush();
                                                     byte[] bytes = (byte[]) client.getObjectInputStream().readObject();
                                                     System.out.println(serializedData.getTitle());
-                                                    File file1=new File(serializedData.getTitle() + ".mp3");
+                                                    File file1=new File(serializedData.getTitle().trim() + ".mp3");
                                                     file1.createNewFile();
-                                                    FileOutputStream file = new FileOutputStream(serializedData.getTitle() + ".mp3");
+                                                    FileOutputStream file = new FileOutputStream(serializedData.getTitle().trim() + ".mp3");
                                                     file.write(bytes);
-                                                    boxoffice.getSongRepository().addSong(new SongPanel(new Song(serializedData.getTitle() + ".mp3")));
+                                                    boxoffice.getSongRepository().addSong(new SongPanel(new Song(serializedData.getTitle().trim() + ".mp3")));
                                                     if (musicBox.getSongPanels().equals(boxoffice.getSongRepository()) && musicBox.getSongPanels()!=null) {
                                                         musicBox.getSongPanels().repaintList();
                                                     }
@@ -113,6 +113,8 @@ public class GeneralManager extends JFrame {
                                                     ex.printStackTrace();
                                                 } catch (ClassNotFoundException ex) {
                                                     ex.printStackTrace();
+                                                }catch (NullPointerException eee){
+
                                                 }
                                             }
                                         });
