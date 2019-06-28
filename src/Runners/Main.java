@@ -7,6 +7,8 @@ import javazoom.jl.decoder.JavaLayerException;
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 
@@ -21,22 +23,30 @@ public class Main {
                 e.printStackTrace();
             }
         });
-        try {
-            GeneralManager manager = new GeneralManager();
+        WelcomeToJPotify welcomeToJPotify = new WelcomeToJPotify();
+        welcomeToJPotify.getSignIn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                welcomeToJPotify.setVisible(false);
+                try {
+                    GeneralManager manager = new GeneralManager(welcomeToJPotify.getUserName().getText());
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (JavaLayerException e) {
-            e.printStackTrace();
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (UnsupportedTagException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                } catch (JavaLayerException e1) {
+                    e1.printStackTrace();
+                } catch (InvalidDataException e1) {
+                    e1.printStackTrace();
+                } catch (UnsupportedTagException e1) {
+                    e1.printStackTrace();
+                } catch (ClassNotFoundException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
 
     }
 }

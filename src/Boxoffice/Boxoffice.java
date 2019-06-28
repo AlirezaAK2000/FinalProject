@@ -490,29 +490,31 @@ public class Boxoffice extends JPanel implements Serializable {
     }
 
     public void addPlaylist(String name) throws IOException {
-        ProButton playlist = new ProButton(name);
-        playlist.setFont(pubFont);
-        playlist.setBackground(Color.darkGray);
-        playlist.setForeground(Color.white);
-        playlist.addMouseListener(new Bolder());
-        playlist.addMouseListener(new RemoveListener(playlists , playlist));
-        SongPanels songPanels = new SongPanels("backgrounds\\center9.jpg" , center.getMusicBox() , name);
-        playlistspanels.put(playlist , songPanels);
-        data.put(name , songPanels.getAddresses());
-        playlistnames.put(name , playlist);
-        playlist.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                center.setMain(songPanels);
-                center.getMusicBox().setSongPanels(songPanels);
-                songPanels.repaintList();
-                buttonClicked = playlist;
-            }
-        });
-        playlists.add(playlist);
-        menubar.add(playlist);
-        menubar.revalidate();
-        menubar.repaint();
+        if (!playlistnames.containsKey(name)) {
+            ProButton playlist = new ProButton(name);
+            playlist.setFont(pubFont);
+            playlist.setBackground(Color.darkGray);
+            playlist.setForeground(Color.white);
+            playlist.addMouseListener(new Bolder());
+            playlist.addMouseListener(new RemoveListener(playlists, playlist));
+            SongPanels songPanels = new SongPanels("backgrounds\\center9.jpg", center.getMusicBox(), name);
+            playlistspanels.put(playlist, songPanels);
+            data.put(name, songPanels.getAddresses());
+            playlistnames.put(name, playlist);
+            playlist.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    center.setMain(songPanels);
+                    center.getMusicBox().setSongPanels(songPanels);
+                    songPanels.repaintList();
+                    buttonClicked = playlist;
+                }
+            });
+            playlists.add(playlist);
+            menubar.add(playlist);
+            menubar.revalidate();
+            menubar.repaint();
+        }
     }
     public void addProcess(String name) throws JavaLayerException, UnsupportedTagException, InvalidDataException, IOException {
         SongPanel songPanel = new SongPanel(new Song(name));

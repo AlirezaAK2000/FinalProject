@@ -32,11 +32,13 @@ public class GeneralManager extends JFrame {
     private Image img;
     private ObjectInputStream loader;
     private Saver saver;
-    public GeneralManager() throws IOException, InterruptedException, UnsupportedTagException, InvalidDataException, JavaLayerException, ClassNotFoundException {
+    private String username;
+    public GeneralManager(String username) throws IOException, InterruptedException, UnsupportedTagException, InvalidDataException, JavaLayerException, ClassNotFoundException {
         this.setIconImage(new ImageIcon("C:\\Users\\hasein\\Desktop\\FinalProject\\backgrounds\\tataloo.jpg").getImage());
         this.setMinimumSize(new Dimension(900 , 800));
+        this.username = username;
         musicBox = new MusicBox();
-        center = new Center(musicBox);
+        center = new Center(musicBox , username);
         onlineUsers = new OnlineUsers();
         try {
             File file = new File("everyThing.ser");

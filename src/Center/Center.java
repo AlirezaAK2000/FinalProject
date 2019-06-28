@@ -26,14 +26,16 @@ public class Center extends JPanel {
     private ArrayList<SongPanel> repos;
     private SearchList searchList;
     private boolean searchBoxOpened = false;
+    private String username;
 
-    public Center(MusicBox musicBox) throws IOException {
+    public Center(MusicBox musicBox  , String username) throws IOException {
         super();
+        this.username = username;
         this.musicBox = musicBox;
         originalImage = ImageIO.read(new File("backgrounds\\center4.jpg"));
         background = new Background(originalImage);
         this.setLayout(new BorderLayout());
-        searchBox = new SearchBox();
+        searchBox = new SearchBox(username);
         this.add(searchBox , BorderLayout.NORTH);
         this.add(new JScrollPane(background) , BorderLayout.CENTER);
 
