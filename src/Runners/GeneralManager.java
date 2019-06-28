@@ -100,10 +100,7 @@ public class GeneralManager extends JFrame {
                                                     file1.createNewFile();
                                                     FileOutputStream file = new FileOutputStream(serializedData.getTitle().trim() + ".mp3");
                                                     file.write(bytes);
-                                                    boxoffice.getSongRepository().addSong(new SongPanel(new Song(serializedData.getTitle().trim() + ".mp3")));
-                                                    if (musicBox.getSongPanels().equals(boxoffice.getSongRepository()) && musicBox.getSongPanels()!=null) {
-                                                        musicBox.getSongPanels().repaintList();
-                                                    }
+                                                    boxoffice.addProcess(new SongPanel(new Song(file1)));
                                                 } catch (IOException ex) {
                                                     ex.printStackTrace();
                                                 } catch (JavaLayerException ex) {
