@@ -32,7 +32,6 @@ public class GeneralManager extends JFrame {
     private Image img;
     private ObjectInputStream loader;
     private Saver saver;
-    private Client client;
     public GeneralManager() throws IOException, InterruptedException, UnsupportedTagException, InvalidDataException, JavaLayerException, ClassNotFoundException {
         this.setMinimumSize(new Dimension(900 , 800));
         musicBox = new MusicBox();
@@ -57,11 +56,8 @@ public class GeneralManager extends JFrame {
         this.add(boxoffice , BorderLayout.WEST);
         this.add(musicBox , BorderLayout.SOUTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ArrayList<Song>sharedeSongList=new ArrayList<>();
-        for (SongPanel songPanel:boxoffice.getSharedList().getSongPanelList()) {
-            sharedeSongList.add(songPanel.getSong());
-        }
-        Server server=new Server(sharedeSongList,musicBox);
+
+        Server server=new Server(boxoffice.getSharedList().getSongPanelList(),musicBox);
         new Thread(server).start();
         onlineUsers.getAddFriend().addActionListener(new ActionListener() {
             @Override
@@ -80,21 +76,44 @@ public class GeneralManager extends JFrame {
                             friendAdder.setVisible(false);
                             if (!friendAdder.getjTextField().getText().equals("")) {
                                 try {
-                                    client = new Client(friendAdder.getjTextField().getText(), 13000);
+                                       Client client = new Client(friendAdder.getjTextField().getText(), 13000);
                                     ArrayList<SerializedData> data = (ArrayList<SerializedData>) client.getObjectInputStream().readObject();
                                     FriendList friendList = new FriendList();
                                     for (SerializedData serializedData : data) {
                                         FriendSong friendSong = new FriendSong(serializedData.getTitle(), serializedData.getNameOfArtist());
+                                        friendSong.addMouseListener(new FriendSongListener(data.indexOf(serializedData),client,friendSong,musicBox,boxoffice.getArtwork()));
                                         friendList.addSong(friendSong);
                                         friendSong.addMouseListener(new MouseAdapter() {
                                             @Override
                                             public void mouseClicked(MouseEvent e) {
                                                 super.mouseClicked(e);
-                                                client.getPrintWriter().println("getSong");
-                                                client.getPrintWriter().println(data.indexOf(serializedData));
-                                                client.getPrintWriter().flush();
-                                                downloadSong(client, serializedData);
+                                                try {
 
+
+                                                    client.getPrintWriter().println("getSong");
+                                                    client.getPrintWriter().println(data.indexOf(serializedData));
+                                                    client.getPrintWriter().flush();
+                                                    byte[] bytes = (byte[]) client.getObjectInputStream().readObject();
+                                                    System.out.println(serializedData.getTitle());
+                                                    File file1=new File(serializedData.getTitle() + ".mp3");
+                                                    file1.createNewFile();
+                                                    FileOutputStream file = new FileOutputStream(serializedData.getTitle() + ".mp3");
+                                                    file.write(bytes);
+                                                    boxoffice.getSongRepository().addSong(new SongPanel(new Song(serializedData.getTitle() + ".mp3")));
+                                                    if (musicBox.getSongPanels().equals(boxoffice.getSongRepository()) && musicBox.getSongPanels()!=null) {
+                                                        musicBox.getSongPanels().repaintList();
+                                                    }
+                                                } catch (IOException ex) {
+                                                    ex.printStackTrace();
+                                                } catch (JavaLayerException ex) {
+                                                    ex.printStackTrace();
+                                                } catch (UnsupportedTagException ex) {
+                                                    ex.printStackTrace();
+                                                } catch (InvalidDataException ex) {
+                                                    ex.printStackTrace();
+                                                } catch (ClassNotFoundException ex) {
+                                                    ex.printStackTrace();
+                                                }
                                             }
                                         });
                                     }
@@ -130,34 +149,7 @@ public class GeneralManager extends JFrame {
     public MusicBox getMusicBox() {
         return musicBox;
     }
-    private void downloadSong(Client client,SerializedData serializedData) {
-        try {
 
-
-            byte[] bytes = (byte[]) client.getObjectInputStream().readObject();
-            System.out.println(serializedData.getTitle());
-            FileWriter fileWriter = new FileWriter(serializedData.getTitle() + ".txt");
-            fileWriter.write("");
-            fileWriter.flush();
-            fileWriter.close();
-            FileOutputStream file = new FileOutputStream(serializedData.getTitle() + ".txt");
-            file.write(bytes);
-            boxoffice.getSongRepository().addSong(new SongPanel(new Song(serializedData.getTitle() + ".txt")));
-            if (musicBox.getSongPanels().equals(boxoffice.getSongRepository())) {
-                musicBox.getSongPanels().repaintList();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JavaLayerException e) {
-            e.printStackTrace();
-        } catch (UnsupportedTagException e) {
-            e.printStackTrace();
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 
     public OnlineUsers getOnlineUsers() {
         return onlineUsers;

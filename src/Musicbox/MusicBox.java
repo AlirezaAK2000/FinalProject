@@ -232,7 +232,9 @@ public class MusicBox extends JPanel  {
     public ProButton getPlayb(){
         return playb;
     }
-
+    private String calculateSecondToTime(int time){
+        return ""+time/60+": "+time%60;
+    }
     public ProButton getBackb() {
         return backb;
     }
@@ -255,7 +257,9 @@ public class MusicBox extends JPanel  {
 
                         if (move) {
                             slider.setMaximum(getSongPanel().getSong().getSize()/1000);
+                            songSetter.setLastSecondOfSong(calculateSecondToTime(slider.getMaximum()));
                             slider.setValue(position.getValue() + 1);
+                            songSetter.setCurrentSecondSong(calculateSecondToTime(slider.getValue()));
                             if (position.getValue() > slider.getMaximum() - 1) {
                                 if (isRepeat) {
                                     position.setValue(0);
@@ -381,10 +385,10 @@ public class MusicBox extends JPanel  {
 
                                         }
                                     }
-                                }
-                                try {
+                                }try {
                                     artWork.SetBack(MusicBox.this.getSongPanel().getSong().getArtWork().getImage());
-                                }catch (NullPointerException e1){ }
+                                }catch (NullPointerException e23){}
+
                                 MusicBox.this.getTitleLabel().setText(MusicBox.this.getSongPanel().getSong().getTitle());
                                 try {
                                     MusicBox.this.getArtist().setText(MusicBox.this.getSongPanel().getSong().getArtist());
