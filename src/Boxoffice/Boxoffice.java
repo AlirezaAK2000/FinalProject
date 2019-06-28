@@ -293,12 +293,12 @@ public class Boxoffice extends JPanel implements Serializable {
             }
         });
         menubar.add(albums);
-        artist = new ProButton("Artist");
-        artist.setFont(pubFont);
-        artist.setForeground(Color.white);
-        artist.setBackground(Color.darkGray);
-        artist.addMouseListener(new Bolder());
-        menubar.add(artist);
+//        artist = new ProButton("Artist");
+//        artist.setFont(pubFont);
+//        artist.setForeground(Color.white);
+//        artist.setBackground(Color.darkGray);
+//        artist.addMouseListener(new Bolder());
+//        menubar.add(artist);
         songs = new ProButton("Songs");
         songs.setFont(pubFont);
         songs.setForeground(Color.white);
@@ -333,12 +333,10 @@ public class Boxoffice extends JPanel implements Serializable {
                     data.put("favorite" , favorite.getAddresses());
                     data.put(recentlyList.getName() , recentlyList.getAddresses());
                     data.put(sharedList.getName() , sharedList.getAddresses());
-                    System.out.println("s:"+data.size());
-                    System.out.println("a:" +sharedList.getAddresses().size() );
+
                     new File("everyThing.ser").delete();
                     ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("everyThing.ser" ) );
                     out.writeObject(new Saver(data));
-                    System.out.println("saved");
                     out.close();
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -492,29 +490,31 @@ public class Boxoffice extends JPanel implements Serializable {
     }
 
     public void addPlaylist(String name) throws IOException {
-        ProButton playlist = new ProButton(name);
-        playlist.setFont(pubFont);
-        playlist.setBackground(Color.darkGray);
-        playlist.setForeground(Color.white);
-        playlist.addMouseListener(new Bolder());
-        playlist.addMouseListener(new RemoveListener(playlists , playlist));
-        SongPanels songPanels = new SongPanels("backgrounds\\center9.jpg" , center.getMusicBox() , name);
-        playlistspanels.put(playlist , songPanels);
-        data.put(name , songPanels.getAddresses());
-        playlistnames.put(name , playlist);
-        playlist.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                center.setMain(songPanels);
-                center.getMusicBox().setSongPanels(songPanels);
-                songPanels.repaintList();
-                buttonClicked = playlist;
-            }
-        });
-        playlists.add(playlist);
-        menubar.add(playlist);
-        menubar.revalidate();
-        menubar.repaint();
+        if (!playlistnames.containsKey(name)) {
+            ProButton playlist = new ProButton(name);
+            playlist.setFont(pubFont);
+            playlist.setBackground(Color.darkGray);
+            playlist.setForeground(Color.white);
+            playlist.addMouseListener(new Bolder());
+            playlist.addMouseListener(new RemoveListener(playlists, playlist));
+            SongPanels songPanels = new SongPanels("backgrounds\\center9.jpg", center.getMusicBox(), name);
+            playlistspanels.put(playlist, songPanels);
+            data.put(name, songPanels.getAddresses());
+            playlistnames.put(name, playlist);
+            playlist.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    center.setMain(songPanels);
+                    center.getMusicBox().setSongPanels(songPanels);
+                    songPanels.repaintList();
+                    buttonClicked = playlist;
+                }
+            });
+            playlists.add(playlist);
+            menubar.add(playlist);
+            menubar.revalidate();
+            menubar.repaint();
+        }
     }
     public void addProcess(String name) throws JavaLayerException, UnsupportedTagException, InvalidDataException, IOException {
         SongPanel songPanel = new SongPanel(new Song(name));
@@ -768,6 +768,12 @@ public class Boxoffice extends JPanel implements Serializable {
                        }
                    }else
                        playlistspanels.get(buttonClicked).removeSong(songPanel);
+
+                    try {
+                        playlistspanels.get(buttonClicked).repaintList();
+                    } catch (NullPointerException e1) {
+                        songPanel.getAlbumPanel().getSongs().repaintList();
+                    }
                 }
             });
         }

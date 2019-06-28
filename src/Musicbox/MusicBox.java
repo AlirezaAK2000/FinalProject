@@ -59,7 +59,6 @@ public class MusicBox extends JPanel  {
     private Background artWork;
     private boolean move;
     public MusicBox() throws IOException {
-        super();
         isRepeat=false;
         isRepeat=false;
         playThread=new Thread();
@@ -126,7 +125,6 @@ public class MusicBox extends JPanel  {
 
             }
         });
-
         artistLabel = new JLabel();
         titleLabel = new JLabel();
         infoMusic = new JPanel();
@@ -141,7 +139,10 @@ public class MusicBox extends JPanel  {
         songSetter = new SliderDemoSkin();
         songSetter.getSlider().setPreferredSize(new Dimension(600 , 15));
         songSetter.setPreferredSize(new Dimension(600 , 10));
-        auxPanel.add(songSetter.getSlider());
+        auxPanel.setLayout(new FlowLayout());
+        auxPanel.add(songSetter.getCurrentSecondSong() , FlowLayout.LEFT);
+        auxPanel.add(songSetter.getSlider() , FlowLayout.CENTER);
+        auxPanel.add(songSetter.getLastSecondOfSong() , FlowLayout.RIGHT);
         auxPanel.setBackground(Color.WHITE);
         songSetter.getSlider().setValue(0);
         this.setLayout(new BorderLayout());

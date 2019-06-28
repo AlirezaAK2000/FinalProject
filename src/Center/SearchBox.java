@@ -21,16 +21,24 @@ public class SearchBox extends JPanel {
     private JTextField searcher;
     private BufferedImage originalImage;
     private BufferedImage scaledImage;
-    public SearchBox() throws IOException {
+    private JLabel usernameLabel;
+    public SearchBox(String username) throws IOException {
         searcher = new JTextField("Search");
         searcher.setBackground(Color.WHITE);
         searcher.setPreferredSize(new Dimension(250, 30));
         searcher.setEditable(true);
 
+        usernameLabel = new JLabel(username);
+        usernameLabel.setOpaque(false);
+        usernameLabel.setForeground(Color.white);
+        usernameLabel.setFont(new Font("serif" , Font.BOLD , 20));
+
         originalImage = ImageIO.read(new File("backgrounds\\left2.jpg"));
-        this.setLayout(new FlowLayout());
+        this.setLayout(new GridLayout(1 , 3));
         this.setBackground(Color.darkGray);
-        this.add(searcher, FlowLayout.LEFT);
+        this.add(searcher);
+        this.add(Box.createHorizontalStrut(0));
+        this.add(usernameLabel);
 
     }
 
