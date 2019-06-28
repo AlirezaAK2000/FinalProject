@@ -33,7 +33,7 @@ public class FriendSongListener extends MouseAdapter {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(e.getButton()==MouseEvent.BUTTON3){
+        if(e.isMetaDown()){
             PopupMenu popupMenu=new PopupMenu();
             MenuItem menuItem1=new MenuItem("PLAY Simulneously");
             popupMenu.add(menuItem1);

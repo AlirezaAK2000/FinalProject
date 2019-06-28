@@ -8,6 +8,8 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -62,12 +64,40 @@ public class Server implements Runnable {
                                 byte[] bytes=new byte[new FileInputStream(sharedPLayList.get(number).getSong().getFileName()).available()];
                                 new FileInputStream(sharedPLayList.get(number).getSong().getFileName()).read(bytes);
                                 out.writeObject(bytes);
-                                new Robot().delay(200);
-                                if(playTheread!=null)
-                                    playTheread.stop();
-                                musicBox.setSongPanel(sharedPLayList.get(number));
-                                sharedPLayList.get(number).getSong().play(0);
-                                musicBox.setInfo(sharedPLayList.get(number).getSong().getTitle(),sharedPLayList.get(number).getSong().getArtist());
+                                AcceptPanel acceptPanel=new AcceptPanel();
+                                acceptPanel.getAcceptClick().addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        try {
+                                        new Robot().delay(200);
+                                        if(playTheread!=null)
+                                            playTheread.stop();
+                                        musicBox.setSongPanel(sharedPLayList.get(number));
+                                        sharedPLayList.get(number).getSong().play(0);
+                                        musicBox.setInfo(sharedPLayList.get(number).getSong().getTitle(),sharedPLayList.get(number).getSong().getArtist());
+
+
+                                        acceptPanel.setVisible(false);
+                                    } catch (IOException ex) {
+                                            ex.printStackTrace();
+                                        } catch (JavaLayerException ex) {
+                                            ex.printStackTrace();
+                                        } catch (UnsupportedTagException ex) {
+                                            ex.printStackTrace();
+                                        } catch (InvalidDataException ex) {
+                                            ex.printStackTrace();
+                                        } catch (AWTException ex) {
+                                            ex.printStackTrace();
+                                        }
+                                    }
+                                });
+                                acceptPanel.getCancel().addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        acceptPanel.setVisible(false);
+                                    }
+                                });
+
                             }
                             else if(whatCanIdo.equals("wichSong")){
 
@@ -75,14 +105,6 @@ public class Server implements Runnable {
                         } catch (FileNotFoundException e) {
                                 e.printStackTrace();
                             } catch (IOException e) {
-                                e.printStackTrace();
-                            } catch (AWTException e) {
-                                e.printStackTrace();
-                            } catch (InvalidDataException e) {
-                                e.printStackTrace();
-                            } catch (UnsupportedTagException e) {
-                                e.printStackTrace();
-                            } catch (JavaLayerException e) {
                                 e.printStackTrace();
                             }
                         }
