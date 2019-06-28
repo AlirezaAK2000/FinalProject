@@ -96,6 +96,7 @@ public class GeneralManager extends JFrame {
                                                     byte[] bytes = (byte[]) client.getObjectInputStream().readObject();
                                                     System.out.println(serializedData.getTitle());
                                                     File file1=new File(serializedData.getTitle().trim() + ".mp3");
+                                                    if(!file1.exists())
                                                     file1.createNewFile();
                                                     FileOutputStream file = new FileOutputStream(serializedData.getTitle().trim() + ".mp3");
                                                     file.write(bytes);
