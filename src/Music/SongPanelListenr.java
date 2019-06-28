@@ -42,7 +42,7 @@ public class SongPanelListenr extends MouseAdapter {
                 myMusicBox.setMove(true);
 
             myMusicBox.setSongPanel(songPanel);
-            songPanel.setBackground(Color.GREEN);
+            songPanel.setBackground(new Color(0x308320));
             myMusicBox.getSlider().setMaximum(songPanel.getSong().getSize());
 
         } catch (UnsupportedTagException e1) {

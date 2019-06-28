@@ -27,6 +27,7 @@ public class SongPanels extends JPanel implements Serializable , Adder {
     private JPanel headPanel;
     private MusicBox musicBox;
     private String name;
+    private Color color;
 
     public SongPanels(String address, MusicBox musicBox , String name) throws IOException {
         super();
@@ -96,7 +97,6 @@ public class SongPanels extends JPanel implements Serializable , Adder {
 
     public void addSong(SongPanel songPanel) throws InvalidDataException, IOException, UnsupportedTagException {
         songPanelList.add(songPanel);
-        System.out.println(songPanelList.size());
         addresses.add(songPanel.getSong().getFileName());
 
             songPanel.addMouseListener(new SongPanelListenr(musicBox, songPanel, songPanelList, this));
@@ -114,31 +114,28 @@ public class SongPanels extends JPanel implements Serializable , Adder {
             musicBox.getNextb().addActionListener(new NextClickListener(musicBox, this));
             musicBox.getBackb().addActionListener(new BackClickListener(musicBox,this));
         }
+        color =new Color(0x308320);
 
         songPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-
-                songPanel.setBackground(Color.darkGray);
-                songPanel.repaint();
+                if (!songPanel.getBackground().equals(color)) {
+                    songPanel.setBackground(Color.darkGray);
+                    songPanel.repaint();
+                }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                songPanel.setBackground(Color.BLACK);
-                songPanel.repaint();
+                if (!songPanel.getBackground().equals(color)) {
+                    songPanel.setBackground(Color.BLACK);
+                    songPanel.repaint();
+                }
             }
 
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                songPanel.setBackground(Color.GREEN);
-//                repaint();
-//            }
-
             @Override
-            public void mousePressed(MouseEvent e) {
-                songPanel.setBackground(Color.GREEN);
-                repaint();
+            public void mouseClicked(MouseEvent e) {
+                songPanel.setBackground(new Color(0x308320));
             }
         });
 
