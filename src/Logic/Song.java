@@ -48,7 +48,7 @@ public class Song {
             artWork = new ImageIcon(mp3File.getId3v2Tag().getAlbumImage());
         }
         catch (NullPointerException e){
-            System.out.println("no artwork");
+            artWork = new ImageIcon("backgrounds\\defaultartwork");
         }
 
 
@@ -76,7 +76,8 @@ public class Song {
             artWork = new ImageIcon(mp3File.getId3v2Tag().getAlbumImage());
         }
         catch (NullPointerException e){
-            System.out.println("no artwork");
+            artWork = new ImageIcon("backgrounds\\defaultartwork");
+
         }
 
 

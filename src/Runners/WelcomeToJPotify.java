@@ -39,6 +39,8 @@ public class WelcomeToJPotify extends JFrame {
         this.add(info , BorderLayout.SOUTH);
         this.setMinimumSize(new Dimension(300 , 300));
         this.setMaximumSize(new Dimension(300 , 300));
+        this.setLocation(600 , 300);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }
     private class Bolder extends MouseAdapter {

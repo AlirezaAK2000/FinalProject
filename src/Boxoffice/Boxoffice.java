@@ -355,7 +355,7 @@ public class Boxoffice extends JPanel implements Serializable {
         addPlaylist.addMouseListener(new Bolder());
         addPlaylist.addActionListener(new AddingPlaylist());
         menubar.add(addPlaylist);
-        BufferedImage b = ImageIO.read(new File("backgrounds\\center6.jpg"));
+        BufferedImage b = ImageIO.read(new File("backgrounds\\defaultartwork.jpg"));
         artwork = new Background(b);
         artwork.setBackground(Color.DARK_GRAY);
         artwork.setPreferredSize(new Dimension(getWidth() , 200));
@@ -619,8 +619,8 @@ public class Boxoffice extends JPanel implements Serializable {
             try {
 
                 c = Background.toBufferedImage(songPanel.getSong().getArtWork().getImage());
-            } catch (NullPointerException e) {
-                c = ImageIO.read(new File("backgrounds\\center6.jpg"));
+            } catch (IllegalArgumentException e) {
+                c = ImageIO.read(new File("backgrounds\\defaultartwork.jpg"));
             }
             boolean haveSameAlbum = false;
             for (SongPanel p : songPanelrepoos) {
@@ -700,7 +700,12 @@ public class Boxoffice extends JPanel implements Serializable {
                             }
                                 try {
                                     artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
-                                } catch (NullPointerException e) {
+                                } catch (IllegalArgumentException e) {
+                                    try {
+                                        artwork.SetBack(ImageIO.read(new File("backgrounds\\defaultartwork.jpg")));
+                                    } catch (IOException e2) {
+                                        e2.printStackTrace();
+                                    }
                                 }
 
 
@@ -733,8 +738,13 @@ public class Boxoffice extends JPanel implements Serializable {
                             }
 
                             try {
-                                artwork.SetBack(songPanel.getSong().getArtWork().getImage());
-                            }catch (NullPointerException e){
+                                artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
+                            } catch (IllegalArgumentException e) {
+                                try {
+                                    artwork.SetBack(ImageIO.read(new File("backgrounds\\defaultartwork.jpg")));
+                                } catch (IOException e2) {
+                                    e2.printStackTrace();
+                                }
                             }
                         }
 
