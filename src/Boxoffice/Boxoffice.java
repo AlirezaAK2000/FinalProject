@@ -691,12 +691,17 @@ public class Boxoffice extends JPanel implements Serializable {
                                     songPanel.getAlbumPanel().getSongs().repaintList();
                                 }
                             }else {
-                                center.getSearchList().repaint();
+                                center.setMain(songRepository);
+                                center.getMusicBox().setSongPanels(Boxoffice.this.songRepository);
+                                songRepository.repaintList();
+                                buttonClicked = songs;
+
                             }
                                 try {
                                     artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
                                 } catch (NullPointerException e) {
                                 }
+
 
 
 
@@ -712,10 +717,18 @@ public class Boxoffice extends JPanel implements Serializable {
                             } catch (UnsupportedTagException e) {
                                 e.printStackTrace();
                             }
-                            try {
-                                playlistspanels.get(buttonClicked).repaintList();
-                            }catch (NullPointerException e){
-                                songPanel.getAlbumPanel().getSongs().repaintList();
+                            if(!center.searchBoxOpened()) {
+                                try {
+                                    playlistspanels.get(buttonClicked).repaintList();
+                                } catch (NullPointerException e) {
+                                    songPanel.getAlbumPanel().getSongs().repaintList();
+                                }
+                            }else {
+                                center.setMain(songRepository);
+                                center.getMusicBox().setSongPanels(Boxoffice.this.songRepository);
+                                songRepository.repaintList();
+                                buttonClicked = songs;
+
                             }
 
                             try {
