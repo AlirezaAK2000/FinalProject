@@ -6,11 +6,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class SliderDemoSkin extends JPanel {
-
+    private JLabel lastSecondOfSong;
+    private JLabel currentSecondSong;
     private ProSlider slider;
     private   UIDefaults d;
     public SliderDemoSkin(){
         d = new UIDefaults();
+        lastSecondOfSong=new JLabel("");
+        currentSecondSong=new JLabel("");
         d.put("Slider:SliderTrack[Enabled].backgroundPainter", new Painter<ProSlider>() {
             @Override public void paint(Graphics2D g, ProSlider c, int w, int h) {
                 int arc         = 10;
@@ -59,13 +62,22 @@ public class SliderDemoSkin extends JPanel {
 
         slider = new ProSlider();
         slider.putClientProperty("Nimbus.Overrides", d);
+        this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         this.setBackground(Color.WHITE);
         this.add(Box.createRigidArea(new Dimension(10, 20)));
         this.add(slider);
+        this.add(lastSecondOfSong,BorderLayout.EAST);
+        this.add(currentSecondSong,BorderLayout.WEST);
     }
 
     public ProSlider getSlider() {
         return slider;
+    }
+    public void setLastSecondOfSong(String last){
+        lastSecondOfSong.setText(last);
+    }
+    public void setCurrentSecondSong(String currentSecondSong){
+        this.currentSecondSong.setText(currentSecondSong);
     }
 }
