@@ -118,6 +118,7 @@ public class SongPanels extends JPanel implements Serializable , Adder {
         songPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
+
                 songPanel.setBackground(Color.darkGray);
                 songPanel.repaint();
             }
@@ -128,9 +129,16 @@ public class SongPanels extends JPanel implements Serializable , Adder {
                 songPanel.repaint();
             }
 
-            @Override
-            public void mouseClicked(MouseEvent e) {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                songPanel.setBackground(Color.GREEN);
+//                repaint();
+//            }
 
+            @Override
+            public void mousePressed(MouseEvent e) {
+                songPanel.setBackground(Color.GREEN);
+                repaint();
             }
         });
 

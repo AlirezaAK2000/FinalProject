@@ -657,6 +657,7 @@ public class Boxoffice extends JPanel implements Serializable {
 
                     } else {
                         songPanel.getLiker().setIcon(songPanel.getLiked());
+                        favorite.removeSong(songPanel);
 
                     }
                 }
