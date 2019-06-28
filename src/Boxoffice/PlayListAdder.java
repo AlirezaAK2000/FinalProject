@@ -41,41 +41,40 @@ public class PlayListAdder extends JFrame {
         ok.addActionListener(new OkButton());
         ok.addMouseListener(new Bolder());
         cancel.addMouseListener(new Bolder());
-        help = new JLabel("                              Enter playlist name:");
-        name = new JTextField("Search") {
-            @Override
-            protected void paintComponent(Graphics g) {
-                if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-                    Graphics2D g2 = (Graphics2D) g.create();
-                    g2.setPaint(getBackground());
-                    g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-                            0, 0, getWidth() - 1, getHeight() - 1));
-                    g2.dispose();
-                }
-                super.paintComponent(g);
-            }
 
+        help = new JLabel("Enter playlist name:");
+        help.setBackground(Color.BLACK);
+        help.setForeground(Color.white);
+
+        this.setBackground(Color.BLACK);
+
+        name = new JTextField("playlist");
+
+        name.addMouseListener(new MouseAdapter() {
             @Override
-            public void updateUI() {
-                super.updateUI();
-                setOpaque(false);
-                setBorder(new RoundedCornerBorder());
+            public void mouseClicked(MouseEvent e) {
+                name.setText("");
             }
-        };
+        });
         ok.setFont(new Font("serif " , Font.PLAIN , 13));
         cancel.setFont(new Font("serif " , Font.PLAIN , 13));
 
+        name.setPreferredSize(new Dimension(200 , 40));
+
         name.setToolTipText("enter name");
         this.setLayout(new BorderLayout());
-
+        JPanel jPanel = new JPanel();
+        jPanel.setPreferredSize(new Dimension(300 , 20));
+        jPanel.setBackground(Color.BLACK);
+        jPanel.add(help);
         buttons.setLayout(new FlowLayout());
         buttons.add(cancel , FlowLayout.LEFT);
         buttons.add(ok , FlowLayout.CENTER);
         this.add(buttons,BorderLayout.SOUTH);
         this.add(name , BorderLayout.CENTER);
-        this.add(help , BorderLayout.NORTH);
-        setMinimumSize(new Dimension(300 , 120));
-        setMaximumSize(new Dimension(300 , 120));
+        this.add(jPanel , BorderLayout.NORTH);
+        setMinimumSize(new Dimension(300 , 130));
+        setMaximumSize(new Dimension(300 , 130));
         setVisible(true);
     }
     private class OkButton implements ActionListener{

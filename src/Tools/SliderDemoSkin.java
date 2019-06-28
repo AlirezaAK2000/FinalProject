@@ -80,4 +80,12 @@ public class SliderDemoSkin extends JPanel {
     public void setCurrentSecondSong(String currentSecondSong){
         this.currentSecondSong.setText(currentSecondSong);
     }
+
+    public JLabel getCurrentSecondSong() {
+        return currentSecondSong;
+    }
+
+    public JLabel getLastSecondOfSong() {
+        return lastSecondOfSong;
+    }
 }

@@ -293,12 +293,12 @@ public class Boxoffice extends JPanel implements Serializable {
             }
         });
         menubar.add(albums);
-        artist = new ProButton("Artist");
-        artist.setFont(pubFont);
-        artist.setForeground(Color.white);
-        artist.setBackground(Color.darkGray);
-        artist.addMouseListener(new Bolder());
-        menubar.add(artist);
+//        artist = new ProButton("Artist");
+//        artist.setFont(pubFont);
+//        artist.setForeground(Color.white);
+//        artist.setBackground(Color.darkGray);
+//        artist.addMouseListener(new Bolder());
+//        menubar.add(artist);
         songs = new ProButton("Songs");
         songs.setFont(pubFont);
         songs.setForeground(Color.white);
@@ -333,12 +333,10 @@ public class Boxoffice extends JPanel implements Serializable {
                     data.put("favorite" , favorite.getAddresses());
                     data.put(recentlyList.getName() , recentlyList.getAddresses());
                     data.put(sharedList.getName() , sharedList.getAddresses());
-                    System.out.println("s:"+data.size());
-                    System.out.println("a:" +sharedList.getAddresses().size() );
+
                     new File("everyThing.ser").delete();
                     ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("everyThing.ser" ) );
                     out.writeObject(new Saver(data));
-                    System.out.println("saved");
                     out.close();
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -768,6 +766,12 @@ public class Boxoffice extends JPanel implements Serializable {
                        }
                    }else
                        playlistspanels.get(buttonClicked).removeSong(songPanel);
+
+                    try {
+                        playlistspanels.get(buttonClicked).repaintList();
+                    } catch (NullPointerException e1) {
+                        songPanel.getAlbumPanel().getSongs().repaintList();
+                    }
                 }
             });
         }
