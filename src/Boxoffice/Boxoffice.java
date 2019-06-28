@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.plaf.ScrollPaneUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -62,7 +63,7 @@ public class Boxoffice extends JPanel implements Serializable {
     private HashMap<String ,ArrayList<String>> data;
     private BigPanelContainer albumsContain;
     private HashMap<ProButton , SongPanels> playlistspanels;
-    private  ArrayList<SongPanel> songPanelrepoos;
+    private ArrayList<SongPanel> songPanelrepoos;
     private Thread thread;
     public Boxoffice(Center center , String flag) throws IOException {
         super();
@@ -115,7 +116,6 @@ public class Boxoffice extends JPanel implements Serializable {
 
             }
         };
-
 
         songRepository = new SongPanels( "backgrounds\\center5.jpg" ,center.getMusicBox()  , "songs");
         favorite = new SongPanels("backgrounds\\center3.jpg" , center.getMusicBox()  , "favorite");
@@ -603,6 +603,10 @@ public class Boxoffice extends JPanel implements Serializable {
     }
 
 
+    public ArrayList<SongPanel> getSongPanelrepoos() {
+        return songPanelrepoos;
+    }
+
     public void addProcess(SongPanel songPanel) throws IOException, InvalidDataException, UnsupportedTagException {
         songPanelrepoos = songRepository.getSongPanelList();
         boolean isAvailable = false;
@@ -654,8 +658,6 @@ public class Boxoffice extends JPanel implements Serializable {
                     } else {
                         songPanel.getLiker().setIcon(songPanel.getLiked());
 
-
-
                     }
                 }
             });
@@ -681,15 +683,24 @@ public class Boxoffice extends JPanel implements Serializable {
                             }
                             songPanel.setAddedToRecently(true);
                             center.getMusicBox().setInfo(songPanel.getSong().getTitle(), songPanel.getSong().getArtist());
-                            try {
-                                playlistspanels.get(buttonClicked).repaintList();
-                            }catch (NullPointerException e){
-                                songPanel.getAlbumPanel().getSongs().repaintList();
+
+                            if(!center.searchBoxOpened()) {
+                                try {
+                                    playlistspanels.get(buttonClicked).repaintList();
+                                } catch (NullPointerException e) {
+                                    songPanel.getAlbumPanel().getSongs().repaintList();
+                                }
+                            }else {
+                                center.getSearchList().repaint();
                             }
-                            try {
-                                artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
-                            }catch (NullPointerException e){
-                            }
+                                try {
+                                    artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
+                                } catch (NullPointerException e) {
+                                }
+
+
+
+
                         } else {
                             recentlyList.removeSong(songPanel);
                             try {
@@ -743,7 +754,6 @@ public class Boxoffice extends JPanel implements Serializable {
                        }
                    }else
                        playlistspanels.get(buttonClicked).removeSong(songPanel);
-
                 }
             });
         }

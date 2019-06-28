@@ -1,20 +1,16 @@
 package Runners;
 
-import Logic.Song;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
 
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.io.IOException;
-import java.util.HashMap;
-
-import static Logic.Song.playTheread;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-
         EventQueue.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");

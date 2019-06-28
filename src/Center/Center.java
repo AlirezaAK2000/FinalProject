@@ -1,23 +1,20 @@
 package Center;
 
 
+import Music.SearchList;
+import Music.SongPanel;
+import Music.SongPanels;
 import Musicbox.MusicBox;
 import Tools.Background;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
-import java.sql.BatchUpdateException;
+import java.util.ArrayList;
 
 public class Center extends JPanel {
     private BufferedImage originalImage;
@@ -26,6 +23,9 @@ public class Center extends JPanel {
     private JPanel main;
     private JPanel background;
     private MusicBox musicBox;
+    private ArrayList<SongPanel> repos;
+    private SearchList searchList;
+    private boolean searchBoxOpened = false;
 
     public Center(MusicBox musicBox) throws IOException {
         super();
@@ -36,6 +36,45 @@ public class Center extends JPanel {
         searchBox = new SearchBox();
         this.add(searchBox , BorderLayout.NORTH);
         this.add(new JScrollPane(background) , BorderLayout.CENTER);
+
+
+        searchBox.getSearcher().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+//                searchBox.getSearcher().setText("");
+
+            }
+        });
+
+        searchBox.getSearcher().setEditable(true);
+       searchBox.getSearcher().addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               searchList.referesh(searchBox.getSearcher().getText());
+               searchBoxOpened = true;
+               setMain(searchList);
+
+           }
+       });
+
+
+
+    }
+    public boolean searchBoxOpened(){
+        return searchBoxOpened;
+    }
+
+    public SearchList getSearchList() {
+        return searchList;
+    }
+
+    public void setRepos(ArrayList<SongPanel> repos) {
+        this.repos = repos;
+        try {
+            searchList = new SearchList(Background.toBufferedImage(ImageIO.read(new File("backgrounds\\center5.jpg"))) , this.repos);
+        } catch (IOException e1) {
+            System.out.println("search box didnt load");
+        }
     }
 
     public MusicBox getMusicBox() {
@@ -43,6 +82,8 @@ public class Center extends JPanel {
     }
 
     public void setMain(JPanel main) {
+        if (!main.equals(searchList))
+            searchBoxOpened = false;
         removeAll();
         this.add(searchBox , BorderLayout.NORTH);
         background = main;
@@ -51,6 +92,9 @@ public class Center extends JPanel {
         repaint();
     }
 
+    public SearchBox getSearchBox() {
+        return searchBox;
+    }
 
     public JPanel getBack(){
         return background;

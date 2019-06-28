@@ -48,6 +48,7 @@ public class GeneralManager extends JFrame {
         }catch (FileNotFoundException e){
             boxoffice = new Boxoffice(center, "");
         }
+        center.setRepos(boxoffice.getSongPanelrepoos());
         JScrollPane j1 = new JScrollPane(onlineUsers);
         j1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.setLayout(new BorderLayout());

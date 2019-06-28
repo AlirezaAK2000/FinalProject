@@ -1,13 +1,13 @@
 package Center;
 import Tools.OvalBorder;
+import Tools.ProButton;
 import Tools.RoundedCornerBorder;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.AbstractBorder;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
@@ -23,7 +23,7 @@ public class SearchBox extends JPanel {
     private BufferedImage scaledImage;
     public SearchBox() throws IOException {
         searcher = new JTextField("Search");
-        searcher.setBackground(Color.GRAY);
+        searcher.setBackground(Color.WHITE);
         searcher.setPreferredSize(new Dimension(250, 30));
         searcher.setEditable(true);
 
@@ -66,6 +66,10 @@ public class SearchBox extends JPanel {
         }
 
 
+
     }
 
+    public JTextField getSearcher() {
+        return searcher;
+    }
 }

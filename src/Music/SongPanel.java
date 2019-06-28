@@ -33,6 +33,7 @@ public class SongPanel extends JPanel implements Serializable {
     private BigPanel albumPanel;
     private JPanel setting;
     private ProButton box;
+    private SearchList searchList;
 
     public SongPanel(Song song){
         super();
@@ -203,5 +204,9 @@ public class SongPanel extends JPanel implements Serializable {
         if (songPanel.getSong().getArtist().toLowerCase().equals(song.getArtist().toLowerCase()))
             return true;
         return false;
+    }
+
+    public void setSearchList(SearchList searchList) {
+        this.searchList = searchList;
     }
 }
