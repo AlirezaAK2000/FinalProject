@@ -33,6 +33,7 @@ public class GeneralManager extends JFrame {
     private ObjectInputStream loader;
     private Saver saver;
     public GeneralManager() throws IOException, InterruptedException, UnsupportedTagException, InvalidDataException, JavaLayerException, ClassNotFoundException {
+        this.setIconImage(new ImageIcon("C:\\Users\\hasein\\Desktop\\FinalProject\\backgrounds\\tataloo.jpg").getImage());
         this.setMinimumSize(new Dimension(900 , 800));
         musicBox = new MusicBox();
         center = new Center(musicBox);
@@ -91,7 +92,8 @@ public class GeneralManager extends JFrame {
                                             }
                                         });
                                     }
-                                    Friend friend = new Friend("on", friendList);
+                                    Friend friend = new Friend("Online", friendList);
+
                                     onlineUsers.addOnlineUser(friend);
 
                                 } catch (IOException ex) {

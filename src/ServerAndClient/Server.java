@@ -55,9 +55,10 @@ public class Server implements Runnable {
                                 new FileInputStream(sharedPLayList.get(number).getSong().getFileName()).read(bytes);
                                 out.writeObject(bytes);
                             }
-                            else if(whatCanIdo.equals("removeFromGroup")){
+                            else if(whatCanIdo.equals("WichSong")){
+
                             }
-                            else if(whatCanIdo.equals("addToGroup")){
+                            else if(whatCanIdo.equals("getPlayList")){
                             }
                             else if(whatCanIdo.equals("playSimulaneously")){
                                 int number=scan.nextInt();
