@@ -16,6 +16,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import static Logic.Song.playTheread;
+
 public class FriendSongListener extends MouseAdapter {
     private int numberOfsong;
     private Client client;
@@ -52,11 +54,22 @@ public class FriendSongListener extends MouseAdapter {
                     Song song=new Song("playSimulaneonly.txt");
                     musicBox.getPlayb().addActionListener(new PlaybListener(song,musicBox));
                     musicBox.getSlider().addMouseListener(new SliderListener(musicBox.getSlider(),musicBox,song));
-                    artwork.SetBack(song.getArtWork().getImage());
+                    try {
+                        artwork.SetBack(song.getArtWork().getImage());
+
                     musicBox.setInfo(song.getTitle(),song.getArtist());
+                    if(playTheread!=null)
+                        playTheread.stop();
+                    musicBox.getSongPanel().setBackground(Color.BLACK);
                     musicBox.getSlider().setValue(0);
                     musicBox.getSlider().setMaximum(song.getSize()/1000);
                     song.play(0);
+                    if (playTheread==null){
+                        song.continuee();
+                    }
+                    }catch (NullPointerException e1){
+
+                    }
 
 
 

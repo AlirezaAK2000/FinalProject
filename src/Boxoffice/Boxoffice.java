@@ -71,8 +71,6 @@ public class Boxoffice extends JPanel implements Serializable {
         this.center = center;
         playlistnames = new HashMap<>();
         playlistspanels = new HashMap<>();
-
-
         albumsContain = new BigPanelContainer(Background.toBufferedImage(ImageIO.read(new File("backgrounds\\center9.jpg"))));
         sharedList = new SongPanels("backgrounds\\center10.jpg" , center.getMusicBox() , "sharedList");
         recentlyList = new SongPanels("backgrounds\\center.png" , center.getMusicBox() , "recentlyList"){

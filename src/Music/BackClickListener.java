@@ -30,6 +30,7 @@ public class BackClickListener implements ActionListener {
         if (songPanels == musicBox.getSongPanels()) {
             if(songPanels.getSongPanelList().size()!=0){
             int backSong = songPanels.getSongPanelList().indexOf(musicBox.getSongPanel()) - 1;
+            if(songPanels.getSongPanelList().indexOf(musicBox.getSongPanel())==-1)backSong=0;
             if ( -1!= backSong) {
                 if (playTheread != null)
                     playTheread.stop();

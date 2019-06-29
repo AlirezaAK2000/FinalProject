@@ -61,16 +61,7 @@ public class OnlineUsers extends JPanel {
 
 
 
-        //******test
 
-        FriendList friendList = new FriendList();
-        friendList.addSong(new FriendSong("harvaght" , "tatalo mother ghahbe"));
-        friendList.addSong(new FriendSong("harvaght" , "tatalo mother ghahbe"));
-        friendList.addSong(new FriendSong("harvaght" , "tatalo mother ghahbe"));
-        friendList.addSong(new FriendSong("harvaght" , "tatalo mother ghahbe"));
-        friendList.addSong(new FriendSong("harvaght" , "tatalo mother ghahbe"));
-        Friend u1 = new Friend("on or of" ,friendList );
-        addOnlineUser(u1);
 
     }
 
