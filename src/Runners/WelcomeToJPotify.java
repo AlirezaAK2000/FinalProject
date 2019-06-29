@@ -22,7 +22,7 @@ public class WelcomeToJPotify extends JFrame {
     public WelcomeToJPotify() throws IOException {
         bold = new Font("serif" , Font.BOLD , 20);
         plain = new Font("serif" , Font.PLAIN  , 20);
-        theme = new Background(ImageIO.read(new File("backgrounds\\darkLeft.png")));
+        theme = new Background(ImageIO.read(new File("backgrounds\\welcome.jpg")));
         signIn = new ProButton("Sign In");
         signIn.setFont(new Font("serif" , Font.BOLD , 20));
         signIn.setForeground(Color.white);
