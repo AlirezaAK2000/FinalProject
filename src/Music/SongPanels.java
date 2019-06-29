@@ -101,6 +101,7 @@ public class SongPanels extends JPanel implements Serializable , Adder {
 
             songPanel.addMouseListener(new SongPanelListenr(musicBox, songPanel, songPanelList, this));
 
+
         if(!songPanel.getHasSliderListener()) {
             musicBox.getSlider().addMouseListener(new SliderListener(musicBox.getSlider(), musicBox, songPanel.getSong()));
             songPanel.setHasSliderListener(true);

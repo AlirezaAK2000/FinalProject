@@ -668,12 +668,8 @@ public class Boxoffice extends JPanel implements Serializable {
                 @Override
                 public void mouseClicked(MouseEvent e1) {
                     if (!e1.isMetaDown()) {
-                        if (thread != null)
-                            try {
-                                Song.playTheread.stop();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                        if (playTheread!= null)
+                                playTheread.stop();
                         if (songPanel.isAddedToRecently() == false) {
                             try {
                                 recentlyList.addSong(songPanel);

@@ -58,7 +58,12 @@ public class FriendSongListener extends MouseAdapter {
                     musicBox.getPlayb().addActionListener(new PlaybListener(song,musicBox));
                     musicBox.getSlider().addMouseListener(new SliderListener(musicBox.getSlider(),musicBox,song));
                     try {
-                        artwork.SetBack(song.getArtWork().getImage());
+                        try {
+                            artwork.SetBack(song.getArtWork().getImage());
+                        }catch (IllegalArgumentException  eeee){
+                            artwork.SetBack(new ImageIcon("backgrounds\\defaultartwork.jpg").getImage());
+                        }
+
                     musicBox.setInfo(song.getTitle(),song.getArtist());
                     if(playTheread!=null)
                         playTheread.stop();
@@ -68,6 +73,7 @@ public class FriendSongListener extends MouseAdapter {
                     musicBox.getSlider().setValue(0);
                     musicBox.getSlider().getPosition().setValue(0);
                     musicBox.getSlider().setMaximum(song.getSize()/1000);
+
                     song.play(0);
                     musicBox.setMove(true);
                     }catch (NullPointerException e1){
