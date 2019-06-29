@@ -606,6 +606,8 @@ public class Boxoffice extends JPanel implements Serializable {
     }
 
     public void addProcess(SongPanel songPanel) throws IOException, InvalidDataException, UnsupportedTagException {
+        if(playTheread!=null)
+            playTheread.stop();
         songPanelrepoos = songRepository.getSongPanelList();
         boolean isAvailable = false;
         for (SongPanel p : songPanelrepoos)

@@ -56,13 +56,13 @@ public class FriendSongListener extends MouseAdapter {
                     musicBox.getSlider().addMouseListener(new SliderListener(musicBox.getSlider(),musicBox,song));
                     try {
                         artwork.SetBack(song.getArtWork().getImage());
-
                     musicBox.setInfo(song.getTitle(),song.getArtist());
                     if(playTheread!=null)
                         playTheread.stop();
                     musicBox.getSongPanel().setBackground(Color.BLACK);
                     musicBox.getSlider().setValue(0);
                     musicBox.getSlider().setMaximum(song.getSize()/1000);
+
                     song.play(0);
                     if (playTheread==null){
                         song.continuee();
