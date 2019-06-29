@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -58,10 +59,12 @@ public class GeneralManager extends JFrame {
             loader = new ObjectInputStream(new FileInputStream(file));
             saver = (Saver) loader.readObject();
             boxoffice = new Boxoffice(center, "loading");
+            musicBox.setArtWork(boxoffice.getArtwork());
             boxoffice.setData(saver.getData());
             loader.close();
         }catch (FileNotFoundException e){
             boxoffice = new Boxoffice(center, "");
+            musicBox.setArtWork(boxoffice.getArtwork());
         }
         center.setRepos(boxoffice.getSongPanelrepoos());
 

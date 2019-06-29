@@ -764,7 +764,6 @@ public class Boxoffice extends JPanel implements Serializable {
                     } catch (UnsupportedTagException e1) {
                         System.out.println("error3");
                     }
-                    sharedList.repaintList();
                 }
             });
             songPanel.getRemove().addActionListener(new ActionListener() {

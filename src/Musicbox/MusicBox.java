@@ -281,14 +281,8 @@ public class MusicBox extends JPanel  {
                                     songPanel.setBackground(Color.BLACK);
                                     MusicBox.this.setSongPanel(songPanels.getSongPanelList().get(numberOfSong));
                                     MusicBox.this.getSongPanel().setBackground(new Color(0x308320));
-
-                                    if (!MusicBox.this.getSongPanel().getHasPlayListener()) {
-                                        MusicBox.this.getSongPanel().setHasPlayListener(true);
-                                        MusicBox.this.getPlayb().addActionListener(new PlaybListener(MusicBox.this.getSongPanel().getSong(), MusicBox.this));
-                                    }
                                     songPanels.getSongPanelList().get(numberOfSong).getSong().play(0);
                                 } else if (!(isRepeat) && !(isShuffle)) {
-                                    if (songPanels == MusicBox.this.getSongPanels()) {
                                         int nextSong = songPanels.getSongPanelList().indexOf(MusicBox.this.getSongPanel()) + 1;
                                         if (songPanels.getSongPanelList().size() - 1 != nextSong - 1) {
                                             try {
@@ -364,10 +358,7 @@ public class MusicBox extends JPanel  {
                                             } catch (UnsupportedTagException e1) {
                                                 e1.printStackTrace();
                                             }
-                                            if (!songPanels.getSongPanelList().get(0).getHasPlayListener()) {
-                                                MusicBox.this.getPlayb().addActionListener(new PlaybListener(songPanels.getSongPanelList().get(0).getSong(), MusicBox.this));
-                                                songPanels.getSongPanelList().get(0).setHasPlayListener(true);
-                                            }
+
                                             try {
                                                 MusicBox.this.getSlider().setMaximum(MusicBox.this.getSongPanel().getSong().getSize());
                                                 MusicBox.this.getSongPanel().getSong().play(0);
@@ -385,10 +376,13 @@ public class MusicBox extends JPanel  {
                                             }
 
                                         }
-                                    }
+
                                 }try {
                                     artWork.SetBack(MusicBox.this.getSongPanel().getSong().getArtWork().getImage());
-                                }catch (NullPointerException e23){}
+                                }catch (NullPointerException e23){
+                                }catch (IllegalArgumentException e23){
+                                    artWork.SetBack(ImageIO.read(new File("backgrounds\\defaultartwork.jpg")));
+                                }
 
                                 MusicBox.this.getTitleLabel().setText(MusicBox.this.getSongPanel().getSong().getTitle());
                                 try {
