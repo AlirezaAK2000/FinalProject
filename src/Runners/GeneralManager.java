@@ -15,6 +15,7 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 import javazoom.jl.decoder.JavaLayerException;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +26,9 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class GeneralManager extends JFrame {
     private Boxoffice boxoffice;
@@ -99,22 +102,27 @@ public class GeneralManager extends JFrame {
                         public void actionPerformed(ActionEvent e) {
                             friendAdder.setVisible(false);
                             if (!friendAdder.getjTextField().getText().equals("")) {
+                                Friend friend = null;
+                                Timer timerUpdateFriendInformation=null;
                                 try {
                                        Client client = new Client(friendAdder.getjTextField().getText(), 13000);
                                     String userName = (String) client.getObjectInputStream().readObject();
                                     FriendList friendList=new FriendList();
-                                    Friend friend = new Friend("Online", friendList);
+                                     friend = new Friend("Online", friendList);
                                     friend.setUserNameFriend(userName);
-                                    Timer timerUpdateFriendInformation=new Timer(15000,new UpedateFriendIformation(client,friend));
+                                     timerUpdateFriendInformation=new Timer(15000,new UpedateFriendIformation(client,friend));
                                     timerUpdateFriendInformation.start();
                                     new Robot().delay(7000);
                                     Timer updateFriendList=new Timer(15000,new UpdateFriendList(client,friend));
                                     updateFriendList.start();
                                     onlineUsers.addOnlineUser(friend);
 
-                                } catch (ConnectException ex){
-                                    System.out.println("not connect");
-                                } catch (IOException ex) {
+                                } catch (SocketException e23) {
+                                    friend.setOnORof(getCurrentTime());
+                                    FriendList friendList = new FriendList();
+                                    friend.setFriendList(friendList);
+                                    timerUpdateFriendInformation.stop();
+                                }catch (IOException ex) {
                                     ex.printStackTrace();
                                 } catch (ClassNotFoundException ex) {
                                     System.err.println("IP is Wrong!");
@@ -176,14 +184,14 @@ public class GeneralManager extends JFrame {
     public OnlineUsers getOnlineUsers() {
         return onlineUsers;
     }
-    private Long getCurrentTime(){
-        Long time= (Long)System.currentTimeMillis()/1000;
-        return time;
-    }
-    private String calculateTime(Long time){
+    private String getCurrentTime(){
+        Date date=new Date();
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat(" HH:mm:ss");
+        return simpleDateFormat.format(date);
 
-        return ""+time/3600+":"+(time%3600)/60+":"+(time%3600)%60;
+
     }
+
     //******************************************************************************8
     //****** first inner class
     class UpedateFriendIformation implements ActionListener{
@@ -202,10 +210,6 @@ public class GeneralManager extends JFrame {
                 SerializedData serializedData = (SerializedData) client.getObjectInputStream().readObject();
                 friend.setArtist(serializedData.getNameOfArtist().trim());
                 friend.setTitle(serializedData.getTitle().trim());
-            } catch (SocketException e23) {
-                friend.setOnORof(calculateTime(getCurrentTime()));
-                FriendList friendList = new FriendList();
-                friend.setFriendList(friendList);
             }
                 catch (IOException ex) {
                 ex.printStackTrace();
@@ -248,7 +252,7 @@ public class GeneralManager extends JFrame {
             friendList.setFriendSongs(friendSongs);
             friend.setFriendList(friendList);
              } catch (SocketException e23){
-                friend.setOnORof(calculateTime(getCurrentTime()));
+                friend.setOnORof(getCurrentTime());
                 FriendList friendList=new FriendList();
                 friend.setFriendList(friendList);
              } catch (IOException ex) {

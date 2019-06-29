@@ -22,7 +22,7 @@ public class Friend extends JPanel {
         information = new JPanel();
         information.setBackground(Color.BLACK);
         information.setLayout(new BoxLayout(information , BoxLayout.Y_AXIS));
-        this.setMaximumSize(new Dimension(300 ,100 ));
+        this.setMaximumSize(new Dimension(300 ,120 ));
         information.setBorder(BorderFactory.createLineBorder(Color.gray , 1 , true));
         this.setLayout(new BorderLayout());
         this.setBackground(Color.BLACK);
