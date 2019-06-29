@@ -66,6 +66,10 @@ public class Center extends JPanel {
         return searchBoxOpened;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public SearchList getSearchList() {
         return searchList;
     }

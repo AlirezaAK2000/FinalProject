@@ -333,7 +333,7 @@ public class Boxoffice extends JPanel implements Serializable {
                     data.put(sharedList.getName() , sharedList.getAddresses());
 
                     new File("everyThing.ser").delete();
-                    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("everyThing.ser" ) );
+                    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(center.getUsername()+"everyThing.ser" ) );
                     out.writeObject(new Saver(data));
                     out.close();
                 } catch (IOException e1) {

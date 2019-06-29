@@ -35,15 +35,23 @@ public class GeneralManager extends JFrame {
     private ObjectInputStream loader;
     private Saver saver;
     private String username;
+    private ArrayList<String> users;
     public GeneralManager(String username) throws IOException, InterruptedException, UnsupportedTagException, InvalidDataException, JavaLayerException, ClassNotFoundException {
         this.setIconImage(new ImageIcon("C:\\Users\\hasein\\Desktop\\FinalProject\\backgrounds\\tataloo.jpg").getImage());
         this.setMinimumSize(new Dimension(900 , 800));
         this.username = username;
+        try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream("users.ser"));
+            users = (ArrayList<String>) in.readObject();
+            in.close();
+        }catch (FileNotFoundException e){
+            users = new ArrayList<>();
+        }
         musicBox = new MusicBox();
         center = new Center(musicBox , username);
         onlineUsers = new OnlineUsers();
         try {
-            File file = new File("everyThing.ser");
+            File file = new File(username+"everyThing.ser");
             loader = new ObjectInputStream(new FileInputStream(file));
             saver = (Saver) loader.readObject();
             boxoffice = new Boxoffice(center, "loading");
@@ -53,6 +61,14 @@ public class GeneralManager extends JFrame {
             boxoffice = new Boxoffice(center, "");
         }
         center.setRepos(boxoffice.getSongPanelrepoos());
+
+        if(!users.contains(username)){
+            users.add(username);
+        }
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("users.ser"));
+        out.writeObject(users);
+        out.close();
+
         JScrollPane j1 = new JScrollPane(onlineUsers);
         j1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.setLayout(new BorderLayout());
