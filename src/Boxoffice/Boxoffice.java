@@ -379,6 +379,10 @@ public class Boxoffice extends JPanel implements Serializable {
 
     }
 
+    public ProButton getSave() {
+        return save;
+    }
+
     private class AddToPlayListFrame implements ActionListener{
         private JComboBox<String> namesCombo;
         private String listName;
@@ -608,6 +612,7 @@ public class Boxoffice extends JPanel implements Serializable {
     public void addProcess(SongPanel songPanel) throws IOException, InvalidDataException, UnsupportedTagException {
         if(playTheread!=null)
             playTheread.stop();
+        center.getMusicBox().setMove(false);
         songPanelrepoos = songRepository.getSongPanelList();
         boolean isAvailable = false;
         for (SongPanel p : songPanelrepoos)

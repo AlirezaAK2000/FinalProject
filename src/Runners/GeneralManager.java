@@ -9,6 +9,7 @@ import Music.SongPanel;
 import Musicbox.MusicBox;
 import OnlineUsers.OnlineUsers;
 import ServerAndClient.Server;
+import Tools.ProButton;
 import Tools.Saver;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
@@ -34,6 +35,7 @@ public class GeneralManager extends JFrame {
     private Boxoffice boxoffice;
     private OnlineUsers onlineUsers;
     private Center center;
+    private ProButton saverClick;
     private MusicBox musicBox;
     private Image img;
     private ObjectInputStream loader;
@@ -65,6 +67,7 @@ public class GeneralManager extends JFrame {
         }catch (FileNotFoundException e){
             boxoffice = new Boxoffice(center, "");
             musicBox.setArtWork(boxoffice.getArtwork());
+            saverClick=boxoffice.getSave();
         }
         center.setRepos(boxoffice.getSongPanelrepoos());
 
