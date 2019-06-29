@@ -3,6 +3,7 @@ package ServerAndClient;
 import Logic.Song;
 import Music.PlaybListener;
 import Music.SliderListener;
+import Music.SongPanel;
 import Musicbox.MusicBox;
 import Tools.Background;
 import com.mpatric.mp3agic.InvalidDataException;
@@ -45,6 +46,8 @@ public class FriendSongListener extends MouseAdapter {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
+                        if(playTheread!=null)
+                            playTheread.stop();
                     client.getPrintWriter().println("playSimulaneously");
                     client.getPrintWriter().println(numberOfsong);
                     client.getPrintWriter().flush();
@@ -59,17 +62,15 @@ public class FriendSongListener extends MouseAdapter {
                     musicBox.setInfo(song.getTitle(),song.getArtist());
                     if(playTheread!=null)
                         playTheread.stop();
+
                     musicBox.getSongPanel().setBackground(Color.BLACK);
+                    musicBox.setSongPanel(new SongPanel(song));
                     musicBox.getSlider().setValue(0);
                     musicBox.getSlider().getPosition().setValue(0);
                     musicBox.getSlider().setMaximum(song.getSize()/1000);
-
                     song.play(0);
-                    if (playTheread==null){
-                        song.continuee();
-                    }
+                    musicBox.setMove(true);
                     }catch (NullPointerException e1){
-
                     }
 
 

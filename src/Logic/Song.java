@@ -28,7 +28,6 @@ public class Song {
     public static Thread playTheread;
 
     public Song(String fileName) throws IOException, JavaLayerException, InvalidDataException, UnsupportedTagException {
-        playTheread=new Thread();
         advancedPlayer=new AdvancedPlayer(new FileInputStream(fileName));
         advancedPlayer.setPlayBackListener(new PlaybackListener() {
             @Override
@@ -54,7 +53,6 @@ public class Song {
 
     }
     public Song(File file) throws IOException, JavaLayerException, InvalidDataException, UnsupportedTagException {
-        playTheread=new Thread();
         this.file = file;
         fileName=file.getPath();
         advancedPlayer=new AdvancedPlayer(new FileInputStream(file));

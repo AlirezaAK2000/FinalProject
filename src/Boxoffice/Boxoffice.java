@@ -151,8 +151,6 @@ public class Boxoffice extends JPanel implements Serializable {
         file.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e2) {
-                if(playTheread!=null)
-                    playTheread.stop();
                 JfileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
                 JfileChooser.setMultiSelectionEnabled(true);
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("mp3" , "mp3");
@@ -610,8 +608,7 @@ public class Boxoffice extends JPanel implements Serializable {
     }
 
     public void addProcess(SongPanel songPanel) throws IOException, InvalidDataException, UnsupportedTagException {
-        if(playTheread!=null)
-            playTheread.stop();
+
         center.getMusicBox().setMove(false);
         songPanelrepoos = songRepository.getSongPanelList();
         boolean isAvailable = false;

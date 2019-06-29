@@ -113,7 +113,7 @@ public class GeneralManager extends JFrame {
                                     FriendList friendList=new FriendList();
                                      friend = new Friend("Online", friendList);
                                     friend.setUserNameFriend(userName);
-                                     timerUpdateFriendInformation=new Timer(15000,new UpedateFriendIformation(client,friend));
+                                     timerUpdateFriendInformation=new Timer(15000,new UpedateFriendIformation(client,friend,timerUpdateFriendInformation));
                                     timerUpdateFriendInformation.start();
                                     new Robot().delay(7000);
                                     Timer updateFriendList=new Timer(15000,new UpdateFriendList(client,friend));
@@ -200,11 +200,14 @@ public class GeneralManager extends JFrame {
     class UpedateFriendIformation implements ActionListener{
         private  Client client;
         private  Friend friend;
+        private Timer timer;
 
-        public UpedateFriendIformation(Client client, Friend friend) {
+        public UpedateFriendIformation(Client client,Friend friend, Timer timer) {
             this.client = client;
             this.friend = friend;
+            this.timer = timer;
         }
+
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
@@ -213,6 +216,8 @@ public class GeneralManager extends JFrame {
                 SerializedData serializedData = (SerializedData) client.getObjectInputStream().readObject();
                 friend.setArtist(serializedData.getNameOfArtist().trim());
                 friend.setTitle(serializedData.getTitle().trim());
+            }catch (SocketException e32){
+                timer.stop();
             }
                 catch (IOException ex) {
                 ex.printStackTrace();

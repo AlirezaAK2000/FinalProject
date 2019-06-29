@@ -11,11 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import static Logic.Song.playTheread;
 
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-
+        playTheread=new Thread();
         EventQueue.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");

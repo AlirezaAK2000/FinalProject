@@ -55,13 +55,12 @@ public class MusicBox extends JPanel  {
     private JPanel infoMusic;
     private JLabel artistLabel;
     private JLabel titleLabel;
-    private Thread playThread;
     private Background artWork;
     private boolean move;
     public MusicBox() throws IOException {
         isRepeat=false;
         isRepeat=false;
-        playThread=new Thread();
+
         move=false;
         center = new JPanel();
         auxPanel = new JPanel();
@@ -265,8 +264,8 @@ public class MusicBox extends JPanel  {
                                 if (isRepeat) {
                                     position.setValue(0);
                                     slider.setValue(0);
-                                    if (playThread != null) {
-                                        playThread.stop();
+                                    if (playTheread != null) {
+                                        playTheread.stop();
                                     }
                                     getSongPanel().getSong().play(0);
 
@@ -275,8 +274,8 @@ public class MusicBox extends JPanel  {
                                     int numberOfSong = random.nextInt(songPanels.getSongPanelList().size());
                                     position.setValue(0);
                                     slider.setValue(0);
-                                    if (playThread != null) {
-                                        playThread.stop();
+                                    if (playTheread != null) {
+                                        playTheread.stop();
                                     }
                                     songPanel.setBackground(Color.BLACK);
                                     MusicBox.this.setSongPanel(songPanels.getSongPanelList().get(numberOfSong));
