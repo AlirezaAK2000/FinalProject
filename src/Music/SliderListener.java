@@ -54,14 +54,18 @@ public class SliderListener extends MouseAdapter {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (musicBox.getSongPanel().getSong() == song) {
-            try {
-                song.play(position.getValue()*1000);
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-            } catch (JavaLayerException e1) {
-                e1.printStackTrace();
+        try {
+            if (musicBox.getSongPanel().getSong() == song) {
+                try {
+                    song.play(position.getValue() * 1000);
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (JavaLayerException e1) {
+                    e1.printStackTrace();
+                }
             }
+        }catch (NullPointerException e2){
+
         }
     }
 }

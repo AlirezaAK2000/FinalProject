@@ -377,10 +377,6 @@ public class Boxoffice extends JPanel implements Serializable {
 
     }
 
-    public ProButton getSave() {
-        return save;
-    }
-
     private class AddToPlayListFrame implements ActionListener{
         private JComboBox<String> namesCombo;
         private String listName;
@@ -608,8 +604,6 @@ public class Boxoffice extends JPanel implements Serializable {
     }
 
     public void addProcess(SongPanel songPanel) throws IOException, InvalidDataException, UnsupportedTagException {
-
-        center.getMusicBox().setMove(false);
         songPanelrepoos = songRepository.getSongPanelList();
         boolean isAvailable = false;
         for (SongPanel p : songPanelrepoos)
@@ -668,8 +662,6 @@ public class Boxoffice extends JPanel implements Serializable {
                 @Override
                 public void mouseClicked(MouseEvent e1) {
                     if (!e1.isMetaDown()) {
-                        if (playTheread!= null)
-                                playTheread.stop();
                         if (songPanel.isAddedToRecently() == false) {
                             try {
                                 recentlyList.addSong(songPanel);
@@ -681,7 +673,6 @@ public class Boxoffice extends JPanel implements Serializable {
                                 e.printStackTrace();
                             }
                             songPanel.setAddedToRecently(true);
-                            center.getMusicBox().setInfo(songPanel.getSong().getTitle(), songPanel.getSong().getArtist());
 
                             if(!center.searchBoxOpened()) {
                                 try {
@@ -696,7 +687,10 @@ public class Boxoffice extends JPanel implements Serializable {
                                 buttonClicked = songs;
 
                             }
-                                try {
+                            center.getMusicBox().setInfo(songPanel.getSong().getTitle(), songPanel.getSong().getArtist());
+
+                            try {
+
                                     artwork.SetBack((songPanel.getSong().getArtWork().getImage()));
                                 } catch (IllegalArgumentException e) {
                                     try {
@@ -709,8 +703,8 @@ public class Boxoffice extends JPanel implements Serializable {
 
 
 
-
                         } else {
+                            center.getMusicBox().setInfo(songPanel.getSong().getTitle(), songPanel.getSong().getArtist());
                             recentlyList.removeSong(songPanel);
                             try {
                                 recentlyList.addSong(songPanel);

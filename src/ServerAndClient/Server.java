@@ -49,6 +49,7 @@ public class Server implements Runnable {
                         public void run() {
                             while (true) {
                                 try {
+
                                     String whatCanIdo = scan.next();
                                     if (whatCanIdo.equals("getSong")) {
                                         int number = scan.nextInt();

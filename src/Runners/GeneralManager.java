@@ -43,7 +43,7 @@ public class GeneralManager extends JFrame {
     private String username;
     private ArrayList<String> users;
     public GeneralManager(String username) throws IOException, InterruptedException, UnsupportedTagException, InvalidDataException, JavaLayerException, ClassNotFoundException {
-        this.setIconImage(new ImageIcon("C:\\Users\\hasein\\Desktop\\FinalProject\\backgrounds\\tataloo.jpg").getImage());
+        this.setIconImage(new ImageIcon("backgrounds\\icon.png").getImage());
         this.setMinimumSize(new Dimension(900 , 800));
         this.username = username;
         try {
@@ -67,7 +67,6 @@ public class GeneralManager extends JFrame {
         }catch (FileNotFoundException e){
             boxoffice = new Boxoffice(center, "");
             musicBox.setArtWork(boxoffice.getArtwork());
-            saverClick=boxoffice.getSave();
         }
         center.setRepos(boxoffice.getSongPanelrepoos());
 
